@@ -1,16 +1,12 @@
-import './App.css'
+import { Outlet } from 'react-router-dom';
+import './App.css';
 
 function App() {
-  var a = 'a';
-  var b = 'vv';
-  if(a == b){
-a = '1';
-  }
-
   return (
     <>
+      <Outlet />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
