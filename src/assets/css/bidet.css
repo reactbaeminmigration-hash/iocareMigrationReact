@@ -1,0 +1,7 @@
+.cw_dev_type.cw_bidet {background-image:url("../images/ico_device_bidet02.png");}
+.cw_equipment_info.cw_bidet:before {background-image:url("../images/ico_device_bidet.png");}
+.cw_prdbox .cw_prd_list dt.cw_bidet {background-image:url("../images/ico_device_bidet02.png");}
+.cw_device_reg_pop .cw_device.cw_bidet {background-image:url("../images/ico_device_bidet04.png");}
+.cw_device_reg_pop .cw_device.cw_nobleAdAm {background-image:url("../images/ico_device_novelAdAm04.png");}
+.open .btn_dropdown.extra::after {transform: rotate(0deg);}
+.open .selected.extra { border-bottom: 1px solid #ddd; border-radius: 5px;}

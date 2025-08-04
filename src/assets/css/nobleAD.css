@@ -1,0 +1,9 @@
+.cw_txt_wifi.cw_black {padding-left: 22px; background-image:url("../images/ico_txt_wifi_black.png"); background-size: 19px auto;}
+.updown_control .btn_minus.disabled {left: 0; background: url("../images/ico_updown_minus_disabled.svg") no-repeat center center;}
+.updown_control .btn_plus.disabled {right: 0; background: url("../images/ico_updown_plus_disabled.svg") no-repeat center center;}
+.range01 input {width: 100%; margin: 0; background: linear-gradient(to right, #2a3f54 0%, #2a3f54 50%, #d9dbdc 50%, #d9dbdc 100%); border: none; border-radius: 10px; -webkit-appearance: none; pointer-events: all; -webkit-tap-highlight-color: transparent; height: 8px;}
+.range01 input:disabled {opacity: 0.3;}
+.range01 input[type=range]::-webkit-slider-thumb {width: 24px; height: 24px; margin-top: -10px; border: 7px solid #2a3f54; border-radius: 24px; background-color: #fff; -webkit-appearance: none; pointer-events: all;}
+.cw_dev_type.cw_humidity {background-image:url("../images/ico_device_humidity02.png");}
+.cw_equipment_info.cw_humidity:before {background-image:url("../images/ico_device_humidity.png");}
+.cw_prdbox .cw_prd_list dt.cw_humidity {background-image:url("../images/ico_device_humidity02.png");}

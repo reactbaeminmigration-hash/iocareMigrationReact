@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19.212" height="19.212" viewBox="0 0 19.212 19.212">
+  <g id="btn_down04" transform="translate(19.606 19.606) rotate(180)">
+    <g id="그룹_2" data-name="그룹 2">
+      <path id="패스_1" data-name="패스 1" d="M1,1H19V19H1Z" transform="translate(19.278 20.673) rotate(-176)" fill="none" fill-rule="evenodd"/>
+      <path id="패스_2" data-name="패스 2" d="M15,8.506a.488.488,0,0,1-.163.363L10.629,12.76a.944.944,0,0,1-1.258,0L5.163,8.87a.489.489,0,0,1,.077-.785.589.589,0,0,1,.7.072l4.026,3.724a.049.049,0,0,0,.064,0l4.016-3.715a.6.6,0,0,1,.819.007A.489.489,0,0,1,15,8.506Z" transform="translate(20 20) rotate(180)" fill="#52535a" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>
