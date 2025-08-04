@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+/*** loading ***/
+.fake_loadingWrap {position:fixed; left:0; top:58px; right:0; bottom:0; text-align:center; background:rgba(245,247,248,.8); z-index:200;}
+.cw_topfixWrap .fake_loadingWrap {top:100px;}
+.fake_loadingWrap > div {position:fixed; left:50%; top:50%; width:90%; max-width:520px; font-size:.875rem; color:#52535a; -webkit-transform:translate(-50%, -50%); transform:translate(-50%, -50%);}
+.fake_loadingWrap > div > * {display:block; margin:0 auto; line-height:143%;}
+.fake_load {position:relative; display:block; width:28px; height:28px; text-align:left; text-indent:-9999em;}
+.fake_load:before {content:""; position:absolute; left:50%; top:50%; width:28px; height:28px; margin:-14px 0 0 -14px; background:url("../images/ico_loading.png") no-repeat center center; background-size:100% auto;
+  -webkit-animation:loading 1s linear infinite; animation:loading 1s linear infinite;
+}
+.fake_loadingWrap strong {margin:15px 0 10px; font-weight:500; font-size:1.125rem; color:#000;}
+.fake_load.fake_fix {position:fixed; left:50%; top:50%; margin-left:-14px;}
+@media screen and (max-height:480px) {
+  .cw_control_wifi_error {padding:10px 0 120px;}
+}
+@-webkit-keyframes loading {
+  to {-webkit-transform:rotate(-360deg);}
+}
+@keyframes loading {
+  to {transform:rotate(-360deg);}
+}

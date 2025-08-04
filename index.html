@@ -1,12 +1,69 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" id="jpMode">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <meta charset="utf-8" />
+    <title>IoCareApp</title>
+    <meta
+      name="viewport"
+      content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+    <meta name="format-detection" content="telephone=no" />
+    <script>
+      g_loadingObj = {
+        show: function () {
+          $('#loading').removeClass('cw_none');
+        },
+        hide: function () {
+          $('#loading').addClass('cw_none');
+        },
+      };
+
+      g_fakeSplash = {
+        show: function () {
+          $('#fakeSplash').show();
+        },
+        hide: function () {
+          $('#fakeSplash').hide();
+        },
+      };
+
+      g_jpLanguageMode = {
+        on: function () {
+          $('#jpMode').addClass('jp');
+        },
+        off: function () {
+          $('#jpMode').removeClass('jp');
+        },
+      };
+    </script>
+    <!-- 스플래시 화면 및 로딩 스피너 CSS 링크 -->
+    <link rel="stylesheet" href="./src/assets/css/splashScreen.css" />
+    <link rel="stylesheet" href="./src/assets/css/loadingSpinner.css" />
   </head>
   <body>
+    <div class="fake_loginWrap fake_introBG" id="fakeSplash">
+      <div class="fake_introbox">
+        <div class="fake_webcontainer">
+          <div class="fake_header">
+            <div class="fake_logo"><h1>IoCare</h1></div>
+          </div>
+
+          <em class="fake_load fake_fix"
+            ><span>코웨이 IoCare App Loading</span></em
+          >
+
+          <div class="fake_logo_foot"><h2>coway</h2></div>
+        </div>
+      </div>
+    </div>
+    <div id="loading" class="cw_loadingWrap cw_st02 cw_none">
+      <div>
+        <em class="cw_load"><span></span></em>
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
