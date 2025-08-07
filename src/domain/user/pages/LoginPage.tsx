@@ -1,7 +1,7 @@
-import '../../../assets/css/common.css';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
+import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import '../../../assets/css/common.css';
 
 export const LoginPage = () => {
   return (
