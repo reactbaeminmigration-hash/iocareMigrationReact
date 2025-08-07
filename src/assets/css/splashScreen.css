@@ -1,56 +1,299 @@
 @charset "UTF-8";
 
 @font-face {
-  font-family:"Spoqa Han Sans";font-weight:300;font-style: normal;
-  src: local("※"), url("../font/SpoqaHanSansLight.woff") format("truetype");
+  font-family: 'Spoqa Han Sans';
+  font-weight: 300;
+  font-style: normal;
+  src:
+    local('※'),
+    url('../font/SpoqaHanSansLight.woff') format('truetype');
 }
 @font-face {
-  font-family:"Spoqa Han Sans";font-weight:normal;font-style: normal;
-  src: local("※"), url("../font/SpoqaHanSansRegular.woff") format("woff");
+  font-family: 'Spoqa Han Sans';
+  font-weight: normal;
+  font-style: normal;
+  src:
+    local('※'),
+    url('../font/SpoqaHanSansRegular.woff') format('woff');
 }
 
 /***************************************************************************************************
   Reset
 ***************************************************************************************************/
-html, body {height:100%; margin:0; padding:0; -webkit-text-size-adjust:none;}
-html {font:normal 16px 'Spoqa Han Sans', 'Malgun Gothic', '맑은 고딕', dotum,'돋움',sans-serif;}
-body {min-height:100%; color:#000; background:transparent;}
-img {border:none;}
-p, ul, li, ol, h1, h2, h3, h4, h5, h6, dl, dt, dd, em, figure {margin:0; padding:0;}
-h1, h2, h3, h4, h5, h6 {font-size:1em;}
-div {-webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
-article, aside, footer, header, hgroup, nav, section, figure {display:block; padding:0; margin:0; box-sizing:border-box; -webkit-box-sizing:border-box;}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: none;
+}
+html {
+  font:
+    normal 16px 'Spoqa Han Sans',
+    'Malgun Gothic',
+    '맑은 고딕',
+    dotum,
+    '돋움',
+    sans-serif;
+}
+body {
+  min-height: 100%;
+  color: #000;
+  background: transparent;
+}
+img {
+  border: none;
+}
+p,
+ul,
+li,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+dl,
+dt,
+dd,
+em,
+figure {
+  margin: 0;
+  padding: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1em;
+}
+div {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+article,
+aside,
+footer,
+header,
+hgroup,
+nav,
+section,
+figure {
+  display: block;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
 /* strong {font-weight:500;} */
-img {max-width:100%; vertical-align:top;}
+img {
+  max-width: 100%;
+  vertical-align: top;
+}
 
 /***** Login *****/
-.fake_loginWrap {height:100%; min-height:450px; color:#fff; background:url("../images/bg_login.png") no-repeat left bottom, url("../images/bg_login_rep.png") repeat-y 0 0; background-size:100% auto,100% auto;}
-.fake_loginWrap .fake_webcontainer {max-width:530px; height:100%; margin:0 auto;}
-.fake_loginWrap .fake_header {position:relative; height:19.5%; min-height:81px;}
-.fake_loginWrap .fake_logo {height:100%; min-height:81px; text-indent:-99999em; background:url("../images/logo_iocare.png") no-repeat center bottom; background-size:149px auto;}
-.fake_loginWrap .fake_logo_foot {position:absolute; left:50%; bottom:25px; width:200px; height:14px; margin-left:-100px; text-indent:-99999em; background:url("../images/logo_coway.png") no-repeat center center; background-size:auto 100%;}
+.fake_loginWrap {
+  height: 100%;
+  min-height: 450px;
+  color: #fff;
+  background:
+    url('../images/bg_login.png') no-repeat left bottom,
+    url('../images/bg_login_rep.png') repeat-y 0 0;
+  background-size:
+    100% auto,
+    100% auto;
+}
+.fake_loginWrap .fake_webcontainer {
+  max-width: 530px;
+  height: 100%;
+  margin: 0 auto;
+}
+.fake_loginWrap .fake_header {
+  position: relative;
+  height: 19.5%;
+  min-height: 81px;
+}
+.fake_loginWrap .fake_logo {
+  height: 100%;
+  min-height: 81px;
+  text-indent: -99999em;
+  background: url('../images/logo_iocare.png') no-repeat center bottom;
+  background-size: 149px auto;
+}
+.fake_loginWrap .fake_logo_foot {
+  position: absolute;
+  left: 50%;
+  bottom: 25px;
+  width: 200px;
+  height: 14px;
+  margin-left: -100px;
+  text-indent: -99999em;
+  background: url('../images/logo_coway.png') no-repeat center center;
+  background-size: auto 100%;
+}
 
-.fake_introBG {background:none; overflow:hidden;}
-.fake_introBG:before {content:""; position:fixed; left:0; top:0; width:100%; height:100%; background:url("../images/bg_login01.jpg") no-repeat center center; background-size:auto 110%; z-index:1; animation:logbg_ani 4s linear infinite, logbg_ani_op 4s linear infinite ; opacity:1;}
-.fake_introBG:after {content:""; position:fixed; left:0; top:0; width:100%; height:100%; background:url("../images/bg_login02.jpg") no-repeat center center; background-size:auto 110%; z-index:1; animation:logbg_ani 4s 2s linear infinite, logbg_ani_op 4s 2s linear infinite reverse; opacity:0;}
-.fake_introBG, .fake_introbox {position:relative; height:100%; background:url("../images/bg_login_dimmed.png") repeat-y 0 0; background-size:100% 100%; z-index:5;}
-.fake_introBG .fake_webcontainer {z-index:10;}
+.fake_introBG {
+  background: none;
+  overflow: hidden;
+}
+.fake_introBG:before {
+  content: '';
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../images/bg_login01.jpg') no-repeat center center;
+  background-size: auto 110%;
+  z-index: 1;
+  animation:
+    logbg_ani 4s linear infinite,
+    logbg_ani_op 4s linear infinite;
+  opacity: 1;
+}
+.fake_introBG:after {
+  content: '';
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../images/bg_login02.jpg') no-repeat center center;
+  background-size: auto 110%;
+  z-index: 1;
+  animation:
+    logbg_ani 4s 2s linear infinite,
+    logbg_ani_op 4s 2s linear infinite reverse;
+  opacity: 0;
+}
+.fake_introBG,
+.fake_introbox {
+  position: relative;
+  height: 100%;
+  background: url('../images/bg_login_dimmed.png') repeat-y 0 0;
+  background-size: 100% 100%;
+  z-index: 5;
+}
+.fake_introBG .fake_webcontainer {
+  z-index: 10;
+}
 
 @-webkit-keyframes logbg_ani {
   /*100% {background-size:auto 120%;}*/
-  100% {top:-10%; height:120%;}
+  100% {
+    top: -10%;
+    height: 120%;
+  }
 }
 @keyframes logbg_ani {
   /*100% {background-size:auto 120%;}*/
-  100% {top:-10%; height:120%;}
+  100% {
+    top: -10%;
+    height: 120%;
+  }
 }
 @-webkit-keyframes logbg_ani_op {
-  0% {opacity:1;}
-  50% {opacity:1;}
-  100% {opacity:0;}
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 @keyframes logbg_ani_op {
-  0% {opacity:1;}
-  50% {opacity:1;}
-  100% {opacity:0;}
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/*** loading ***/
+.fake_loadingWrap {
+  position: fixed;
+  left: 0;
+  top: 58px;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  background: rgba(245, 247, 248, 0.8);
+  z-index: 200;
+}
+.cw_topfixWrap .fake_loadingWrap {
+  top: 100px;
+}
+.fake_loadingWrap > div {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 90%;
+  max-width: 520px;
+  font-size: 0.875rem;
+  color: #52535a;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.fake_loadingWrap > div > * {
+  display: block;
+  margin: 0 auto;
+  line-height: 143%;
+}
+.fake_load {
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 28px;
+  text-align: left;
+  text-indent: -9999em;
+}
+.fake_load:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  background: url('../images/ico_loading.png') no-repeat center center;
+  background-size: 100% auto;
+  -webkit-animation: loading 1s linear infinite;
+  animation: loading 1s linear infinite;
+}
+.fake_loadingWrap strong {
+  margin: 15px 0 10px;
+  font-weight: 500;
+  font-size: 1.125rem;
+  color: #000;
+}
+.fake_load.fake_fix {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -14px;
+}
+@media screen and (max-height: 480px) {
+  .cw_control_wifi_error {
+    padding: 10px 0 120px;
+  }
+}
+@-webkit-keyframes loading {
+  to {
+    -webkit-transform: rotate(-360deg);
+  }
+}
+@keyframes loading {
+  to {
+    transform: rotate(-360deg);
+  }
 }

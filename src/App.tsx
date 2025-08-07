@@ -1,12 +1,17 @@
 import { Outlet } from 'react-router-dom';
-import './App.css';
+import { AppInitializer } from './AppInitializer';
+import { LoadingSpinner } from './shared/components/LoadingSpinner/LoadingSpinner';
+import { useLoadingStore } from './shared/stores/loadingStore';
 
-function App() {
+export const App = () => {
+  const { isLoading } = useLoadingStore();
+
   return (
     <>
-      <Outlet />
+      <AppInitializer>
+        {isLoading && <LoadingSpinner />}
+        <Outlet></Outlet>
+      </AppInitializer>
     </>
   );
-}
-
-export default App;
+};

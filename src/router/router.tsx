@@ -1,5 +1,5 @@
 import { createHashRouter } from 'react-router-dom';
-import App from '../App';
+import { App } from '../App';
 import { AirHomePage } from '../domain/air/pages/AirHomePage';
 import { WaterHomePage } from '../domain/water/pages/WaterHomePage';
 import { routerPath } from './routerPath';
