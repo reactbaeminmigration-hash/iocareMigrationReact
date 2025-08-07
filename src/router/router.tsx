@@ -1,17 +1,17 @@
 import { createHashRouter } from 'react-router-dom';
-import { App } from '../App';
 import { AirHomePage } from '../domain/air/pages/AirHomePage';
+import { LoginPage } from '../domain/user/pages/LoginPage';
 import { WaterHomePage } from '../domain/water/pages/WaterHomePage';
 import { routerPath } from './routerPath';
 
 const router = createHashRouter([
   {
     path: '/',
-    Component: App,
+    Component: LoginPage,
     children: [
       {
         index: true,
-        Component: AirHomePage,
+        Component: LoginPage,
       },
       {
         path: routerPath.air,
@@ -20,6 +20,10 @@ const router = createHashRouter([
       {
         path: routerPath.water,
         Component: WaterHomePage,
+      },
+      {
+        path: routerPath.login,
+        Component: LoginPage,
       },
     ],
   },
