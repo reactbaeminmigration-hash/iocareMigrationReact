@@ -1,9 +1,9 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import { globalIgnores } from 'eslint/config'
+import js from '@eslint/js';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import { globalIgnores } from 'eslint/config';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default tseslint.config([
   globalIgnores(['dist']),
@@ -22,6 +22,6 @@ export default tseslint.config([
     rules: {
       'react/prop-types': 'off',
     },
-  endOfLine: 'auto', // 플랫폼에 따라 줄바꿈 자동 설정
+    endOfLine: 'auto', // 플랫폼에 따라 줄바꿈 자동 설정
   },
-])
+]);
