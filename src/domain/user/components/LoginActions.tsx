@@ -1,5 +1,6 @@
 import { Button } from '@/shared/components/Button';
 import { useTranslation } from 'react-i18next';
+import useAuth from '../hooks/queries/useAuth';
 import type { AuthMessageData } from '../types/auth.types';
 
 // 타입 가드 함수
@@ -13,6 +14,7 @@ function isAuthMessageData(data: any): data is AuthMessageData {
 
 export const LoginActions = () => {
   const { t } = useTranslation();
+  const { getTokenMutation } = useAuth();
   const handleSubmit = () => {
     const authURL =
       import.meta.env.VITE_API_IDP_URL +
@@ -23,6 +25,19 @@ export const LoginActions = () => {
         console.log(code);
         console.log(error);
         console.log(session_state);
+        getTokenMutation.mutate(
+          {
+            authCode: code!,
+            redirectUrl: import.meta.env.VITE_DEV_REDIRECT_URL,
+          },
+          // {
+          //   onSuccess: ({ accessToken, refreshToken }) => {
+          //     console.log('성공');
+          //     console.log(accessToken);
+          //     console.log(refreshToken);
+          //   },
+          // },
+        );
       } else {
       }
     };
