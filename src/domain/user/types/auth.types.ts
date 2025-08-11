@@ -1,5 +1,5 @@
-export interface AuthMessageData {
-  session_state?: string;
+export type AuthMessageData = {
   code?: string;
   error?: string;
-}
+  session_state?: string;
+};
