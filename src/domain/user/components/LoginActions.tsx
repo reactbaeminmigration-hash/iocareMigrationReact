@@ -1,18 +1,31 @@
 import { Button } from '@/shared/components/Button';
 import { useTranslation } from 'react-i18next';
+import type { AuthMessageData } from '../types/auth.types';
+
+// 타입 가드 함수
+function isAuthMessageData(data: any): data is AuthMessageData {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    ('code' in data || 'error' in data || 'session_state' in data)
+  );
+}
+
 export const LoginActions = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const handleSubmit = () => {
     const authURL =
       import.meta.env.VITE_API_IDP_URL +
-      '/auth/realms/cw-account/protocol/openid-connect/auth';
-    window.onmessage = async (res) => {
-      console.log(res.data);
-      if (res.data.code) {
+      import.meta.env.VITE_API_INTEGRATED_MEMBER_URL;
+    window.onmessage = async (event: MessageEvent) => {
+      if (isAuthMessageData(event.data)) {
+        const { code, error, session_state } = event.data;
+        console.log(code);
+        console.log(error);
+        console.log(session_state);
       } else {
       }
     };
-    console.log(`${i18n.language}`);
     let url =
       `${authURL}?auth_type=0` +
       `&response_type=code` +
