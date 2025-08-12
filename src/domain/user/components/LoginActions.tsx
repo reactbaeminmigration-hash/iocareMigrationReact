@@ -1,10 +1,12 @@
 import { Button } from '@/shared/components/Button';
 import { useTranslation } from 'react-i18next';
 import { useLogin } from '../hooks/useLogin';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginActions = () => {
   const { t } = useTranslation();
   const { handleLogin } = useLogin();
+  const navigate = useNavigate();
 
   return (
     <div className="cw_login_btns">
@@ -14,7 +16,7 @@ export const LoginActions = () => {
         </Button>
       </div>
       <div>
-        <Button className="cw_btn_tut">
+        <Button className="cw_btn_tut" onClick={() => navigate('/air')}>
           <span>{t('CON.SERVICE_EXPERIENCE')}</span>
         </Button>
       </div>

@@ -4,6 +4,7 @@ import { AirHomePage } from '../domain/air/pages/AirHomePage';
 import { LoginPage } from '../domain/user/pages/LoginPage';
 import { WaterHomePage } from '../domain/water/pages/WaterHomePage';
 import { routerPath } from './routerPath';
+import { GnbHomePage } from '@/domain/gnb/pages/GnbHomePage';
 
 const router = createHashRouter([
   {
@@ -25,6 +26,10 @@ const router = createHashRouter([
       {
         path: routerPath.login,
         Component: LoginPage,
+      },
+      {
+        path: routerPath.gnb,
+        Component: GnbHomePage,
       },
     ],
   },
