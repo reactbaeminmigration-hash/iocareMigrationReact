@@ -1,5 +1,5 @@
 import { Layout } from '@/shared/components/Layout/Layout';
 
-export const AirHomePage = () => {
+export const AirControlPage = () => {
   return <Layout />;
 };

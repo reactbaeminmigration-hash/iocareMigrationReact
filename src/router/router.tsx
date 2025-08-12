@@ -5,6 +5,10 @@ import { LoginPage } from '../domain/user/pages/LoginPage';
 import { WaterHomePage } from '../domain/water/pages/WaterHomePage';
 import { routerPath } from './routerPath';
 import { GnbHomePage } from '@/domain/gnb/pages/GnbHomePage';
+import { AirReportPage } from '@/domain/air/pages/AirReportPage';
+import { AirControlPage } from '@/domain/air/pages/AirControlPage';
+import { AirNoticePage } from '@/domain/air/pages/AirNoticePage';
+import { AirSettingsPage } from '@/domain/air/pages/AirSettingsPage';
 
 const router = createHashRouter([
   {
@@ -16,8 +20,24 @@ const router = createHashRouter([
         Component: LoginPage,
       },
       {
-        path: routerPath.air,
+        path: routerPath.air_home,
         Component: AirHomePage,
+      },
+      {
+        path: routerPath.air_report,
+        Component: AirReportPage,
+      },
+      {
+        path: routerPath.air_control,
+        Component: AirControlPage,
+      },
+      {
+        path: routerPath.air_notice,
+        Component: AirNoticePage,
+      },
+      {
+        path: routerPath.air_settings,
+        Component: AirSettingsPage,
       },
       {
         path: routerPath.water,
