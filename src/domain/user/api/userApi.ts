@@ -1,14 +1,14 @@
 import axiosInstance from '@/core/api/axios';
+import type {
+  RequestDeviceInfos,
+  ResponseDeviceInfos,
+} from '@/domain/device/types/deviceInfos.types';
 import type { ApiResponse } from '@/shared/types/common';
 import buildGenericQueryString from '@/shared/utils/queryString';
 import type {
   RequestAppSetting,
   ResponseAppSetting,
 } from '../types/appSetting.types';
-import type {
-  RequestDeviceInfos,
-  ResponseDeviceInfos,
-} from '../types/deviceInfos.types';
 import type { RequestLogin, ResponseLogin } from '../types/login.types';
 import type { RequestToken, ResponseToken } from '../types/token.types';
 

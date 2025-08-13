@@ -1,10 +1,10 @@
 import axiosInstance from '@/core/api/axios';
+import type { ApiResponse } from '@/shared/types/common';
+import buildGenericQueryString from '@/shared/utils/queryString';
 import type {
   RequestDeviceInfos,
   ResponseDeviceInfos,
-} from '@/domain/user/types/deviceInfos.types';
-import type { ApiResponse } from '@/shared/types/common';
-import buildGenericQueryString from '@/shared/utils/queryString';
+} from '../types/deviceInfos.types';
 
 const getDeviceInfos = async (
   params: RequestDeviceInfos,
