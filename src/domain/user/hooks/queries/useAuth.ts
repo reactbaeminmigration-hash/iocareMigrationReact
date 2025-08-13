@@ -6,6 +6,7 @@ import { getToken, postLogin } from '../../api';
 function useGetToken(mutationOption?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: getToken,
+
     onSuccess: ({ accessToken, refreshToken }) => {
       console.log(refreshToken);
       setHeader('Authorization', `Bearer ${accessToken}`);

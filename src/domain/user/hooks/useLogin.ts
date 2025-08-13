@@ -1,4 +1,5 @@
 import useGetDeviceInfos from '@/domain/device/hooks/queries/useGetDeviceInfos';
+import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { decodeToken } from '@/shared/utils/jwtDecode';
 import type { JwtPayload } from 'jwt-decode';
 import { useEffect, useState } from 'react';
@@ -18,6 +19,7 @@ function isAuthMessageData(data: any): data is AuthMessageData {
 
 export function useLogin() {
   const { getTokenMutation, loginMutation } = useAuth();
+  const { setDeviceInfos } = useDeviceStore();
   const [userInfo, setUserInfo] = useState<UserDataInfo | null>(null); // loginData.userInfo를 저장할 상태
 
   // AppSetting 조회
@@ -49,6 +51,7 @@ export function useLogin() {
   useEffect(() => {
     if (!isDeviceInfosPending && ResponseDeviceInfos) {
       console.log('ResponseDeviceInfos 패칭 완료:', ResponseDeviceInfos);
+      setDeviceInfos(ResponseDeviceInfos.deviceInfos);
     }
     if (isDeviceInfosError) {
       console.error('ResponseDeviceInfos 패칭 오류:', isDeviceInfosError);
