@@ -1,14 +1,7 @@
 import { createHashRouter } from 'react-router-dom';
 import { App } from '../App';
-import { AirHomePage } from '../domain/air/pages/AirHomePage';
 import { LoginPage } from '../domain/user/pages/LoginPage';
-import { WaterHomePage } from '../domain/water/pages/WaterHomePage';
 import { routerPath } from './routerPath';
-import { GnbHomePage } from '@/domain/gnb/pages/GnbHomePage';
-import { AirReportPage } from '@/domain/air/pages/AirReportPage';
-import { AirControlPage } from '@/domain/air/pages/AirControlPage';
-import { AirNoticePage } from '@/domain/air/pages/AirNoticePage';
-import { AirSettingsPage } from '@/domain/air/pages/AirSettingsPage';
 
 const router = createHashRouter([
   {
@@ -21,35 +14,73 @@ const router = createHashRouter([
       },
       {
         path: routerPath.air_home,
-        Component: AirHomePage,
+        lazy: async () => {
+          const { AirHomePage } = await import(
+            '../domain/air/pages/AirHomePage'
+          );
+          return { Component: AirHomePage };
+        },
       },
       {
         path: routerPath.air_report,
-        Component: AirReportPage,
+        lazy: async () => {
+          const { AirReportPage } = await import(
+            '@/domain/air/pages/AirReportPage'
+          );
+          return { Component: AirReportPage };
+        },
       },
       {
         path: routerPath.air_control,
-        Component: AirControlPage,
+        lazy: async () => {
+          const { AirControlPage } = await import(
+            '@/domain/air/pages/AirControlPage'
+          );
+          return { Component: AirControlPage };
+        },
       },
       {
         path: routerPath.air_notice,
-        Component: AirNoticePage,
+        lazy: async () => {
+          const { AirNoticePage } = await import(
+            '@/domain/air/pages/AirNoticePage'
+          );
+          return { Component: AirNoticePage };
+        },
       },
       {
         path: routerPath.air_settings,
-        Component: AirSettingsPage,
+        lazy: async () => {
+          const { AirSettingsPage } = await import(
+            '@/domain/air/pages/AirSettingsPage'
+          );
+          return { Component: AirSettingsPage };
+        },
       },
       {
         path: routerPath.water,
-        Component: WaterHomePage,
+        lazy: async () => {
+          const { WaterHomePage } = await import(
+            '../domain/water/pages/WaterHomePage'
+          );
+          return { Component: WaterHomePage };
+        },
       },
       {
         path: routerPath.login,
-        Component: LoginPage,
+        lazy: async () => {
+          const { LoginPage } = await import('../domain/user/pages/LoginPage');
+          return { Component: LoginPage };
+        },
       },
       {
         path: routerPath.gnb,
-        Component: GnbHomePage,
+        lazy: async () => {
+          const { GnbHomePage } = await import(
+            '@/domain/gnb/pages/GnbHomePage'
+          );
+          return { Component: GnbHomePage };
+        },
       },
     ],
   },
