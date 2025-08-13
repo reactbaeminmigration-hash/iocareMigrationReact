@@ -1,4 +1,4 @@
-import useGetDeviceInfos from '@/domain/deivce/hooks/queries/useGetDeviceInfos';
+import useGetDeviceInfos from '@/domain/device/hooks/queries/useGetDeviceInfos';
 import { decodeToken } from '@/shared/utils/jwtDecode';
 import type { JwtPayload } from 'jwt-decode';
 import { useEffect, useState } from 'react';

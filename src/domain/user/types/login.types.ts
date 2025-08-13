@@ -1,4 +1,4 @@
-import type { DeviceInfo } from '@/domain/deivce/types/device.types';
+import type { DeviceInfo } from '@/domain/device/types/device.types';
 
 export type RequestLogin = {
   authCode: string; // 사용자인증 성공 시 반환되는 코드(신회원에서 받은값:code)

@@ -1,4 +1,4 @@
-import type { DeviceInfo } from '@/domain/deivce/types/device.types';
+import type { DeviceInfo } from '@/domain/device/types/device.types';
 
 export type RequestDeviceInfos = {
   pageIndex: '0'; // 페이징 index값 0 부터 시작
