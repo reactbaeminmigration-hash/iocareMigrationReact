@@ -3,11 +3,11 @@ import { Button } from '../Button';
 import { useTranslation } from 'react-i18next';
 
 const tabs = [
-  { path: '/air_home', label: 'BTN.HOME' },
-  { path: '/air_report', label: 'BTN.REPORT' },
-  { path: '/air_control', label: 'BTN.CONTROL' },
-  { path: '/air_notice', label: 'BTN.NOTICE' },
-  { path: '/air_settings', label: 'BTN.SETTING' },
+  { path: '/home', label: 'BTN.HOME' },
+  { path: '/report', label: 'BTN.REPORT' },
+  { path: '/control', label: 'BTN.CONTROL' },
+  { path: '/notice', label: 'BTN.NOTICE' },
+  { path: '/settings', label: 'BTN.SETTING' },
 ] as const;
 
 export const LayoutTab = () => {
@@ -24,9 +24,9 @@ export const LayoutTab = () => {
               {tabs.map((tab) => (
                 <li
                   key={tab.path}
-                  className={currentPath === tab.path ? 'cw_on' : ''}
+                  className={currentPath.includes(tab.path) ? 'cw_on' : ''}
                 >
-                  <Button onClick={() => navigate(tab.path)}>
+                  <Button onClick={() => navigate('/air' + tab.path)}>
                     <span>{t(tab.label)}</span>
                   </Button>
                 </li>

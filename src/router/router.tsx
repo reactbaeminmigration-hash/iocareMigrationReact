@@ -1,7 +1,8 @@
-import { createHashRouter } from 'react-router-dom';
+import { createHashRouter, Navigate } from 'react-router-dom';
 import { App } from '../App';
 import { LoginPage } from '../domain/user/pages/LoginPage';
 import { routerPath } from './routerPath';
+import { airRoutes } from '../domain/air/router/router';
 
 const router = createHashRouter([
   {
@@ -13,50 +14,10 @@ const router = createHashRouter([
         Component: LoginPage,
       },
       {
-        path: routerPath.air_home,
-        lazy: async () => {
-          const { AirHomePage } = await import(
-            '../domain/air/pages/AirHomePage'
-          );
-          return { Component: AirHomePage };
-        },
+        path: '/air',
+        element: <Navigate to="/air/home" replace />,
       },
-      {
-        path: routerPath.air_report,
-        lazy: async () => {
-          const { AirReportPage } = await import(
-            '@/domain/air/pages/AirReportPage'
-          );
-          return { Component: AirReportPage };
-        },
-      },
-      {
-        path: routerPath.air_control,
-        lazy: async () => {
-          const { AirControlPage } = await import(
-            '@/domain/air/pages/AirControlPage'
-          );
-          return { Component: AirControlPage };
-        },
-      },
-      {
-        path: routerPath.air_notice,
-        lazy: async () => {
-          const { AirNoticePage } = await import(
-            '@/domain/air/pages/AirNoticePage'
-          );
-          return { Component: AirNoticePage };
-        },
-      },
-      {
-        path: routerPath.air_settings,
-        lazy: async () => {
-          const { AirSettingsPage } = await import(
-            '@/domain/air/pages/AirSettingsPage'
-          );
-          return { Component: AirSettingsPage };
-        },
-      },
+      ...airRoutes,
       {
         path: routerPath.water,
         lazy: async () => {

@@ -1,5 +1,5 @@
-import { Layout } from '@/shared/components/Layout/Layout';
+import { t } from 'i18next';
 
 export const AirHomePage = () => {
-  return <Layout />;
+  return <div>Home</div>;
 };

@@ -16,7 +16,7 @@ export const LoginActions = () => {
         </Button>
       </div>
       <div>
-        <Button className="cw_btn_tut" onClick={() => navigate('/air_home')}>
+        <Button className="cw_btn_tut" onClick={() => navigate('/air/home')}>
           <span>{t('CON.SERVICE_EXPERIENCE')}</span>
         </Button>
       </div>
