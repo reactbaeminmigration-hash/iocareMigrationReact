@@ -1,7 +1,6 @@
 import { createHashRouter, Navigate } from 'react-router-dom';
 import { App } from '../App';
 import { airRoutes } from '../domain/air/router/router';
-import { LoginPage } from '../domain/user/pages/LoginPage';
 import { ProtectedRoute } from './ProtectedRoute';
 import { routerPath } from './routerPath';
 
@@ -11,8 +10,11 @@ const router = createHashRouter([
     Component: App,
     children: [
       {
-        index: true,
-        Component: LoginPage,
+        path: routerPath.login,
+        lazy: async () => {
+          const { LoginPage } = await import('../domain/user/pages/LoginPage');
+          return { Component: LoginPage };
+        },
       },
       {
         element: <ProtectedRoute />, // ProtectedRoute가 인증 및 로딩 상태를 확인합
