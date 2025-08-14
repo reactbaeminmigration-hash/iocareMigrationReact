@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '../Button';
 import { useTranslation } from 'react-i18next';
+import { useGetDeviceType } from '@/domain/device/hooks/useGetDeviceType';
 
 const tabs = [
   { path: '/home', label: 'BTN.HOME' },
@@ -12,6 +13,7 @@ const tabs = [
 
 export const LayoutTab = () => {
   const { t } = useTranslation();
+  const { getDvcTypeCd } = useGetDeviceType(0);
   const navigate = useNavigate();
   const currentPath = useLocation().pathname;
 
@@ -26,7 +28,9 @@ export const LayoutTab = () => {
                   key={tab.path}
                   className={currentPath.includes(tab.path) ? 'cw_on' : ''}
                 >
-                  <Button onClick={() => navigate('/air' + tab.path)}>
+                  <Button
+                    onClick={() => navigate('/' + getDvcTypeCd() + tab.path)}
+                  >
                     <span>{t(tab.label)}</span>
                   </Button>
                 </li>

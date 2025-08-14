@@ -1,4 +1,3 @@
-import { routerPath } from '@/router/routerPath';
 import { Button } from '@/shared/components/Button';
 import { useSpiner } from '@/shared/hooks/useSpiner';
 import { useEffect } from 'react';
@@ -6,17 +5,19 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../hooks/useLogin';
 import { useUserStore } from '../stores/useUserStore';
+import { useGetDeviceType } from '../../device/hooks/useGetDeviceType';
 
 export const LoginActions = () => {
   const { t } = useTranslation();
   const { handleLogin } = useLogin();
+  const { getDvcTypeCd } = useGetDeviceType(0);
   const navigate = useNavigate();
   const { isInitialDataLoaded } = useUserStore();
   const { hideSpiner } = useSpiner();
   useEffect(() => {
     if (isInitialDataLoaded) {
       hideSpiner();
-      navigate(routerPath.water);
+      navigate('/' + getDvcTypeCd());
     }
   }, [isInitialDataLoaded]);
 

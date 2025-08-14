@@ -4,6 +4,7 @@ import { airRoutes } from '../domain/air/router/router';
 import { LoginPage } from '../domain/user/pages/LoginPage';
 import { ProtectedRoute } from './ProtectedRoute';
 import { routerPath } from './routerPath';
+import { WaterRoutes } from '@/domain/water/router/router';
 
 const router = createHashRouter([
   {
@@ -30,14 +31,19 @@ const router = createHashRouter([
           },
           ...airRoutes,
           {
-            path: routerPath.water,
-            lazy: async () => {
-              const { WaterHomePage } = await import(
-                '../domain/water/pages/WaterHomePage'
-              );
-              return { Component: WaterHomePage };
-            },
+            path: '/water',
+            element: <Navigate to="/water/home" replace />,
           },
+          ...WaterRoutes,
+          // {
+          //   path: routerPath.water,
+          //   lazy: async () => {
+          //     const { WaterHomePage } = await import(
+          //       '../domain/water/pages/WaterHomePage'
+          //     );
+          //     return { Component: WaterHomePage };
+          //   },
+          // },
           {
             path: routerPath.gnb,
             lazy: async () => {
