@@ -1,12 +1,10 @@
-import useGetDeviceInfos from '@/domain/device/hooks/queries/useGetDeviceInfos';
-import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
+import { useSpiner } from '@/shared/hooks/useSpiner';
 import { decodeToken } from '@/shared/utils/jwtDecode';
 import type { JwtPayload } from 'jwt-decode';
-import { useEffect, useState } from 'react';
+import { useUserStore } from '../stores/useUserStore';
 import type { AuthMessageData } from '../types/auth.types';
 import type { UserDataInfo } from '../types/userInfo.types';
 import useAuth from './queries/useAuth';
-import useGetAppSetting from './queries/useGetAppSetting';
 
 // 타입 가드 함수
 function isAuthMessageData(data: any): data is AuthMessageData {
@@ -19,44 +17,10 @@ function isAuthMessageData(data: any): data is AuthMessageData {
 
 export function useLogin() {
   const { getTokenMutation, loginMutation } = useAuth();
-  const { setDeviceInfos } = useDeviceStore();
-  const [userInfo, setUserInfo] = useState<UserDataInfo | null>(null); // loginData.userInfo를 저장할 상태
-
-  // AppSetting 조회
-  const {
-    data: ResponseAppSetting,
-    isPending: isAppSettingPending,
-    isError: isAppSettingError,
-  } = useGetAppSetting({ mbrSeq: userInfo?.seqNum! }, { enabled: !!userInfo });
-
-  useEffect(() => {
-    if (!isAppSettingPending && ResponseAppSetting) {
-      console.log('ResponseAppSetting 패칭 완료:', ResponseAppSetting);
-    }
-    if (isAppSettingError) {
-      console.error('ResponseAppSetting 패칭 오류:', isAppSettingError);
-    }
-  }, [ResponseAppSetting, isAppSettingPending, isAppSettingError]);
-
-  // DeviceInfos 조회
-  const {
-    data: ResponseDeviceInfos,
-    isPending: isDeviceInfosPending,
-    isError: isDeviceInfosError,
-  } = useGetDeviceInfos(
-    { pageIndex: '0', pageSize: '100' },
-    { enabled: !!userInfo },
-  );
-
-  useEffect(() => {
-    if (!isDeviceInfosPending && ResponseDeviceInfos) {
-      console.log('ResponseDeviceInfos 패칭 완료:', ResponseDeviceInfos);
-      setDeviceInfos(ResponseDeviceInfos.deviceInfos);
-    }
-    if (isDeviceInfosError) {
-      console.error('ResponseDeviceInfos 패칭 오류:', isDeviceInfosError);
-    }
-  }, [ResponseDeviceInfos, isDeviceInfosPending, isDeviceInfosError]);
+  // const { setDeviceInfos } = useDeviceStore();
+  const { setAuthTokens } = useUserStore();
+  const { setUserInfo } = useUserStore();
+  const { showSpiner, hideSpiner } = useSpiner();
 
   // login 버튼 클릭
   const handleLogin = () => {
@@ -69,11 +33,17 @@ export function useLogin() {
         const { code } = event.data;
         if (code) {
           try {
+            showSpiner();
             const getTokenData = await getTokenMutation.mutateAsync({
               authCode: code,
               redirectUrl: import.meta.env.VITE_DEV_REDIRECT_URL,
             });
+
             console.log('토큰 가져오기 성공:', getTokenData);
+            setAuthTokens({
+              accessToken: getTokenData.accessToken,
+              refreshToken: getTokenData.refreshToken,
+            });
             const loginData = await loginMutation.mutateAsync({
               authCode: code,
               devDstTimezn: 0,
@@ -96,6 +66,7 @@ export function useLogin() {
             setUserInfo(userDataInfo);
           } catch (error: any) {
             alert(`로그인 실패: ${error.message || '알 수 없는 오류'}`);
+            hideSpiner();
           }
         }
       }

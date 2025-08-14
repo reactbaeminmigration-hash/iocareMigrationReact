@@ -25,7 +25,7 @@ type UseMutationCustomOptions<TData = unknown, TVariables = unknown> = Omit<
 
 type UseQueryCustomOptions<TQueryFnData = unknown, TData = TQueryFnData> = Omit<
   UseQueryOptions<TQueryFnData, ResponseError, TData, QueryKey>,
-  'queryKey'
+  'queryKey' | 'queryFn'
 >;
 
 export type {

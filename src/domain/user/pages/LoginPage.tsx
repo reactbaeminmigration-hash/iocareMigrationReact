@@ -1,14 +1,8 @@
-import { useEffect } from 'react';
 import { LoginActions } from '../components/LoginActions';
 import { LoginHeader } from '../components/LoginHeader';
 import { LoginSwiper } from '../components/LoginSwiper';
 
 export const LoginPage = () => {
-  useEffect(() => {
-    const url = import.meta.env.VITE_API_URL;
-    console.log(url);
-  }, []);
-
   return (
     <div className="cw_loginWrap Tut cw_introBG">
       <div className="cw_introbox">

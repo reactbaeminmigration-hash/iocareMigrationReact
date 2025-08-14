@@ -1,5 +1,6 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Outlet } from 'react-router-dom';
+import { DataSyncManager } from './app/components/DataSyncManager';
 import { AppInitializer } from './AppInitializer';
 import qureyClient from './core/api/queryClient';
 import { LoadingSpinner } from './shared/components/LoadingSpinner/LoadingSpinner';
@@ -17,6 +18,7 @@ export const App = () => {
     <>
       <QueryClientProvider client={qureyClient}>
         <AppInitializer>
+          <DataSyncManager />
           {isLoading && <LoadingSpinner />}
           <Outlet></Outlet>
         </AppInitializer>
