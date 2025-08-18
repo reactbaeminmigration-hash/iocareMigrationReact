@@ -1,5 +1,5 @@
 import type { JwtPayload } from 'jwt-decode';
 
-export type CustomJwtPayload = JwtPayload & {
+export interface CustomJwtPayload extends JwtPayload {
   remember_me?: string;
-};
+}

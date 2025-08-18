@@ -1,4 +1,6 @@
-export type DeviceInfo = {
+// device 도메인 정보
+
+export interface DeviceInfo {
   admdongCd: string;
   barcode: string;
   buyerMbrSeq: string;
@@ -51,4 +53,4 @@ export type DeviceInfo = {
   managerYn: string;
   registAllCount: number;
   mbrSeq: string;
-};
+}

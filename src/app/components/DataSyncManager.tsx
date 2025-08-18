@@ -1,17 +1,27 @@
 import useGetDeviceInfos from '@/domain/device/hooks/queries/useGetDeviceInfos';
+import useGetLatestupdated from '@/domain/device/hooks/queries/useGetLatestupdated';
+import useGetProdStandInfo from '@/domain/device/hooks/queries/useGetProdStandInfo';
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import useGetAppSetting from '@/domain/user/hooks/queries/useGetAppSetting';
 import { useUserStore } from '@/domain/user/stores/useUserStore';
+import { getLocalStorage } from '@/shared/utils/localStorege';
 import { useEffect } from 'react';
 
 export const DataSyncManager = () => {
-  const { setDeviceInfos } = useDeviceStore();
-  const { userInfo, isAuthenticated, setInitialDataLoaded } = useUserStore();
+  const {
+    setDeviceInfos,
+    setLatestUpdatedAt,
+    setProdStandDeviceInfo,
+    setCategoryInfo,
+    setRegionInfos,
+  } = useDeviceStore();
+  // user스토어 조회
+  const { userInfo, isAuthenticated, setInitialDataLoaded, setError } =
+    useUserStore();
   // AppSetting 조회
   const {
     data: ResponseAppSetting,
-    isPending: isAppSettingPending,
-    isError: isAppSettingError,
+    error: appSettingError,
     isSuccess: isAppSettingSuccess,
   } = useGetAppSetting(
     { mbrSeq: userInfo?.seqNum! },
@@ -21,36 +31,94 @@ export const DataSyncManager = () => {
   // DeviceInfos 조회
   const {
     data: ResponseDeviceInfos,
-    isPending: isDeviceInfosPending,
-    isError: isDeviceInfosError,
+    error: deviceInfosError,
     isSuccess: isDeviceInfosSuccess,
   } = useGetDeviceInfos(
     { pageIndex: '0', pageSize: '100' },
     { enabled: isAuthenticated },
   );
 
+  // SetLatestUpdated 조회
+  const {
+    data: ResponseGetLatestUpdated,
+    error: getLatestUpdatedError,
+    isSuccess: isGetLatestUpdatedSuccess,
+  } = useGetLatestupdated(
+    { appVersion: 'v1', langCd: 'ko' },
+    { enabled: isAuthenticated },
+  );
+
+  // prodStandInfo 조회
+  const {
+    data: ResponseGetProdStandInfo,
+    error: getProdStandInfoError,
+    isSuccess: isGetProdStandInfoSuccess,
+  } = useGetProdStandInfo(
+    { appVersion: 'v1', langCd: 'ko' },
+    { enabled: isAuthenticated },
+  );
+  // AppSetting 데이터 패칭 성공 시 처리
   useEffect(() => {
-    if (!isAppSettingPending && ResponseAppSetting) {
+    if (isAppSettingSuccess && ResponseAppSetting) {
       console.log('ResponseAppSetting 패칭 완료:', ResponseAppSetting);
     }
-    if (isAppSettingError) {
-      console.error('ResponseAppSetting 패칭 오류:', isAppSettingError);
-    }
-  }, [ResponseAppSetting, isAppSettingPending, isAppSettingError]);
-
+  }, [ResponseAppSetting, isAppSettingSuccess]);
+  // DeviceInfos 데이터 패칭 성공 시 처리
   useEffect(() => {
-    if (!isDeviceInfosPending && ResponseDeviceInfos) {
+    if (ResponseDeviceInfos && isDeviceInfosSuccess) {
       console.log('ResponseDeviceInfos 패칭 완료:', ResponseDeviceInfos);
       setDeviceInfos(ResponseDeviceInfos.deviceInfos);
     }
-    if (isDeviceInfosError) {
-      console.error('ResponseDeviceInfos 패칭 오류:', isDeviceInfosError);
+  }, [ResponseDeviceInfos, isDeviceInfosSuccess]);
+  // LatestUpdated 데이터 패칭 성공 시 처리
+  useEffect(() => {
+    if (isGetLatestUpdatedSuccess && ResponseGetLatestUpdated) {
+      console.log('ResponseDeviceInfos 패칭 완료:', ResponseGetLatestUpdated);
+      let prevUpdatedAt: string = getLocalStorage('updatedAt') ?? '';
+      if (
+        Number(prevUpdatedAt) != ResponseGetLatestUpdated.updatedAt ||
+        prevUpdatedAt
+      ) {
+        setLatestUpdatedAt(ResponseGetLatestUpdated.updatedAt.toString());
+      }
     }
-  }, [ResponseDeviceInfos, isDeviceInfosPending, isDeviceInfosError]);
+  }, [isGetLatestUpdatedSuccess, ResponseGetLatestUpdated]);
+  // ProdStandInfo 데이터 패칭 성공 시 처리
+  useEffect(() => {
+    if (isGetProdStandInfoSuccess && ResponseGetProdStandInfo) {
+      setProdStandDeviceInfo(ResponseGetProdStandInfo.deviceInfos);
+      setCategoryInfo(ResponseGetProdStandInfo.category);
+      setRegionInfos(ResponseGetProdStandInfo.regionInfos);
+    }
+  }, [isGetProdStandInfoSuccess, ResponseGetProdStandInfo]);
 
+  // 데이터 패칭 에러 통합처리
+  useEffect(() => {
+    const firstError =
+      appSettingError ||
+      deviceInfosError ||
+      getLatestUpdatedError ||
+      getProdStandInfoError;
+
+    if (firstError) {
+      setError(firstError);
+    }
+  }, [
+    appSettingError,
+    deviceInfosError,
+    getLatestUpdatedError,
+    getProdStandInfoError,
+    setError,
+  ]);
+  // 데이터 패칭 성공 처리
   useEffect(() => {
     // 로그인 상태이고, 두 쿼리가 모두 로딩 중이 아니며, 모두 성공했을 때
-    if (isAuthenticated && isAppSettingSuccess && isDeviceInfosSuccess) {
+    if (
+      isAuthenticated &&
+      isAppSettingSuccess &&
+      isDeviceInfosSuccess &&
+      isGetProdStandInfoSuccess
+    ) {
       console.log('DataSyncManager: 모든 초기 데이터 로딩 완료!');
       setInitialDataLoaded(true);
     } else if (!isAuthenticated) {
@@ -61,9 +129,8 @@ export const DataSyncManager = () => {
     isAuthenticated,
     isAppSettingSuccess, // ✨ isSuccess로 변경
     isDeviceInfosSuccess, // ✨ isSuccess로 변경
+    isGetProdStandInfoSuccess,
     setInitialDataLoaded,
   ]);
-
-  useEffect(() => {}, []);
   return null;
 };

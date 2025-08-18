@@ -1,8 +1,8 @@
-export type RequestAppSetting = {
+export interface RequestAppSetting {
   mbrSeq: string;
-};
+}
 
-export type ResponseAppSetting = {
+export interface ResponseAppSetting {
   list: {
     autoRefresh: string; // 자동 새로고침 설정 (초 단위)
     isNoData: boolean; // 설정 데이터 존재 유무 (true : 데이터 미존재, false : 데이터 존재)
@@ -12,4 +12,4 @@ export type ResponseAppSetting = {
     weatherArea: string; // 날씨 지역 설정(KR / US)
     weightUnit: string; // 계량 단위 (l / oz)
   }[];
-};
+}

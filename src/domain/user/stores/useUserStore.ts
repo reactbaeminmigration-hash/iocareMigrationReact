@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import type { UserDataInfo } from '../types/userInfo.types';
-
 interface UserState {
   accessToken: string | null;
   refreshToken: string | null;
@@ -13,6 +12,8 @@ interface UserState {
   userInfo: UserDataInfo | null; // 사용자 데이터
   setUserInfo: (userInfo: UserDataInfo) => void;
   setInitialDataLoaded: (loaded: boolean) => void;
+  error: Error | null;
+  setError: (error: Error | null) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -42,4 +43,6 @@ export const useUserStore = create<UserState>((set) => ({
     }),
   isInitialDataLoaded: false,
   setInitialDataLoaded: (loaded) => set({ isInitialDataLoaded: loaded }),
+  error: null,
+  setError: (error) => set({ error }),
 }));

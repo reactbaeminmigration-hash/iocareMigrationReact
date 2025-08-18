@@ -1,9 +1,9 @@
-export type RequestToken = {
+export interface RequestToken {
   authCode: string;
   redirectUrl: string;
-};
+}
 
-export type ResponseToken = {
+export interface ResponseToken {
   accessToken: string;
   refreshToken: string;
-};
+}

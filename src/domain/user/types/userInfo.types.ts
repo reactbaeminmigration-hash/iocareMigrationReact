@@ -1,4 +1,4 @@
-export type UserDataInfo = {
+export interface UserDataInfo {
   callingCd: string; // 국가 전화 코드 (예: "+82")
   cntryId: string; // 국가 ID (예: "KR")
   content: string; // 추가 콘텐츠
@@ -15,10 +15,10 @@ export type UserDataInfo = {
   autoLoginYn: 'Y' | 'N'; // 자동 로그인 여부
   migUserType: string; // 마이그레이션 유저 타입
   safekey: string; // 보안 키
-};
+}
 
-export type UserAuthData = {
+export interface UserAuthData {
   authorized: boolean; // 인증 여부
   dataInfo: UserDataInfo; // 사용자 상세 정보
   user: string; // 사용자명
-};
+}
