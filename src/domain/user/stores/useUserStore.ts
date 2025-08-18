@@ -4,13 +4,13 @@ import type { UserDataInfo } from '../types/userInfo.types';
 interface UserState {
   accessToken: string | null;
   refreshToken: string | null;
-  isAuthenticated: boolean;
-  isInitialDataLoaded: boolean;
+  isAuthenticated: boolean; // 사용자 인증 상태
+  isInitialDataLoaded: boolean; // 초기데이터 로딩 완료 여부
   setAuthTokens: (tokens: {
     accessToken?: string | null;
     refreshToken?: string | null;
   }) => void;
-  userInfo: UserDataInfo | null;
+  userInfo: UserDataInfo | null; // 사용자 데이터
   setUserInfo: (userInfo: UserDataInfo) => void;
   setInitialDataLoaded: (loaded: boolean) => void;
 }

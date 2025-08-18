@@ -3,9 +3,9 @@ import { useSpiner } from '@/shared/hooks/useSpiner';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useGetDeviceType } from '../../device/hooks/useGetDeviceType';
 import { useLogin } from '../hooks/useLogin';
 import { useUserStore } from '../stores/useUserStore';
-import { useGetDeviceType } from '../../device/hooks/useGetDeviceType';
 
 export const LoginActions = () => {
   const { t } = useTranslation();
