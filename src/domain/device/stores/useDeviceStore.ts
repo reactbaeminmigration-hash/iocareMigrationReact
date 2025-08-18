@@ -1,4 +1,6 @@
-import { create } from 'zustand';
+import type { StateCreator } from 'zustand';
+import { create } from 'zustand'; // ✨ StateCreator 임포트\
+import { devtools } from 'zustand/middleware'; // ✨ devtools 임포트
 import type {
   CategoryInfo,
   ProdStandDeviceInfo,
@@ -19,7 +21,12 @@ interface DeviceState {
   setRegionInfos: (regionInfos: RegionInfos) => void;
 }
 
-export const useDeviceStore = create<DeviceState>((set) => ({
+// ✨ storeCreator 정의 (devtools 미들웨어 타입 포함)
+const storeCreator: StateCreator<
+  DeviceState,
+  [],
+  [['zustand/devtools', never]]
+> = (set) => ({
   latestUpdatedAt: '',
   setLatestUpdatedAt: (latestUpdatedAt) => set({ latestUpdatedAt }),
   deviceInfos: [],
@@ -33,4 +40,9 @@ export const useDeviceStore = create<DeviceState>((set) => ({
   setCategoryInfo: (categoryInfo) => set({ categoryInfo }),
   regionInfos: {},
   setRegionInfos: (regionInfos) => set({ regionInfos }),
-}));
+});
+
+export const useDeviceStore = create(
+  // ✨ create<DeviceState>에서 <DeviceState> 제거
+  devtools(storeCreator), // ✨ devtools 미들웨어 적용
+);

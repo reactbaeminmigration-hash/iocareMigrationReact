@@ -1,5 +1,8 @@
-import { create } from 'zustand';
+import type { StateCreator } from 'zustand'; // ✨ 'type' 키워드 추가
+import { create } from 'zustand'; // ✨ StateCreator 임포트
+import { devtools } from 'zustand/middleware';
 import type { UserDataInfo } from '../types/userInfo.types';
+
 interface UserState {
   accessToken: string | null;
   refreshToken: string | null;
@@ -16,7 +19,11 @@ interface UserState {
   setError: (error: Error | null) => void;
 }
 
-export const useUserStore = create<UserState>((set) => ({
+const storeCreator: StateCreator<
+  UserState,
+  [],
+  [['zustand/devtools', never]]
+> = (set) => ({
   accessToken: null,
   refreshToken: null,
   isAuthenticated: false,
@@ -45,4 +52,6 @@ export const useUserStore = create<UserState>((set) => ({
   setInitialDataLoaded: (loaded) => set({ isInitialDataLoaded: loaded }),
   error: null,
   setError: (error) => set({ error }),
-}));
+});
+
+export const useUserStore = create(devtools(storeCreator));
