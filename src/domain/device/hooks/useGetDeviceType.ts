@@ -1,22 +1,38 @@
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 
-const dvcTypeCd = [
-  { code: '001', type: 'water' },
-  { code: '002', type: 'bidet' },
-  { code: '004', type: 'air' },
-  { code: '008', type: 'mattress' },
+const dvcCode = [
+  { code: '001', route: 'water', type: '정수기' },
+  { code: '002', route: 'bidet', type: '비데' },
+  { code: '004', route: 'air', type: '청정기' },
+  { code: '005', route: 'air', type: '가습기' },
+  { code: '008', route: 'mattress', type: '매트리스' },
 ];
 
-export function useGetDeviceType(index: number) {
+const dvcComCode = [
+  { code: 'WIFI', class: 'cw_power' },
+  { code: 'BLE', class: 'cw_bluetooth' },
+  { code: 'NFC', class: 'cw_nfc' },
+];
+
+export function useGetDeviceType() {
   const deviceInfos = useDeviceStore((state) => state.deviceInfos);
 
-  const getDvcTypeCd = () => {
-    const userDevice = dvcTypeCd.find(
+  const getDvcTypeRoute = (index: number) => {
+    const userDevice = dvcCode.find(
       (value) => value.code === deviceInfos[index].dvcTypeCd,
     );
-    console.log('Device Type:', userDevice?.type);
+    return userDevice?.route;
+  };
+
+  const getDvcTypeName = (dvcTypeCd: string) => {
+    const userDevice = dvcCode.find((value) => value.code === dvcTypeCd);
     return userDevice?.type;
   };
 
-  return { getDvcTypeCd };
+  const getDvcComType = (dvcComType: string) => {
+    const userComType = dvcComCode.find((value) => value.code === dvcComType);
+    return userComType?.class;
+  };
+
+  return { getDvcTypeRoute, getDvcTypeName, getDvcComType };
 }

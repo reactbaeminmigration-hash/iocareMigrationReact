@@ -13,7 +13,7 @@ const tabs = [
 
 export const LayoutTab = () => {
   const { t } = useTranslation();
-  const { getDvcTypeCd } = useGetDeviceType(0);
+  const { getDvcTypeRoute } = useGetDeviceType();
   const navigate = useNavigate();
   const currentPath = useLocation().pathname;
 
@@ -29,7 +29,9 @@ export const LayoutTab = () => {
                   className={currentPath.includes(tab.path) ? 'cw_on' : ''}
                 >
                   <Button
-                    onClick={() => navigate('/' + getDvcTypeCd() + tab.path)}
+                    onClick={() =>
+                      navigate('/' + getDvcTypeRoute(0) + tab.path)
+                    }
                   >
                     <span>{t(tab.label)}</span>
                   </Button>

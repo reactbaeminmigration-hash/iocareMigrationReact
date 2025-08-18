@@ -1,6 +1,7 @@
 import { LayoutHeader } from './LayoutHeader';
 import { LayoutTab } from './LayoutTab';
 import { Outlet } from 'react-router-dom';
+import { SideBar } from './SideBar';
 
 export const Layout = () => {
   return (
@@ -8,6 +9,7 @@ export const Layout = () => {
       <LayoutHeader />
       <LayoutTab />
       <Outlet />
+      <SideBar />
     </div>
   );
 };

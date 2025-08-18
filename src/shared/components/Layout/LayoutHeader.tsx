@@ -1,12 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../Button';
+import { useSidebar } from '@/shared/hooks/useSidebar';
 
 export const LayoutHeader = () => {
-  // const { setLoading } = useLoadingStore();
-  // useEffect(() => {
-  //   setLoading(true);
-  // }, []);
   const navigate = useNavigate();
+  const { toggle } = useSidebar();
 
   return (
     <div className="cw_header">
@@ -25,7 +23,7 @@ export const LayoutHeader = () => {
           </Button>
         </div>
         <div className="cw_head_btn cw_head_btn_right">
-          <Button className="cw_btn_select_product">
+          <Button className="cw_btn_select_product" onClick={toggle}>
             <span>제품선택</span>
           </Button>
         </div>

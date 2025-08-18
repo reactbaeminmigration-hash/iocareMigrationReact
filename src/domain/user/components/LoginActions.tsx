@@ -10,14 +10,14 @@ import { useUserStore } from '../stores/useUserStore';
 export const LoginActions = () => {
   const { t } = useTranslation();
   const { handleLogin } = useLogin();
-  const { getDvcTypeCd } = useGetDeviceType(0);
+  const { getDvcTypeRoute } = useGetDeviceType();
   const navigate = useNavigate();
   const { isInitialDataLoaded } = useUserStore();
   const { hideSpiner } = useSpiner();
   useEffect(() => {
     if (isInitialDataLoaded) {
       hideSpiner();
-      navigate('/' + getDvcTypeCd());
+      navigate('/' + getDvcTypeRoute(0));
     }
   }, [isInitialDataLoaded]);
 

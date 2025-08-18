@@ -2,7 +2,7 @@ import { routerPath } from './routerPath';
 
 export const WaterRoutes = [
   {
-    path: '/Water',
+    path: '/water',
     lazy: async () => {
       const { Layout } = await import('@/shared/components/Layout/Layout');
       return { Component: Layout };
