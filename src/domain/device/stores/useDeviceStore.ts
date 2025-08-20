@@ -1,4 +1,3 @@
-import type { StateCreator } from 'zustand';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type {
@@ -11,43 +10,60 @@ import type { DeviceInfo } from '../types/device.types';
 interface DeviceState {
   latestUpdatedAt: string | null;
   setLatestUpdatedAt: (latestUpdatedAt: string) => void;
-  deviceInfos: DeviceInfo[]; // 디바이스 정보
+  deviceInfos: DeviceInfo[];
   setDeviceInfos: (devices: DeviceInfo[]) => void;
-  prodStandDeviceInfo: ProdStandDeviceInfo[]; // 디바이스 정보
+  prodStandDeviceInfo: ProdStandDeviceInfo[];
   setProdStandDeviceInfo: (prodStandDeviceInfo: ProdStandDeviceInfo[]) => void;
-  categoryInfo: CategoryInfo; // 디바이스 정보
+  categoryInfo: CategoryInfo;
   setCategoryInfo: (categoryInfo: CategoryInfo) => void;
-  regionInfos: RegionInfos; // 디바이스 정보
+  regionInfos: RegionInfos;
   setRegionInfos: (regionInfos: RegionInfos) => void;
 }
 
-const storeCreator: StateCreator<
-  DeviceState,
-  [],
-  [['zustand/devtools', never], ['zustand/persist', unknown]]
-> = (set) => ({
-  latestUpdatedAt: null,
-  setLatestUpdatedAt: (latestUpdatedAt) => set({ latestUpdatedAt }),
-  deviceInfos: [],
-  setDeviceInfos: (devices) => set({ deviceInfos: devices }),
-  prodStandDeviceInfo: [],
-  setProdStandDeviceInfo: (prodStandDeviceInfo) => set({ prodStandDeviceInfo }),
-  categoryInfo: {
-    imageUrl: '',
-    categories: [],
-  },
-  setCategoryInfo: (categoryInfo) => set({ categoryInfo }),
-  regionInfos: {},
-  setRegionInfos: (regionInfos) => set({ regionInfos }),
-});
+export type DeviceActionType =
+  | 'set_latest_updated_at'
+  | 'set_device_infos'
+  | 'set_prod_stand_device_info'
+  | 'set_category_info'
+  | 'set_region_infos';
 
-const persistOptions = {
-  name: 'device-storage',
-  partialize: (state: DeviceState) => ({
-    latestUpdatedAt: state.latestUpdatedAt,
-  }),
-};
-
-export const useDeviceStore = create(
-  devtools(persist(storeCreator, persistOptions), { name: 'DeviceStore' }),
+export const useDeviceStore = create<DeviceState>()(
+  devtools(
+    persist(
+      (set) => ({
+        latestUpdatedAt: null,
+        setLatestUpdatedAt: (latestUpdatedAt) =>
+          set(
+            { latestUpdatedAt },
+            false,
+            'set_latest_updated_at' as DeviceActionType,
+          ),
+        deviceInfos: [],
+        setDeviceInfos: (devices) =>
+          set(
+            { deviceInfos: devices },
+            false,
+            'set_device_infos' as DeviceActionType,
+          ),
+        prodStandDeviceInfo: [],
+        setProdStandDeviceInfo: (prodStandDeviceInfo) =>
+          set(
+            { prodStandDeviceInfo },
+            false,
+            'set_prod_stand_device_info' as DeviceActionType,
+          ),
+        categoryInfo: { imageUrl: '', categories: [] },
+        setCategoryInfo: (categoryInfo) =>
+          set({ categoryInfo }, false, 'set_category_info' as DeviceActionType),
+        regionInfos: {},
+        setRegionInfos: (regionInfos) =>
+          set({ regionInfos }, false, 'set_region_infos' as DeviceActionType),
+      }),
+      {
+        name: 'device-storage',
+        partialize: (state) => ({ latestUpdatedAt: state.latestUpdatedAt }),
+      },
+    ),
+    { name: 'DeviceStore' },
+  ),
 );

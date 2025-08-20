@@ -1,4 +1,4 @@
-import { create, type StateCreator } from 'zustand';
+import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 interface SideBarState {
@@ -6,15 +6,19 @@ interface SideBarState {
   toggle: () => void;
 }
 
-const storeCreator: StateCreator<
-  SideBarState,
-  [],
-  [['zustand/devtools', never]]
-> = (set) => ({
-  isSideBarOpen: false,
-  toggle: () => set((s) => ({ isSideBarOpen: !s.isSideBarOpen })),
-});
+export type SideBarActionType = 'toggle_sidebar';
 
-export const useSideBarStore = create(
-  devtools(storeCreator, { name: 'SideBarStore' }),
+export const useSideBarStore = create<SideBarState>()(
+  devtools(
+    (set) => ({
+      isSideBarOpen: false,
+      toggle: () =>
+        set(
+          (s) => ({ isSideBarOpen: !s.isSideBarOpen }),
+          false,
+          'toggle_sidebar' as SideBarActionType, // 타입 지정
+        ),
+    }),
+    { name: 'SideBarStore' },
+  ),
 );

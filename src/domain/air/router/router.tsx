@@ -13,11 +13,7 @@ export const airRoutes = [
     },
     children: [
       {
-        index: true,
-        element: <Navigate to="/air/home" replace />,
-      },
-      {
-        path: routerPath.home,
+        path: routerPath.path,
         lazy: async () => {
           const { AirHomePage } = await import('../pages/AirHomePage');
           return { Component: AirHomePage };
