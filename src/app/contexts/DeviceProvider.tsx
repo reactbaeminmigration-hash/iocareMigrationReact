@@ -15,14 +15,9 @@ interface DeviceContextType {
 export const DeviceContext = createContext<DeviceContextType | null>(null);
 
 export const DeviceProvider = ({ children }: { children: ReactNode }) => {
-  const value = useMemo(
-    () => ({
-      tabs,
-    }),
-    [tabs],
-  );
+  const value: DeviceContextType = { tabs };
   return (
-    <DeviceContext.Provider value={value}>{children};</DeviceContext.Provider>
+    <DeviceContext.Provider value={value}>{children}</DeviceContext.Provider>
   );
 };
 

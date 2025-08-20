@@ -34,15 +34,6 @@ const router = createHashRouter([
             ),
             children: [...airRoutes, ...WaterRoutes],
           },
-          // {
-          //   path: routerPath.water,
-          //   lazy: async () => {
-          //     const { WaterHomePage } = await import(
-          //       '../domain/water/pages/WaterHomePage'
-          //     );
-          //     return { Component: WaterHomePage };
-          //   },
-          // },
           {
             path: routerPath.gnb,
             lazy: async () => {

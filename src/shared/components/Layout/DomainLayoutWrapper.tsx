@@ -7,5 +7,5 @@ export const DomainLayoutWrapper = () => {
   const { getDvcTypeRoute } = useGetDeviceType();
   const domain = `/${getDvcTypeRoute(0)}`;
 
-  return <Layout tabs={tabs} domain={domain}></Layout>;
+  return <Layout tabs={tabs} domain={domain} />;
 };
