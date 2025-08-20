@@ -21,7 +21,7 @@ export const LoginPage = () => {
       console.log('/' + getDvcTypeRoute(0));
       navigate('/' + getDvcTypeRoute(0));
     }
-  }, [isInitialDataLoaded, navigate, getDvcTypeRoute]);
+  }, [isInitialDataLoaded, navigate]);
 
   useEffect(() => {
     if (error) {
@@ -33,7 +33,7 @@ export const LoginPage = () => {
       }
       setError(null);
     }
-  }, [error, setError, hideSpiner]);
+  }, [error, setError]);
 
   // 유효한 토큰이 있으면 자동로그인 진행
   useEffect(() => {

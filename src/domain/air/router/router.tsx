@@ -6,7 +6,6 @@ export const airRoutes = [
     children: [
       {
         path: routerPath.path,
-        element: <Navigate to="/air/home" replace />,
         lazy: async () => {
           const { DomainLayoutWrapper } = await import(
             '@/shared/components/Layout/DomainLayoutWrapper'
