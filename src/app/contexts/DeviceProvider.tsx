@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, type ReactNode } from 'react';
 
 const tabs = [
   { path: '/home', label: 'BTN.HOME' },
@@ -12,17 +12,17 @@ interface DeviceContextType {
   tabs: typeof tabs;
 }
 
-const deviceContextValue: DeviceContextType = {
-  tabs,
-};
-
 export const DeviceContext = createContext<DeviceContextType | null>(null);
 
 export const DeviceProvider = ({ children }: { children: ReactNode }) => {
+  const value = useMemo(
+    () => ({
+      tabs,
+    }),
+    [tabs],
+  );
   return (
-    <DeviceContext.Provider value={deviceContextValue}>
-      {children};
-    </DeviceContext.Provider>
+    <DeviceContext.Provider value={value}>{children};</DeviceContext.Provider>
   );
 };
 

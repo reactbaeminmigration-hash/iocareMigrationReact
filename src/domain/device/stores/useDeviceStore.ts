@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
-import { create } from 'zustand'; // ✨ StateCreator 임포트\
-import { devtools } from 'zustand/middleware'; // ✨ devtools 임포트
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 import type {
   CategoryInfo,
   ProdStandDeviceInfo,
@@ -9,7 +9,7 @@ import type {
 import type { DeviceInfo } from '../types/device.types';
 
 interface DeviceState {
-  latestUpdatedAt: string;
+  latestUpdatedAt: string | null;
   setLatestUpdatedAt: (latestUpdatedAt: string) => void;
   deviceInfos: DeviceInfo[]; // 디바이스 정보
   setDeviceInfos: (devices: DeviceInfo[]) => void;
@@ -21,13 +21,12 @@ interface DeviceState {
   setRegionInfos: (regionInfos: RegionInfos) => void;
 }
 
-// ✨ storeCreator 정의 (devtools 미들웨어 타입 포함)
 const storeCreator: StateCreator<
   DeviceState,
   [],
-  [['zustand/devtools', never]]
+  [['zustand/devtools', never], ['zustand/persist', unknown]]
 > = (set) => ({
-  latestUpdatedAt: '',
+  latestUpdatedAt: null,
   setLatestUpdatedAt: (latestUpdatedAt) => set({ latestUpdatedAt }),
   deviceInfos: [],
   setDeviceInfos: (devices) => set({ deviceInfos: devices }),
@@ -42,7 +41,13 @@ const storeCreator: StateCreator<
   setRegionInfos: (regionInfos) => set({ regionInfos }),
 });
 
+const persistOptions = {
+  name: 'device-storage',
+  partialize: (state: DeviceState) => ({
+    latestUpdatedAt: state.latestUpdatedAt,
+  }),
+};
+
 export const useDeviceStore = create(
-  // ✨ create<DeviceState>에서 <DeviceState> 제거
-  devtools(storeCreator), // ✨ devtools 미들웨어 적용
+  devtools(persist(storeCreator, persistOptions), { name: 'DeviceStore' }),
 );

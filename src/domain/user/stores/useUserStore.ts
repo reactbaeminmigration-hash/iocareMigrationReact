@@ -1,18 +1,18 @@
-import type { StateCreator } from 'zustand'; // ✨ 'type' 키워드 추가
-import { create } from 'zustand'; // ✨ StateCreator 임포트
-import { devtools } from 'zustand/middleware';
+import type { StateCreator } from 'zustand';
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 import type { UserDataInfo } from '../types/userInfo.types';
 
 interface UserState {
   accessToken: string | null;
   refreshToken: string | null;
-  isAuthenticated: boolean; // 사용자 인증 상태
-  isInitialDataLoaded: boolean; // 초기데이터 로딩 완료 여부
+  isAuthenticated: boolean;
+  isInitialDataLoaded: boolean;
   setAuthTokens: (tokens: {
     accessToken?: string | null;
     refreshToken?: string | null;
   }) => void;
-  userInfo: UserDataInfo | null; // 사용자 데이터
+  userInfo: UserDataInfo | null;
   setUserInfo: (userInfo: UserDataInfo) => void;
   setInitialDataLoaded: (loaded: boolean) => void;
   error: Error | null;
@@ -22,36 +22,43 @@ interface UserState {
 const storeCreator: StateCreator<
   UserState,
   [],
-  [['zustand/devtools', never]]
+  [['zustand/devtools', never], ['zustand/persist', unknown]]
 > = (set) => ({
   accessToken: null,
   refreshToken: null,
   isAuthenticated: false,
   setAuthTokens: (tokens) =>
     set((state) => {
-      const newAccessTokne =
+      const newAccessToken =
         tokens.accessToken !== undefined
           ? tokens.accessToken
           : state.accessToken;
-      const newRefresToken =
+      const newRefreshToken =
         tokens.refreshToken !== undefined
           ? tokens.refreshToken
           : state.refreshToken;
       return {
-        accessToken: newAccessTokne,
-        refreshToken: newRefresToken,
-        isAuthenticated: !!newAccessTokne,
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+        isAuthenticated: !!newAccessToken,
       };
     }),
   userInfo: null,
-  setUserInfo: (userInfo) =>
-    set({
-      userInfo,
-    }),
+  setUserInfo: (userInfo) => set({ userInfo }),
   isInitialDataLoaded: false,
   setInitialDataLoaded: (loaded) => set({ isInitialDataLoaded: loaded }),
   error: null,
   setError: (error) => set({ error }),
 });
 
-export const useUserStore = create(devtools(storeCreator));
+const persistOptions = {
+  name: 'user-storage',
+  partialize: (state: UserState) => ({
+    accessToken: state.accessToken,
+    refreshToken: state.refreshToken,
+  }),
+};
+
+export const useUserStore = create(
+  devtools(persist(storeCreator, persistOptions), { name: 'UserStore' }),
+);

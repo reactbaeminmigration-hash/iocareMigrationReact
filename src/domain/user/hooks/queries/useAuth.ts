@@ -1,8 +1,8 @@
 import type { UseMutationCustomOptions } from '@/shared/types/common';
 import { setHeader } from '@/shared/utils/header';
-import { setLocalStorage } from '@/shared/utils/localStorege';
 import { useMutation } from '@tanstack/react-query';
 import { getToken, postLogin } from '../../api';
+import { useUserStore } from '../../stores/useUserStore';
 
 function useGetToken(mutationOption?: UseMutationCustomOptions) {
   return useMutation({
@@ -10,8 +10,7 @@ function useGetToken(mutationOption?: UseMutationCustomOptions) {
 
     onSuccess: ({ accessToken, refreshToken }) => {
       console.log(refreshToken);
-      setLocalStorage('accessToken', accessToken);
-      setLocalStorage('refreshToken', refreshToken);
+      useUserStore.getState().setAuthTokens({ accessToken, refreshToken });
       setHeader('Authorization', `Bearer ${accessToken}`);
     },
     ...mutationOption,

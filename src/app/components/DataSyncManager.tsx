@@ -4,16 +4,16 @@ import useGetProdStandInfo from '@/domain/device/hooks/queries/useGetProdStandIn
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import useGetAppSetting from '@/domain/user/hooks/queries/useGetAppSetting';
 import { useUserStore } from '@/domain/user/stores/useUserStore';
-import { getLocalStorage } from '@/shared/utils/localStorege';
 import { useEffect } from 'react';
 
 export const DataSyncManager = () => {
   const {
     setDeviceInfos,
-    setLatestUpdatedAt,
     setProdStandDeviceInfo,
     setCategoryInfo,
     setRegionInfos,
+    latestUpdatedAt,
+    setLatestUpdatedAt,
   } = useDeviceStore();
   // user스토어 조회
   const { userInfo, isAuthenticated, setInitialDataLoaded, setError } =
@@ -74,7 +74,7 @@ export const DataSyncManager = () => {
   useEffect(() => {
     if (isGetLatestUpdatedSuccess && ResponseGetLatestUpdated) {
       console.log('ResponseDeviceInfos 패칭 완료:', ResponseGetLatestUpdated);
-      let prevUpdatedAt: string = getLocalStorage('updatedAt') ?? '';
+      const prevUpdatedAt = latestUpdatedAt ?? '';
       if (
         Number(prevUpdatedAt) != ResponseGetLatestUpdated.updatedAt ||
         prevUpdatedAt
@@ -82,7 +82,12 @@ export const DataSyncManager = () => {
         setLatestUpdatedAt(ResponseGetLatestUpdated.updatedAt.toString());
       }
     }
-  }, [isGetLatestUpdatedSuccess, ResponseGetLatestUpdated]);
+  }, [
+    isGetLatestUpdatedSuccess,
+    ResponseGetLatestUpdated,
+    latestUpdatedAt,
+    setLatestUpdatedAt,
+  ]);
   // ProdStandInfo 데이터 패칭 성공 시 처리
   useEffect(() => {
     if (isGetProdStandInfoSuccess && ResponseGetProdStandInfo) {
@@ -121,7 +126,8 @@ export const DataSyncManager = () => {
     ) {
       console.log('DataSyncManager: 모든 초기 데이터 로딩 완료!');
       setInitialDataLoaded(true);
-    } else if (!isAuthenticated) {
+    }
+     else if (!isAuthenticated) {
       // 로그아웃 상태이거나, 아직 로그인 전이면 로딩 상태 초기화
       setInitialDataLoaded(false);
     }

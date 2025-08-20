@@ -2,7 +2,6 @@ import { decodeToken } from '@/core/auth/utils/jwtDecode';
 import { useGetDeviceType } from '@/domain/device/hooks/useGetDeviceType';
 import { useSpiner } from '@/shared/hooks/useSpiner';
 import { isResponseError } from '@/shared/utils/error.utils';
-import { getLocalStorage } from '@/shared/utils/localStorege';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginActions } from '../components/LoginActions';
@@ -11,7 +10,7 @@ import { LoginSwiper } from '../components/LoginSwiper';
 import { useUserStore } from '../stores/useUserStore';
 
 export const LoginPage = () => {
-  const { isInitialDataLoaded, error, setError } = useUserStore();
+  const { accessToken, isInitialDataLoaded, error, setError } = useUserStore();
   const { hideSpiner } = useSpiner();
   const navigate = useNavigate();
   const { getDvcTypeRoute } = useGetDeviceType();
@@ -22,7 +21,7 @@ export const LoginPage = () => {
       console.log('/' + getDvcTypeRoute(0));
       navigate('/' + getDvcTypeRoute(0));
     }
-  }, [isInitialDataLoaded]);
+  }, [isInitialDataLoaded, navigate, getDvcTypeRoute]);
 
   useEffect(() => {
     if (error) {
@@ -34,14 +33,16 @@ export const LoginPage = () => {
       }
       setError(null);
     }
-  }, [error, setError]);
+  }, [error, setError, hideSpiner]);
 
   // 유효한 토큰이 있으면 자동로그인 진행
   useEffect(() => {
-    let accessToken = getLocalStorage<string>('accessToken');
-    let claims = decodeToken(accessToken!);
-    claims.remember_me;
-  }, []);
+    if (accessToken) {
+      let claims = decodeToken(accessToken!);
+      claims.remember_me;
+    }
+  }, [accessToken]);
+
   return (
     <div className="cw_loginWrap Tut cw_introBG">
       <div className="cw_introbox">
