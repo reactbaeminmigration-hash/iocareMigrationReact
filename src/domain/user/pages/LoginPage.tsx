@@ -1,5 +1,5 @@
 import { decodeToken } from '@/core/auth/utils/jwtDecode';
-import { routerPath } from '@/router/routerPath';
+import { useGetDeviceType } from '@/domain/device/hooks/useGetDeviceType';
 import { useSpiner } from '@/shared/hooks/useSpiner';
 import { isResponseError } from '@/shared/utils/error.utils';
 import { getLocalStorage } from '@/shared/utils/localStorege';
@@ -14,11 +14,13 @@ export const LoginPage = () => {
   const { isInitialDataLoaded, error, setError } = useUserStore();
   const { hideSpiner } = useSpiner();
   const navigate = useNavigate();
+  const { getDvcTypeRoute } = useGetDeviceType();
   // 초기 데이터 로딩이 완료되면, 스피너를 숨기고 메인 페이지로 이동시킵니다.
   useEffect(() => {
     if (isInitialDataLoaded) {
       hideSpiner();
-      navigate(routerPath.water);
+      console.log('/' + getDvcTypeRoute(0));
+      navigate('/' + getDvcTypeRoute(0));
     }
   }, [isInitialDataLoaded]);
 

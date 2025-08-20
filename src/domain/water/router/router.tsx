@@ -1,15 +1,22 @@
+import { Navigate } from 'react-router-dom';
 import { routerPath } from './routerPath';
 
 export const WaterRoutes = [
   {
-    path: '/water',
+    path: routerPath.path,
+    element: <Navigate to="/air/home" replace />,
     lazy: async () => {
-      const { Layout } = await import('@/shared/components/Layout/Layout');
-      return { Component: Layout };
+      const { DomainLayoutWrapper } = await import(
+        '@/shared/components/Layout/DomainLayoutWrapper'
+      );
+      return { Component: DomainLayoutWrapper };
     },
     children: [
       {
         index: true,
+        element: <Navigate to="/water/home" replace />,
+      },
+      {
         path: routerPath.home,
         lazy: async () => {
           const { WaterHomePage } = await import('../pages/WaterHomePage');

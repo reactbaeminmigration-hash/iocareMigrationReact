@@ -1,19 +1,22 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Button } from '../Button';
+import type { TranslationKey } from '@/shared/types/common';
 import { useTranslation } from 'react-i18next';
-import { useGetDeviceType } from '@/domain/device/hooks/useGetDeviceType';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button } from '../Button';
 
-const tabs = [
-  { path: '/home', label: 'BTN.HOME' },
-  { path: '/report', label: 'BTN.REPORT' },
-  { path: '/control', label: 'BTN.CONTROL' },
-  { path: '/notice', label: 'BTN.NOTICE' },
-  { path: '/settings', label: 'BTN.SETTING' },
-] as const;
+export interface ITab {
+  path: string;
+  label: TranslationKey;
+}
+interface LayoutTabProps<T extends ITab> {
+  tabs: readonly T[];
+  domain: string;
+}
 
-export const LayoutTab = () => {
+export const LayoutTab = <T extends ITab>({
+  tabs,
+  domain,
+}: LayoutTabProps<T>) => {
   const { t } = useTranslation();
-  const { getDvcTypeRoute } = useGetDeviceType();
   const navigate = useNavigate();
   const currentPath = useLocation().pathname;
 
@@ -28,11 +31,7 @@ export const LayoutTab = () => {
                   key={tab.path}
                   className={currentPath.includes(tab.path) ? 'cw_on' : ''}
                 >
-                  <Button
-                    onClick={() =>
-                      navigate('/' + getDvcTypeRoute(0) + tab.path)
-                    }
-                  >
+                  <Button onClick={() => navigate(domain + tab.path)}>
                     <span>{t(tab.label)}</span>
                   </Button>
                 </li>
