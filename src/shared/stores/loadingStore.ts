@@ -1,4 +1,4 @@
-import { create, type StateCreator } from 'zustand';
+import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 interface LoadingState {
@@ -6,15 +6,15 @@ interface LoadingState {
   setLoading: (isLoading: boolean) => void;
 }
 
-const storeCreator: StateCreator<
-  LoadingState,
-  [],
-  [['zustand/devtools', never]]
-> = (set) => ({
-  isLoading: false,
-  setLoading: (isLoading) => set({ isLoading }),
-});
+export type LoadingActionType = 'set_loading';
 
-export const useLoadingStore = create(
-  devtools(storeCreator, { name: 'LoadingStore' }),
+export const useLoadingStore = create<LoadingState>()(
+  devtools(
+    (set) => ({
+      isLoading: false,
+      setLoading: (isLoading) =>
+        set({ isLoading }, false, 'set_loading' as LoadingActionType),
+    }),
+    { name: 'LoadingStore' },
+  ),
 );

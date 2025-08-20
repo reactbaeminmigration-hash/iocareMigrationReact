@@ -1,4 +1,3 @@
-import type { StateCreator } from 'zustand';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { UserDataInfo } from '../types/userInfo.types';
@@ -19,46 +18,55 @@ interface UserState {
   setError: (error: Error | null) => void;
 }
 
-const storeCreator: StateCreator<
-  UserState,
-  [],
-  [['zustand/devtools', never], ['zustand/persist', unknown]]
-> = (set) => ({
-  accessToken: null,
-  refreshToken: null,
-  isAuthenticated: false,
-  setAuthTokens: (tokens) =>
-    set((state) => {
-      const newAccessToken =
-        tokens.accessToken !== undefined
-          ? tokens.accessToken
-          : state.accessToken;
-      const newRefreshToken =
-        tokens.refreshToken !== undefined
-          ? tokens.refreshToken
-          : state.refreshToken;
-      return {
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-        isAuthenticated: !!newAccessToken,
-      };
-    }),
-  userInfo: null,
-  setUserInfo: (userInfo) => set({ userInfo }),
-  isInitialDataLoaded: false,
-  setInitialDataLoaded: (loaded) => set({ isInitialDataLoaded: loaded }),
-  error: null,
-  setError: (error) => set({ error }),
-});
+export type UserActionType =
+  | 'set_auth_tokens'
+  | 'set_user_info'
+  | 'set_initial_data_loaded'
+  | 'set_error';
 
-const persistOptions = {
-  name: 'user-storage',
-  partialize: (state: UserState) => ({
-    accessToken: state.accessToken,
-    refreshToken: state.refreshToken,
-  }),
-};
-
-export const useUserStore = create(
-  devtools(persist(storeCreator, persistOptions), { name: 'UserStore' }),
+export const useUserStore = create<UserState>()(
+  devtools(
+    persist(
+      (set) => ({
+        accessToken: null,
+        refreshToken: null,
+        isAuthenticated: false,
+        setAuthTokens: (tokens) =>
+          set(
+            (state) => {
+              const newAccessToken = tokens.accessToken ?? state.accessToken;
+              const newRefreshToken = tokens.refreshToken ?? state.refreshToken;
+              return {
+                accessToken: newAccessToken,
+                refreshToken: newRefreshToken,
+                isAuthenticated: !!newAccessToken,
+              };
+            },
+            false,
+            'set_auth_tokens' as UserActionType,
+          ),
+        userInfo: null,
+        setUserInfo: (userInfo) =>
+          set({ userInfo }, false, 'set_user_info' as UserActionType),
+        isInitialDataLoaded: false,
+        setInitialDataLoaded: (loaded) =>
+          set(
+            { isInitialDataLoaded: loaded },
+            false,
+            'set_initial_data_loaded' as UserActionType,
+          ),
+        error: null,
+        setError: (error) =>
+          set({ error }, false, 'set_error' as UserActionType),
+      }),
+      {
+        name: 'user-storage',
+        partialize: (state) => ({
+          accessToken: state.accessToken,
+          refreshToken: state.refreshToken,
+        }),
+      },
+    ),
+    { name: 'UserStore' },
+  ),
 );
