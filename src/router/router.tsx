@@ -18,10 +18,7 @@ const router = createHashRouter([
       },
       {
         path: routerPath.login,
-        lazy: async () => {
-          const { LoginPage } = await import('../domain/user/pages/LoginPage');
-          return { Component: LoginPage };
-        },
+        Component: LoginPage,
       },
       {
         element: <ProtectedRoute />, // ProtectedRoute가 인증 및 로딩 상태를 확인합
