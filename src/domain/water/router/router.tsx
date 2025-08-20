@@ -4,12 +4,6 @@ import { routerPath } from './routerPath';
 export const WaterRoutes = [
   {
     path: routerPath.path,
-    lazy: async () => {
-      const { DomainLayoutWrapper } = await import(
-        '@/shared/components/Layout/DomainLayoutWrapper'
-      );
-      return { Component: DomainLayoutWrapper };
-    },
     children: [
       {
         index: true,

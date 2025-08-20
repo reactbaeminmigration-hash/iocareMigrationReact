@@ -1,5 +1,6 @@
 import { DeviceProvider } from '@/app/contexts/DeviceProvider';
 import { WaterRoutes } from '@/domain/water/router/router';
+import { DomainLayoutWrapper } from '@/shared/components/Layout/DomainLayoutWrapper';
 import { createHashRouter, Outlet } from 'react-router-dom';
 import { App } from '../App';
 import { airRoutes } from '../domain/air/router/router';
@@ -29,7 +30,12 @@ const router = createHashRouter([
                 <Outlet />
               </DeviceProvider>
             ),
-            children: [...airRoutes, ...WaterRoutes],
+            children: [
+              {
+                Component: DomainLayoutWrapper,
+                children: [...airRoutes, ...WaterRoutes],
+              },
+            ],
           },
           {
             path: routerPath.gnb,

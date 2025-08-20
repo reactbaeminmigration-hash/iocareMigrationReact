@@ -4,16 +4,13 @@ import { routerPath } from './routerPath';
 export const airRoutes = [
   {
     path: routerPath.path,
-    element: <Navigate to="/air/home" replace />,
-    lazy: async () => {
-      const { DomainLayoutWrapper } = await import(
-        '@/shared/components/Layout/DomainLayoutWrapper'
-      );
-      return { Component: DomainLayoutWrapper };
-    },
     children: [
       {
-        path: routerPath.path,
+        index: true,
+        element: <Navigate to="/air/home" replace />,
+      },
+      {
+        path: routerPath.home,
         lazy: async () => {
           const { AirHomePage } = await import('../pages/AirHomePage');
           return { Component: AirHomePage };
