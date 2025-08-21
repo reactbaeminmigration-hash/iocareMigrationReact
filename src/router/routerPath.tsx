@@ -3,4 +3,5 @@ export const routerPath = {
   water: '/water',
   login: '/login',
   gnb: '/gnb',
+  wifiError: '/wifi-error',
 };

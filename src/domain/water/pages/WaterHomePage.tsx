@@ -1,10 +1,10 @@
+import { WifiConnectError } from '@/shared/components/Layout/WifiConnectError';
+
 export const WaterHomePage = () => {
   return (
     <>
-      <div>WaterHomePage</div>
-      {/* <Button className="cw_btn_tut" onClick={refreshAndStoreDeviceInfos}>
-        <span>테스트 버튼</span>
-      </Button> */}
+      {/* <div>WaterHomePage</div> */}
+      <WifiConnectError /> {/* 정수기 화면 임시 wifi 연결 오류 */}
     </>
   );
 };

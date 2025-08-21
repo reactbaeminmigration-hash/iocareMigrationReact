@@ -33,7 +33,19 @@ const router = createHashRouter([
             children: [
               {
                 Component: DomainLayoutWrapper,
-                children: [...airRoutes, ...WaterRoutes],
+                children: [
+                  ...airRoutes,
+                  ...WaterRoutes,
+                  // {
+                  //   path: routerPath.wifiError,
+                  //   lazy: async () => {
+                  //     const { WifiConnectError } = await import(
+                  //       './../shared/components/Layout/WifiConnectError'
+                  //     );
+                  //     return { Component: WifiConnectError };
+                  //   },
+                  // },
+                ],
               },
             ],
           },
