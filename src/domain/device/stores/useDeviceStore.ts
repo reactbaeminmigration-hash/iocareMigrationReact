@@ -18,6 +18,8 @@ interface DeviceState {
   setCategoryInfo: (categoryInfo: CategoryInfo) => void;
   regionInfos: RegionInfos;
   setRegionInfos: (regionInfos: RegionInfos) => void;
+  lastSelectedDeviceInfos: DeviceInfo;
+  setLastSelectedDeviceInfos: (lastSelectedDeviceInfos: DeviceInfo) => void;
 }
 
 export type DeviceActionType =
@@ -25,7 +27,8 @@ export type DeviceActionType =
   | 'set_device_infos'
   | 'set_prod_stand_device_info'
   | 'set_category_info'
-  | 'set_region_infos';
+  | 'set_region_infos'
+  | 'set_last_selected_device_infos';
 
 export const useDeviceStore = create<DeviceState>()(
   devtools(
@@ -58,6 +61,13 @@ export const useDeviceStore = create<DeviceState>()(
         regionInfos: {},
         setRegionInfos: (regionInfos) =>
           set({ regionInfos }, false, 'set_region_infos' as DeviceActionType),
+        lastSelectedDeviceInfos: {} as DeviceInfo,
+        setLastSelectedDeviceInfos: (lastSelectedDeviceInfos) =>
+          set(
+            { lastSelectedDeviceInfos },
+            false,
+            'set_last_selected_device_infos' as DeviceActionType,
+          ),
       }),
       {
         name: 'device-storage',

@@ -3,11 +3,14 @@ import { Button } from '../Button';
 import { useSidebar } from '@/shared/hooks/useSidebar';
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { useGetDeviceType } from '@/domain/device/hooks/useGetDeviceType';
+import { useNavigate } from 'react-router-dom';
 
 export const SideBar = () => {
   const { cls, toggle } = useSidebar();
+  const navigate = useNavigate();
   const deviceInfos = useDeviceStore((deviceStore) => deviceStore.deviceInfos);
-  const { getDvcTypeName, getDvcComType } = useGetDeviceType();
+  const { setLastSelectedDeviceInfos } = useDeviceStore();
+  const { getDvcTypeName, getDvcComType, getDvcTypeRoute } = useGetDeviceType();
 
   return (
     <div className={`cw_sideWrap cwSide cwSideWrap ${cls}`}>
@@ -37,6 +40,16 @@ export const SideBar = () => {
                       <em className={`${getDvcComType(item.comType)} `}></em>
                     </div>
                   </div>
+                  <Button
+                    className="cw_btn_detail01 cw_st02 selectProdBtn"
+                    onClick={() => {
+                      toggle();
+                      setLastSelectedDeviceInfos(item);
+                      navigate(`/${getDvcTypeRoute(index)}`);
+                    }}
+                  >
+                    <span>select product</span>
+                  </Button>
                 </li>
               ))}
               <li>
