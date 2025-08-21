@@ -1,3 +1,3 @@
 export const AirNoticePage = () => {
-  return <div>Notice</div>;
+  return <div>AirNoticePage</div>;
 };
