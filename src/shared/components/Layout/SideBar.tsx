@@ -9,7 +9,8 @@ export const SideBar = () => {
   const { cls, toggle } = useSidebar();
   const navigate = useNavigate();
   const deviceInfos = useDeviceStore((deviceStore) => deviceStore.deviceInfos);
-  const { setLastSelectedDeviceInfos } = useDeviceStore();
+  const { setLastSelectedDeviceInfos, lastSelectedDeviceInfos } =
+    useDeviceStore();
   const { getDvcTypeName, getDvcComType, getDvcTypeRoute } = useGetDeviceType();
 
   return (
@@ -26,7 +27,10 @@ export const SideBar = () => {
           <div className="cw_prdlistWrap">
             <ul className="cw_myprdlist" id="cwMyprdList">
               {deviceInfos.map((item, index) => (
-                <li key={index} className="record">
+                <li
+                  key={index}
+                  className={`record ${item.barcode === lastSelectedDeviceInfos.barcode ? 'cw_on' : ''}`}
+                >
                   <div className="cw_prdcard">
                     <div>
                       <strong className="cw_prdtype">
