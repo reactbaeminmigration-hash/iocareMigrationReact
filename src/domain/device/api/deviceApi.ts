@@ -13,6 +13,10 @@ import type {
   RequestProdStandInfo,
   ResponseProdStandInfo,
 } from '../types/prodStandInfo.types';
+import type {
+  RequestDeviceConn,
+  ResponseDeviceConn,
+} from '../types/deviceConn.types';
 
 // DeviceInfos 조회
 const getDeviceInfos = async (
@@ -44,4 +48,19 @@ const getProdStandInfo = async (
   return data.data;
 };
 
-export { getDeviceInfos, getLatestUpdated, getProdStandInfo };
+// 제품 연결 조회
+const getDeviceConnection = async (
+  params: RequestDeviceConn,
+): Promise<ResponseDeviceConn> => {
+  const { data } = await axiosInstance.get<ApiResponse<ResponseDeviceConn>>(
+    `/v1/com/devices-conn?${buildGenericQueryString(params)}`,
+  );
+  return data.data;
+};
+
+export {
+  getDeviceInfos,
+  getLatestUpdated,
+  getProdStandInfo,
+  getDeviceConnection,
+};

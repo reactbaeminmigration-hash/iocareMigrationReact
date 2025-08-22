@@ -18,7 +18,11 @@ export default function WaterSterCard() {
           <dl className="sterilization_time schedule">
             <dt>{t('HIDDEN.STER_NEXT_TIME')}</dt>
             {/* <dd>{fausetList[0].fsNextSterTime}</dd> 살균 예정 시간 */}
-            <dd>{t('HIDDEN.FAUSET_STER_NO_DATA')}</dd>
+            <dd
+              dangerouslySetInnerHTML={{
+                __html: t('HIDDEN.FAUSET_STER_NO_DATA'),
+              }}
+            ></dd>
           </dl>
           {/* <p class="cw_noti_msg01" *ngIf="(isHidden || isIcon40 || isIcon20 || isAisMax || isIconIceV2) && (fausetList === undefined || fausetList.length === 0)" [innerHTML]="'HIDDEN.DATA_FAIL' | translate"></p> */}
         </div>
