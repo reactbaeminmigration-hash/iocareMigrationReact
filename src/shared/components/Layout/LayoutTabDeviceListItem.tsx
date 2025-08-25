@@ -5,6 +5,7 @@ import type { DeviceInfo } from '@/domain/device/types/device.types';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../Button';
+import { useSidebar } from '@/shared/hooks/useSidebar';
 
 interface LayoutTabDeviceListItemProps {
   item: DeviceInfo;
@@ -29,6 +30,7 @@ export const LayoutTabDeviceListItem = ({
   const { isFetched, data, isSuccess, isLoading } = useGetDeviceConn({
     deviceList,
   });
+  const { toggle } = useSidebar();
   // const deviceInfos = useDeviceStore((deviceStore) => deviceStore.deviceInfos);
 
   useEffect(() => {
@@ -80,6 +82,7 @@ export const LayoutTabDeviceListItem = ({
         className="cw_btn_detail01 cw_st02 selectProdBtn"
         onClick={() => {
           setLastSelectedDeviceInfos(item);
+          toggle();
           navigate(`/${getDvcTypeRoute(index)}`);
         }}
       >

@@ -10,9 +10,9 @@ export function useSidebar() {
       setCls('cw_show');
     } else {
       setCls('cw_close');
-      setTimeout(() => {
-        setCls('');
-      }, 300);
+      // setTimeout(() => {
+      //   setCls('');
+      // }, 300);
     }
   }, [isSideBarOpen]);
 
