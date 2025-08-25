@@ -2,7 +2,9 @@ import useGetDeviceInfosPaging from '@/domain/device/hooks/queries/useGetDeviceI
 import { useSidebar } from '@/shared/hooks/useSidebar';
 import { t } from 'i18next';
 import type React from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { Button } from '../Button';
+import { SkeletonList } from '../Skeleton/SkeletonList';
 import { LayoutTabDeviceListItem } from './LayoutTabDeviceListItem';
 
 export const SideBar = () => {
@@ -11,6 +13,7 @@ export const SideBar = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isLoading,
   } = useGetDeviceInfosPaging({ pageIndex: '0', pageSize: '10' });
   const handlendReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -27,6 +30,28 @@ export const SideBar = () => {
   };
 
   const { cls, toggle } = useSidebar();
+
+  const skeletonList = (count: number) => (
+    <SkeletonList count={count}>
+      {(index) => (
+        <li key={`skeleton-${index}`}>
+          <div className="cw_prdcard">
+            <div>
+              <strong className="cw_prdtype">
+                <Skeleton width={80} />
+              </strong>
+            </div>
+            <em className="cw_nick cw_breakword">
+              <Skeleton width={160} />
+            </em>
+            <div className="cw_statusico">
+              <Skeleton height={16} width={16} />
+            </div>
+          </div>
+        </li>
+      )}
+    </SkeletonList>
+  );
   return (
     <div className={`cw_sideWrap cwSide cwSideWrap ${cls}`}>
       <div className="cw_sidecont cwSide">
@@ -40,13 +65,27 @@ export const SideBar = () => {
         <div className="cw_contentsWrap" onScroll={handleScroll}>
           <div className="cw_prdlistWrap">
             <ul className="cw_myprdlist" id="cwMyprdList">
-              {posts?.pages.flat().map((item, index) => (
-                <LayoutTabDeviceListItem
-                  key={index}
-                  index={index}
-                  item={item}
-                />
-              ))}
+              {/* 제품 리스트 무한스크롤  */}
+              {
+                // 1. 첫 페이지 로딩 시: 스켈레톤 UI만 표시
+                isLoading ? (
+                  skeletonList(5)
+                ) : (
+                  // 첫 로딩
+                  <>
+                    {/* 제품 목록 */}
+                    {posts?.pages.flat().map((item, index) => (
+                      <LayoutTabDeviceListItem
+                        key={item.barcode || `device-${index}`}
+                        index={index}
+                        item={item}
+                      />
+                    ))}
+                    {/* 다음 페이지 로딩 스켈레톤 */}
+                    {isFetchingNextPage && skeletonList(5)}
+                  </>
+                )
+              }
               <li>
                 <Button className="cw_btn_reg">
                   <span>{t('BTN.REGIST')}</span>

@@ -36,8 +36,6 @@ function useGetDeviceInfosPaging(
       return allPages.length;
     },
     select: (data) => {
-      console.log(data);
-
       return {
         ...data,
         pages: data.pages.map((page) => page.deviceInfos),

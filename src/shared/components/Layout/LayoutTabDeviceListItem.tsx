@@ -40,9 +40,6 @@ export const LayoutTabDeviceListItem = ({
       (entries) => {
         const entry = entries[0];
         if (entry.isIntersecting) {
-          console.log('보이네');
-          console.log(data);
-          console.log(data?.[0]?.netStatus);
           setDeviceNetStatus(data?.[0]?.netStatus ?? false);
 
           observer.current?.disconnect(); // 한 번만 체크
