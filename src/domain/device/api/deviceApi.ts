@@ -57,7 +57,7 @@ const getDeviceConn = async (
     strArr.push(item.devIds);
   }
   const { data } = await axiosInstance.get<ApiResponse<ResponseDeviceConn>>(
-    `/v1/com/devices-conn?${strArr}`,
+    `/v1/com/devices-conn?devIds=${strArr}`,
   );
   return data.data;
 };

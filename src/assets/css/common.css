@@ -2007,9 +2007,14 @@ input[type='checkbox'].type03:checked {
   position: relative;
   min-height: 58px !important;
 }
+.cw_cont_loading_tabDeviceLogingState {
+  position: relative;
+  /* min-height: 73px !important; */
+}
 .cw_cont_loading:after,
 .cw_cont_loading_gnb:after,
-.cw_cont_loading_notice:after {
+.cw_cont_loading_notice:after,
+.cw_cont_loading_tabDeviceLogingState:after {
   content: 'loading contents';
   position: absolute;
   left: 50%;
@@ -2027,7 +2032,8 @@ input[type='checkbox'].type03:checked {
 }
 .cw_cont_loading *,
 .cw_cont_loading_gnb *,
-.cw_cont_loading_notice * {
+.cw_cont_loading_notice *,
+.cw_cont_loading_tabDeviceLogingState * {
   opacity: 0;
 }
 .cw_graph_area .cw_cont_loading {

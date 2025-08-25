@@ -13,4 +13,4 @@ export type RequestDeviceConn = {
 export type ResponseDeviceConn = {
   devId: string;
   netStatus: boolean;
-};
+}[];

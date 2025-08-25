@@ -6,9 +6,8 @@ import WaterUsageCard from '../components/WaterUsageCard';
 
 export const WaterHomePage = () => {
   const devId = useDeviceStore.getState().lastSelectedDeviceInfos.barcode;
-  const { data: ResponseDeviceConn } = useGetDeviceConn({
-    devIds: devId,
-  });
+  const deviceList = [{ devIds: devId }];
+  const { data: ResponseDeviceConn } = useGetDeviceConn({ deviceList });
 
   return (
     <div className="cw_contentsWrap">

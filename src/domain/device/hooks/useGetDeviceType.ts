@@ -34,5 +34,20 @@ export function useGetDeviceType() {
     return userComType?.class;
   };
 
-  return { getDvcTypeRoute, getDvcTypeName, getDvcComType };
+  const getDvcWifiNetState = (dvcComType: string, deviceNetStatus: boolean) => {
+    let netStatus = '';
+    if (dvcComType == 'WIFI' && deviceNetStatus) {
+      netStatus = 'cw_on';
+    } else if (dvcComType == 'WIFI' && !deviceNetStatus) {
+      netStatus = 'cw_off';
+    }
+    return netStatus;
+  };
+
+  return {
+    getDvcTypeRoute,
+    getDvcTypeName,
+    getDvcComType,
+    getDvcWifiNetState,
+  };
 }
