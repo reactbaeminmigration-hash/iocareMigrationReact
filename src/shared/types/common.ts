@@ -1,6 +1,7 @@
 import type { resources } from '@/core/i18n/i18n';
 import {
   type QueryKey,
+  type UseInfiniteQueryOptions,
   type UseMutationOptions,
   type UseQueryOptions,
 } from '@tanstack/react-query';
@@ -29,6 +30,21 @@ type UseQueryCustomOptions<TQueryFnData = unknown, TData = TQueryFnData> = Omit<
   'queryKey' | 'queryFn'
 >;
 
+type UseInfiniteQueryCustomOptions<
+  TQueryFnData = unknown,
+  TData = TQueryFnData,
+  TPageParam = unknown,
+> = Omit<
+  UseInfiniteQueryOptions<
+    TQueryFnData,
+    ResponseError,
+    TData,
+    QueryKey,
+    TPageParam
+  >,
+  'queryKey' | 'queryFn'
+>;
+
 // 1. 중첩된 객체에서 최종 값(leaf)에 해당하는 경로만 추출하는 헬퍼 타입입니다.
 type DotSeparatedLeafKeys<T> = {
   // T의 모든 키(K)에 대해 반복합니다.
@@ -46,6 +62,7 @@ export type {
   ApiResponse,
   ResponseError,
   TranslationKey,
+  UseInfiniteQueryCustomOptions,
   UseMutationCustomOptions,
   UseQueryCustomOptions,
 };

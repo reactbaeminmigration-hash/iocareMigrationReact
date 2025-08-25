@@ -2,6 +2,10 @@ import axiosInstance from '@/core/api/axios';
 import type { ApiResponse } from '@/shared/types/common';
 import buildGenericQueryString from '@/shared/utils/queryString';
 import type {
+  RequestDeviceConn,
+  ResponseDeviceConn,
+} from '../types/deviceConn.types';
+import type {
   RequestDeviceInfos,
   ResponseDeviceInfos,
 } from '../types/deviceInfos.types';
@@ -13,10 +17,6 @@ import type {
   RequestProdStandInfo,
   ResponseProdStandInfo,
 } from '../types/prodStandInfo.types';
-import type {
-  RequestDeviceConn,
-  ResponseDeviceConn,
-} from '../types/deviceConn.types';
 
 // DeviceInfos 조회
 const getDeviceInfos = async (
@@ -48,19 +48,18 @@ const getProdStandInfo = async (
   return data.data;
 };
 
-// 제품 연결 조회
-const getDeviceConnection = async (
+// 디바이스 연결 정보 조회
+const getDeviceConn = async (
   params: RequestDeviceConn,
 ): Promise<ResponseDeviceConn> => {
+  let strArr = [];
+  for (let item of params.deviceList) {
+    strArr.push(item.devIds);
+  }
   const { data } = await axiosInstance.get<ApiResponse<ResponseDeviceConn>>(
-    `/v1/com/devices-conn?${buildGenericQueryString(params)}`,
+    `/v1/com/devices-conn?${strArr}`,
   );
   return data.data;
 };
 
-export {
-  getDeviceInfos,
-  getLatestUpdated,
-  getProdStandInfo,
-  getDeviceConnection,
-};
+export { getDeviceConn, getDeviceInfos, getLatestUpdated, getProdStandInfo };

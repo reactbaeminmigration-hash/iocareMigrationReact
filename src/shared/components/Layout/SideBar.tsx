@@ -1,18 +1,32 @@
-import { t } from 'i18next';
-import { Button } from '../Button';
+import useGetDeviceInfosPaging from '@/domain/device/hooks/queries/useGetDeviceInfosPaging';
 import { useSidebar } from '@/shared/hooks/useSidebar';
-import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
-import { useGetDeviceType } from '@/domain/device/hooks/useGetDeviceType';
-import { useNavigate } from 'react-router-dom';
+import { t } from 'i18next';
+import type React from 'react';
+import { Button } from '../Button';
+import { LayoutTabDeviceListItem } from './LayoutTabDeviceListItem';
 
 export const SideBar = () => {
-  const { cls, toggle } = useSidebar();
-  const navigate = useNavigate();
-  const deviceInfos = useDeviceStore((deviceStore) => deviceStore.deviceInfos);
-  const { setLastSelectedDeviceInfos, lastSelectedDeviceInfos } =
-    useDeviceStore();
-  const { getDvcTypeName, getDvcComType, getDvcTypeRoute } = useGetDeviceType();
+  const {
+    data: posts,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetDeviceInfosPaging({ pageIndex: '0', pageSize: '10' });
+  const handlendReached = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
 
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
+
+    if (scrollHeight - scrollTop - clientHeight < 100) {
+      handlendReached();
+    }
+  };
+
+  const { cls, toggle } = useSidebar();
   return (
     <div className={`cw_sideWrap cwSide cwSideWrap ${cls}`}>
       <div className="cw_sidecont cwSide">
@@ -23,38 +37,15 @@ export const SideBar = () => {
           </Button>
         </div>
 
-        <div className="cw_contentsWrap">
+        <div className="cw_contentsWrap" onScroll={handleScroll}>
           <div className="cw_prdlistWrap">
             <ul className="cw_myprdlist" id="cwMyprdList">
-              {deviceInfos.map((item, index) => (
-                <li
+              {posts?.pages.flat().map((item, index) => (
+                <LayoutTabDeviceListItem
                   key={index}
-                  className={`record ${item.barcode === lastSelectedDeviceInfos.barcode ? 'cw_on' : ''}`}
-                >
-                  <div className="cw_prdcard">
-                    <div>
-                      <strong className="cw_prdtype">
-                        {getDvcTypeName(item.dvcTypeCd)}
-                      </strong>
-                    </div>
-                    <em className="cw_nick cw_breakword">
-                      <span>{item.dvcNick}</span>
-                    </em>
-                    <div className="cw_statusico">
-                      <em className={`${getDvcComType(item.comType)} `}></em>
-                    </div>
-                  </div>
-                  <Button
-                    className="cw_btn_detail01 cw_st02 selectProdBtn"
-                    onClick={() => {
-                      toggle();
-                      setLastSelectedDeviceInfos(item);
-                      navigate(`/${getDvcTypeRoute(index)}`);
-                    }}
-                  >
-                    <span>select product</span>
-                  </Button>
-                </li>
+                  index={index}
+                  item={item}
+                />
               ))}
               <li>
                 <Button className="cw_btn_reg">
