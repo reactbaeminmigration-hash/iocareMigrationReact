@@ -1,4 +1,5 @@
 import useGetDeviceInfosPaging from '@/domain/device/hooks/queries/useGetDeviceInfosPaging';
+import { useUserStore } from '@/domain/user/stores/useUserStore';
 import { useSidebar } from '@/shared/hooks/useSidebar';
 import { t } from 'i18next';
 import type React from 'react';
@@ -15,6 +16,7 @@ export const SideBar = () => {
     isFetchingNextPage,
     isLoading,
   } = useGetDeviceInfosPaging({ pageIndex: '0', pageSize: '10' });
+  const { setStartingStep } = useUserStore();
   const handlendReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -30,7 +32,7 @@ export const SideBar = () => {
   };
 
   const { cls, toggle } = useSidebar();
-
+  // 스켈레톤 리스트
   const skeletonList = (count: number) => (
     <SkeletonList count={count}>
       {(index) => (
@@ -57,7 +59,13 @@ export const SideBar = () => {
       <div className="cw_sidecont cwSide">
         <div className="cw_titWrap">
           <h1 className="cw_tit">{t('CON.MY_PRODUCT')}</h1>
-          <Button className="cw_btn_close" onClick={toggle}>
+          <Button
+            className="cw_btn_close"
+            onClick={() => {
+              toggle();
+              setStartingStep(true);
+            }}
+          >
             <span>Close</span>
           </Button>
         </div>

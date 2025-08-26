@@ -3,6 +3,8 @@ import { devtools, persist } from 'zustand/middleware';
 import type { UserDataInfo } from '../types/userInfo.types';
 
 interface UserState {
+  isStartingStep: boolean;
+  setStartingStep: (isStartingStep: boolean) => void;
   accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
@@ -28,6 +30,9 @@ export const useUserStore = create<UserState>()(
   devtools(
     persist(
       (set) => ({
+        isStartingStep: false,
+        setStartingStep: (isStartingStep) =>
+          set({ isStartingStep: isStartingStep }),
         accessToken: null,
         refreshToken: null,
         isAuthenticated: false,

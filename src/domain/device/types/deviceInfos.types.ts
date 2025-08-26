@@ -7,4 +7,5 @@ export interface RequestDeviceInfos {
 
 export interface ResponseDeviceInfos {
   deviceInfos: DeviceInfo[];
+  isInitialData?: boolean; // 최초 플래그 추가
 }

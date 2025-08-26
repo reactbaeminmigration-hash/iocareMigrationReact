@@ -2,10 +2,10 @@ import useGetDeviceConn from '@/domain/device/hooks/queries/useGetDeviceConn';
 import { useGetDeviceType } from '@/domain/device/hooks/useGetDeviceType';
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import type { DeviceInfo } from '@/domain/device/types/device.types';
+import { useSidebar } from '@/shared/hooks/useSidebar';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../Button';
-import { useSidebar } from '@/shared/hooks/useSidebar';
 
 interface LayoutTabDeviceListItemProps {
   item: DeviceInfo;
@@ -16,49 +16,59 @@ export const LayoutTabDeviceListItem = ({
   item,
   index,
 }: LayoutTabDeviceListItemProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const observer = useRef<IntersectionObserver | null>(null);
-  const [deviceNetStatus, setDeviceNetStatus] = useState(false);
+  const ref = useRef<HTMLLIElement>(null);
+  const [inView, setInView] = useState(false);
 
+  const [deviceNetStatus, setDeviceNetStatus] = useState(false);
   const navigate = useNavigate();
 
   const { setLastSelectedDeviceInfos, lastSelectedDeviceInfos } =
     useDeviceStore();
   const { getDvcTypeName, getDvcComType, getDvcTypeRoute, getDvcWifiNetState } =
     useGetDeviceType();
+
   const deviceList = [{ devIds: item.barcode }];
-  const { isFetched, data, isSuccess, isLoading } = useGetDeviceConn({
-    deviceList,
-  });
+  const { data, isLoading } = useGetDeviceConn(
+    {
+      deviceList,
+    },
+    {
+      enabled: inView,
+    },
+  );
   const { toggle } = useSidebar();
-  // const deviceInfos = useDeviceStore((deviceStore) => deviceStore.deviceInfos);
 
   useEffect(() => {
-    if (!ref.current) return;
+    const element = ref.current;
+    if (!element) return;
 
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
+    const observer = new IntersectionObserver(
+      ([entry]) => {
         if (entry.isIntersecting) {
-          setDeviceNetStatus(data?.[0]?.netStatus ?? false);
-
-          observer.current?.disconnect(); // 한 번만 체크
+          setInView(true);
+          observer.disconnect(); // 한 번만 체크
         }
       },
       { threshold: 0.1 },
     );
 
-    observer.current.observe(ref.current);
+    observer.observe(element);
 
-    return () => observer.current?.disconnect();
-  }, [item, isFetched, isSuccess]);
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    if (data) {
+      setDeviceNetStatus(data[0]?.netStatus ?? false);
+    }
+  }, [data]);
 
   return (
     <li
+      ref={ref}
       key={index}
       className={`record ${item.barcode === lastSelectedDeviceInfos.barcode ? 'cw_on' : ''}`}
     >
-      <div ref={ref} className="cw_prdcard">
+      <div className="cw_prdcard">
         <div>
           <strong className="cw_prdtype">
             {getDvcTypeName(item.dvcTypeCd)}
