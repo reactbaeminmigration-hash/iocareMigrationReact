@@ -14,6 +14,9 @@ function useGetDeviceConn(
   return useQuery({
     queryKey: [queryKeys.DEVICE, queryKeys.GET_DEVICE_CONN, params],
     queryFn: () => getDeviceConn(params),
+    meta: {
+      showGlobalSpinner: false,
+    },
     ...queryOptions,
   });
 }

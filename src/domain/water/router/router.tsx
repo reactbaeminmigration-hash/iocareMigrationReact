@@ -1,9 +1,17 @@
-import { Navigate } from 'react-router-dom';
+import { deviceLoader } from '@/domain/device/api/deviceLoader';
+import { Navigate, type ShouldRevalidateFunctionArgs } from 'react-router-dom';
 import { routerPath } from './routerPath';
 
 export const WaterRoutes = [
   {
     path: routerPath.path,
+    loader: deviceLoader,
+    shouldRevalidate: ({
+      currentUrl,
+      nextUrl,
+    }: ShouldRevalidateFunctionArgs) => {
+      return currentUrl.pathname !== nextUrl.pathname;
+    },
     children: [
       {
         index: true,

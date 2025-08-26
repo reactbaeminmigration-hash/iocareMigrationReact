@@ -1,5 +1,4 @@
 import { decodeToken } from '@/core/auth/utils/jwtDecode';
-import { useSpiner } from '@/shared/hooks/useSpiner';
 import { setHeader } from '@/shared/utils/header';
 import type { JwtPayload } from 'jwt-decode';
 import { useUserStore } from '../stores/useUserStore';
@@ -19,14 +18,12 @@ function isAuthMessageData(data: any): data is AuthMessageData {
 export function useLogin() {
   const { getTokenMutation, loginMutation } = useAuth();
   // const { setDeviceInfos } = useDeviceStore();
-  const { accessToken, refreshToken, setAuthTokens, setUserInfo } = useUserStore();
-  const { showSpiner, hideSpiner } = useSpiner();
+  const { accessToken, refreshToken, setAuthTokens, setUserInfo } =
+    useUserStore();
 
   // 인증 진행 후 토큰 발급 최종 사용자 정보로 로그인
   const login = async (code: string | null) => {
     try {
-      showSpiner();
-
       if (code) {
         const getTokenData = await getTokenMutation.mutateAsync({
           authCode: code,
@@ -64,7 +61,6 @@ export function useLogin() {
       setUserInfo(userDataInfo);
     } catch (error: any) {
       alert(`로그인 실패: ${error.message || '알 수 없는 오류'}`);
-      hideSpiner();
     }
   };
 

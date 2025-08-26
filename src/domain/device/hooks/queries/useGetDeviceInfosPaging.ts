@@ -37,6 +37,10 @@ function useGetDeviceInfosPaging(
       };
       return getDeviceInfos(params);
     },
+    meta: {
+      // 이 쿼리는 전역 스피너를 표시하지 않겠다는 의미의 꼬리표입니다.
+      showGlobalSpinner: false,
+    },
     queryKey: [
       queryKeys.DEVICE,
       queryKeys.GET_DEVICE_INFOS_PAGING,

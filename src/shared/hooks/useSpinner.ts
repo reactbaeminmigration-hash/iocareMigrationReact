@@ -1,15 +1,15 @@
 import { useLoadingStore } from '../stores/loadingStore';
 
-export function useSpiner() {
+export function useSpinner() {
   const { setLoading } = useLoadingStore();
-  const hideSpiner = () => {
+  const hideSpinner = () => {
     setLoading(false);
   };
-  const showSpiner = () => {
+  const showSpinner = () => {
     setLoading(true);
   };
   return {
-    hideSpiner,
-    showSpiner,
+    hideSpinner,
+    showSpinner,
   };
 }

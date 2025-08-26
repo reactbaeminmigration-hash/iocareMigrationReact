@@ -1,6 +1,6 @@
 import { decodeToken } from '@/core/auth/utils/jwtDecode';
 import { useGetDeviceType } from '@/domain/device/hooks/useGetDeviceType';
-import { useSpiner } from '@/shared/hooks/useSpiner';
+import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { isResponseError } from '@/shared/utils/error.utils';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,11 +8,9 @@ import { LoginActions } from '../components/LoginActions';
 import { LoginHeader } from '../components/LoginHeader';
 import { LoginSwiper } from '../components/LoginSwiper';
 import { useUserStore } from '../stores/useUserStore';
-import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 
 export const LoginPage = () => {
   const { accessToken, isInitialDataLoaded, error, setError } = useUserStore();
-  const { hideSpiner } = useSpiner();
   const navigate = useNavigate();
   const { getDvcTypeRoute } = useGetDeviceType();
   const route = useDeviceStore(
@@ -21,14 +19,12 @@ export const LoginPage = () => {
   // 초기 데이터 로딩이 완료되면, 스피너를 숨기고 메인 페이지로 이동시킵니다.
   useEffect(() => {
     if (isInitialDataLoaded) {
-      hideSpiner();
       navigate('/' + getDvcTypeRoute(route));
     }
   }, [isInitialDataLoaded, navigate]);
 
   useEffect(() => {
     if (error) {
-      hideSpiner();
       if (isResponseError(error)) {
         alert(error.response?.data.message);
       } else {
