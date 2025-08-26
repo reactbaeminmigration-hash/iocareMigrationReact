@@ -8,18 +8,21 @@ import { LoginActions } from '../components/LoginActions';
 import { LoginHeader } from '../components/LoginHeader';
 import { LoginSwiper } from '../components/LoginSwiper';
 import { useUserStore } from '../stores/useUserStore';
+import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 
 export const LoginPage = () => {
   const { accessToken, isInitialDataLoaded, error, setError } = useUserStore();
   const { hideSpiner } = useSpiner();
   const navigate = useNavigate();
   const { getDvcTypeRoute } = useGetDeviceType();
+  const route = useDeviceStore(
+    (state) => state.lastSelectedDeviceInfos?.dvcTypeCd,
+  );
   // 초기 데이터 로딩이 완료되면, 스피너를 숨기고 메인 페이지로 이동시킵니다.
   useEffect(() => {
     if (isInitialDataLoaded) {
       hideSpiner();
-      console.log('/' + getDvcTypeRoute(0));
-      navigate('/' + getDvcTypeRoute(0));
+      navigate('/' + getDvcTypeRoute(route!));
     }
   }, [isInitialDataLoaded, navigate]);
 

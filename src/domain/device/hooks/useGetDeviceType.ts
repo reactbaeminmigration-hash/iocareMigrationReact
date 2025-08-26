@@ -1,5 +1,3 @@
-import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
-
 const dvcCode = [
   { code: '001', route: 'water', type: '정수기' },
   { code: '002', route: 'bidet', type: '비데' },
@@ -15,13 +13,8 @@ const dvcComCode = [
 ];
 
 export function useGetDeviceType() {
-  const deviceInfos = useDeviceStore((state) => state.deviceInfos);
-
-  const getDvcTypeRoute = (index: number) => {
-    const userDevice = dvcCode.find(
-      (value) => value.code === deviceInfos[index].dvcTypeCd,
-    );
-    return userDevice?.route;
+  const getDvcTypeRoute = (dvcRoute: string) => {
+    return dvcCode.find((value) => value.code === dvcRoute)?.route;
   };
 
   const getDvcTypeName = (dvcTypeCd: string) => {

@@ -66,7 +66,7 @@ export const LayoutTabDeviceListItem = ({
     <li
       ref={ref}
       key={index}
-      className={`record ${item.barcode === lastSelectedDeviceInfos.barcode ? 'cw_on' : ''}`}
+      className={`record ${item.barcode === lastSelectedDeviceInfos?.barcode ? 'cw_on' : ''}`}
     >
       <div className="cw_prdcard">
         <div>
@@ -90,7 +90,7 @@ export const LayoutTabDeviceListItem = ({
         onClick={() => {
           setLastSelectedDeviceInfos(item);
           toggle();
-          navigate(`/${getDvcTypeRoute(index)}`);
+          navigate(`/${getDvcTypeRoute(item.dvcTypeCd)}`);
         }}
       >
         <span>select product</span>

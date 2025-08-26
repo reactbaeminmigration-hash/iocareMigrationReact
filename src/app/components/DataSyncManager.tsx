@@ -15,6 +15,7 @@ export const DataSyncManager = () => {
     latestUpdatedAt,
     setLatestUpdatedAt,
     setLastSelectedDeviceInfos,
+    lastSelectedDeviceInfos,
   } = useDeviceStore();
   // user스토어 조회
   const { userInfo, isAuthenticated, setInitialDataLoaded, setError } =
@@ -69,7 +70,9 @@ export const DataSyncManager = () => {
     if (ResponseDeviceInfos && isDeviceInfosSuccess) {
       console.log('ResponseDeviceInfos 패칭 완료:', ResponseDeviceInfos);
       setDeviceInfos(ResponseDeviceInfos.deviceInfos);
-      setLastSelectedDeviceInfos(ResponseDeviceInfos.deviceInfos[0]);
+      if (!lastSelectedDeviceInfos?.barcode) {
+        setLastSelectedDeviceInfos(ResponseDeviceInfos.deviceInfos[0]);
+      }
     }
   }, [ResponseDeviceInfos, isDeviceInfosSuccess]);
   // LatestUpdated 데이터 패칭 성공 시 처리

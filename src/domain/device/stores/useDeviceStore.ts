@@ -18,7 +18,7 @@ interface DeviceState {
   setCategoryInfo: (categoryInfo: CategoryInfo) => void;
   regionInfos: RegionInfos;
   setRegionInfos: (regionInfos: RegionInfos) => void;
-  lastSelectedDeviceInfos: DeviceInfo;
+  lastSelectedDeviceInfos: DeviceInfo | null;
   setLastSelectedDeviceInfos: (lastSelectedDeviceInfos: DeviceInfo) => void;
 }
 
@@ -61,7 +61,7 @@ export const useDeviceStore = create<DeviceState>()(
         regionInfos: {},
         setRegionInfos: (regionInfos) =>
           set({ regionInfos }, false, 'set_region_infos' as DeviceActionType),
-        lastSelectedDeviceInfos: {} as DeviceInfo,
+        lastSelectedDeviceInfos: null,
         setLastSelectedDeviceInfos: (lastSelectedDeviceInfos) =>
           set(
             { lastSelectedDeviceInfos },
@@ -71,7 +71,10 @@ export const useDeviceStore = create<DeviceState>()(
       }),
       {
         name: 'device-storage',
-        partialize: (state) => ({ latestUpdatedAt: state.latestUpdatedAt }),
+        partialize: (state) => ({
+          latestUpdatedAt: state.latestUpdatedAt,
+          lastSelectedDeviceInfos: state.lastSelectedDeviceInfos,
+        }),
       },
     ),
     { name: 'DeviceStore' },
