@@ -70,7 +70,7 @@ export const DataSyncManager = () => {
     if (ResponseDeviceInfos && isDeviceInfosSuccess) {
       console.log('ResponseDeviceInfos 패칭 완료:', ResponseDeviceInfos);
       setDeviceInfos(ResponseDeviceInfos.deviceInfos);
-      if (!lastSelectedDeviceInfos?.barcode) {
+      if (!lastSelectedDeviceInfos.barcode) {
         setLastSelectedDeviceInfos(ResponseDeviceInfos.deviceInfos[0]);
       }
     }

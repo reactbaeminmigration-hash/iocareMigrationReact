@@ -66,7 +66,7 @@ export const LayoutTabDeviceListItem = ({
     <li
       ref={ref}
       key={index}
-      className={`record ${item.barcode === lastSelectedDeviceInfos?.barcode ? 'cw_on' : ''}`}
+      className={`record ${item.barcode === lastSelectedDeviceInfos.barcode ? 'cw_on' : ''}`}
     >
       <div className="cw_prdcard">
         <div>

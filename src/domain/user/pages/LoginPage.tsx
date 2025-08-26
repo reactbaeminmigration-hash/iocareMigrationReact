@@ -22,7 +22,7 @@ export const LoginPage = () => {
   useEffect(() => {
     if (isInitialDataLoaded) {
       hideSpiner();
-      navigate('/' + getDvcTypeRoute(route!));
+      navigate('/' + getDvcTypeRoute(route));
     }
   }, [isInitialDataLoaded, navigate]);
 

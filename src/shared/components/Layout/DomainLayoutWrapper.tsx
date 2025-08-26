@@ -9,7 +9,7 @@ export const DomainLayoutWrapper = () => {
   const route = useDeviceStore(
     (state) => state.lastSelectedDeviceInfos?.dvcTypeCd,
   );
-  const domain = `/${getDvcTypeRoute(route!)}`;
+  const domain = `/${getDvcTypeRoute(route)}`;
 
   return <Layout tabs={tabs} domain={domain} />;
 };
