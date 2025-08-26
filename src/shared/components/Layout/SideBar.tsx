@@ -1,28 +1,35 @@
+import { queryKeys } from '@/domain/device/constants/queryKey';
 import useGetDeviceInfosPaging from '@/domain/device/hooks/queries/useGetDeviceInfosPaging';
-import { useUserStore } from '@/domain/user/stores/useUserStore';
 import { useSidebar } from '@/shared/hooks/useSidebar';
+import { useSideBarStore } from '@/shared/stores/sidebarStore';
+import { useQueryClient } from '@tanstack/react-query';
 import { t } from 'i18next';
 import type React from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Button } from '../Button';
 import { SkeletonList } from '../Skeleton/SkeletonList';
 import { LayoutTabDeviceListItem } from './LayoutTabDeviceListItem';
 
 export const SideBar = () => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const queryClient = useQueryClient();
+  const initialParams = useMemo(() => ({ pageIndex: '0', pageSize: '10' }), []);
+  const { isSideBarOpen } = useSideBarStore();
+  const { cls, toggle } = useSidebar();
   const {
     data: posts,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-  } = useGetDeviceInfosPaging({ pageIndex: '0', pageSize: '10' });
-  const { setStartingStep } = useUserStore();
+  } = useGetDeviceInfosPaging(initialParams);
+
   const handlendReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
   };
-
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
 
@@ -31,7 +38,24 @@ export const SideBar = () => {
     }
   };
 
-  const { cls, toggle } = useSidebar();
+  useEffect(() => {
+    if (isSideBarOpen) {
+      queryClient.resetQueries({
+        queryKey: [
+          queryKeys.DEVICE,
+          queryKeys.GET_DEVICE_INFOS_PAGING,
+          initialParams,
+        ],
+      });
+      console.log('open?');
+      setTimeout(() => {
+        if (scrollContainerRef.current) {
+          scrollContainerRef.current.scrollTop = 0;
+        }
+      }, 0);
+    }
+  }, [isSideBarOpen]);
+
   // 스켈레톤 리스트
   const skeletonList = (count: number) => (
     <SkeletonList count={count}>
@@ -63,14 +87,17 @@ export const SideBar = () => {
             className="cw_btn_close"
             onClick={() => {
               toggle();
-              setStartingStep(true);
             }}
           >
             <span>Close</span>
           </Button>
         </div>
 
-        <div className="cw_contentsWrap" onScroll={handleScroll}>
+        <div
+          ref={scrollContainerRef}
+          className="cw_contentsWrap"
+          onScroll={handleScroll}
+        >
           <div className="cw_prdlistWrap">
             <ul className="cw_myprdlist" id="cwMyprdList">
               {/* 제품 리스트 무한스크롤  */}
