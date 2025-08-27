@@ -2,11 +2,11 @@ import { t } from 'i18next';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts, { type AxisLabelsFormatterContextObject } from 'highcharts';
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
-import useGetWaterUsageDaily from '../queries/useGetWaterUsageDaily';
+import useGetWaterUsage from '../queries/useGetWaterUsage';
 
 export default function WaterUsageCard() {
   const waterHomeInfos = useDeviceStore((s) => s.lastSelectedDeviceInfos);
-  const { data: waterUsage } = useGetWaterUsageDaily(
+  const { data: waterUsage } = useGetWaterUsage(
     {
       devId: waterHomeInfos.barcode,
       comType: waterHomeInfos.comType,

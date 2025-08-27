@@ -19,7 +19,7 @@ type WaterUsageDailySelected = {
   usageToday: number;
 };
 
-function useGetWaterUsageDaily(
+function useGetWaterUsage(
   params: RequestWaterHome,
   queryOptions?: UseQueryCustomOptions<
     ResponseWaterHome,
@@ -47,4 +47,4 @@ function useGetWaterUsageDaily(
   });
 }
 
-export default useGetWaterUsageDaily;
+export default useGetWaterUsage;
