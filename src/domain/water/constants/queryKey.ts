@@ -1,6 +1,6 @@
 const queryKeys = {
   WATER: 'water',
-  GET_WATER_HOME_INFOS: 'getWaterHomeInfos',
+  GET_WATER_USAGE: 'getWaterUsage',
 } as const;
 
 export { queryKeys };

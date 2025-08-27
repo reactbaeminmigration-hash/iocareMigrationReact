@@ -1,46 +1,52 @@
-import type { watUsageDaily } from './watUsageDaily';
-
 export interface RequestWaterHome {
-  devId: String;
-  comType: String;
-  orderNo: String;
-  prodName: String;
-  resetDttm: String;
-  sellType: String;
-  membershipYn: String;
-  selfYn: String;
+  devId: string;
+  comType: string;
+  orderNo: string;
+  prodName: string;
+  resetDttm: string;
+  sellType: string;
+  membershipYn: string;
+  selfYn: string;
 }
 
 export interface ResponseWaterHome {
-  elapsedHeartServiceDate: String;
-  filterCycle: String;
-  filterCode: String;
-  filterRemainTime: String;
-  lastSterTime: String;
-  lastTagDate: String;
-  nextHeartService: String;
-  nextSterTime: String;
+  elapsedHeartServiceDate: string;
+  filterCycle: string;
+  filterCode: string;
+  filterRemainTime: string;
+  lastSterTime: string;
+  lastTagDate: string;
+  nextHeartService: string;
+  nextSterTime: string;
   nfcList: {
-    drinkAmt: Number;
+    drinkAmt: number;
     drinkCnt: number;
   }[];
-  prevMonthSterCount: Number;
-  replaceFilterSchedule: String;
-  watUsageDaily: watUsageDaily;
-  watUsageToday: Number;
+  prevMonthSterCount: number;
+  replaceFilterSchedule: string;
+  watUsageDaily: {
+    cleanWatList: number[];
+    coldWatList: number[];
+    dayList: string[];
+    hotWatList: number[];
+    manualWatList: number[];
+    sodaWatList: number[];
+    sumWatList: number[];
+  }[];
+  watUsageToday: number;
   euroList: {
-    erLastSterTime: String;
-    erNextSterTime: String;
+    erLastSterTime: string;
+    erNextSterTime: string;
   }[];
   fausetList: {
-    fsLastSterTime: String;
-    fsNextSterTime: String;
+    fsLastSterTime: string;
+    fsNextSterTime: string;
   }[];
   filterList: {
-    changeCycle: String;
-    filterCode: String;
-    filterName: String;
-    filterPer: Number;
-    lastChangeDate: String;
+    changeCycle: string;
+    filterCode: string;
+    filterName: string;
+    filterPer: number;
+    lastChangeDate: string;
   }[];
 }
