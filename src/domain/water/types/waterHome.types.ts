@@ -42,6 +42,13 @@ export interface ResponseWaterHome {
     fsLastSterTime: string;
     fsNextSterTime: string;
   }[];
+  icePsList: { iceFsLastSterTime: string; iceFsNextSterTime: string }[];
+  iceTankList: { iceTankLastSterTime: string; iceTankNextSterTime: string }[];
+  iceTankUvList: {
+    iceTankUvLastSterTime: string;
+    iceTankUvNextSterTime: string;
+  }[];
+  iceTrayList: { iceTrayLastSterTime: string; iceTrayNextSterTime: string }[];
   filterList: {
     changeCycle: string;
     filterCode: string;

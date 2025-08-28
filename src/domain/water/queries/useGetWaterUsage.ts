@@ -10,7 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getWaterHomeInfos } from '../api/waterApi';
 import { queryKeys } from '../constants/queryKey';
 
-type WaterUsageDailySelected = {
+type WaterUsageType = {
   dayList: string[];
   coldWatList: number[];
   cleanWatList: number[];
@@ -21,12 +21,9 @@ type WaterUsageDailySelected = {
 
 function useGetWaterUsage(
   params: RequestWaterHome,
-  queryOptions?: UseQueryCustomOptions<
-    ResponseWaterHome,
-    WaterUsageDailySelected
-  >,
+  queryOptions?: UseQueryCustomOptions<ResponseWaterHome, WaterUsageType>,
 ) {
-  return useQuery<ResponseWaterHome, ResponseError, WaterUsageDailySelected>({
+  return useQuery<ResponseWaterHome, ResponseError, WaterUsageType>({
     queryKey: [queryKeys.WATER, queryKeys.GET_WATER_USAGE, params],
     queryFn: () => getWaterHomeInfos(params),
     select(data) {
