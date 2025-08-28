@@ -6,7 +6,7 @@ export async function deviceLoader() {
     qureyClient.invalidateQueries({
       queryKey: [queryKeys.DEVICE, queryKeys.GET_DEVICE_INFOS],
     });
-    console.log('refetchDeviceData Success');
+
     return { success: true };
   } catch (error) {
     console.error('refetchDeviceData Error', error);

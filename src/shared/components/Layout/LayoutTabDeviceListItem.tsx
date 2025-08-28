@@ -18,6 +18,7 @@ export const LayoutTabDeviceListItem = ({
 }: LayoutTabDeviceListItemProps) => {
   const ref = useRef<HTMLLIElement>(null);
   const [inView, setInView] = useState(false);
+  const { isOpen } = useSidebar();
 
   const [deviceNetStatus, setDeviceNetStatus] = useState(false);
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export const LayoutTabDeviceListItem = ({
       deviceList,
     },
     {
-      enabled: inView,
+      enabled: inView && isOpen,
     },
   );
   const { toggle } = useSidebar();

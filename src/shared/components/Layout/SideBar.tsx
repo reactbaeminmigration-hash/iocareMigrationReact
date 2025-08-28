@@ -22,8 +22,10 @@ export const SideBar = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading,
+    isFetching,
   } = useGetDeviceInfosPaging(initialParams);
+
+  const isFetchingFirstPage = isFetching && !isFetchingNextPage;
 
   const handlendReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -47,7 +49,6 @@ export const SideBar = () => {
           initialParams,
         ],
       });
-      console.log('open?');
       setTimeout(() => {
         if (scrollContainerRef.current) {
           scrollContainerRef.current.scrollTop = 0;
@@ -103,7 +104,7 @@ export const SideBar = () => {
               {/* 제품 리스트 무한스크롤  */}
               {
                 // 1. 첫 페이지 로딩 시: 스켈레톤 UI만 표시
-                isLoading ? (
+                isFetchingFirstPage ? (
                   skeletonList(5)
                 ) : (
                   // 첫 로딩
