@@ -18,7 +18,6 @@ export const LayoutTabDeviceListItem = ({
 }: LayoutTabDeviceListItemProps) => {
   const ref = useRef<HTMLLIElement>(null);
   const [inView, setInView] = useState(false);
-  const { isOpen } = useSidebar();
 
   const [deviceNetStatus, setDeviceNetStatus] = useState(false);
   const navigate = useNavigate();
@@ -29,12 +28,12 @@ export const LayoutTabDeviceListItem = ({
     useGetDeviceType();
 
   const deviceList = [{ devIds: item.barcode }];
-  const { data, isLoading } = useGetDeviceConn(
+  const { data, isFetching } = useGetDeviceConn(
     {
       deviceList,
     },
     {
-      enabled: inView && isOpen,
+      enabled: inView,
     },
   );
   const { toggle } = useSidebar();
@@ -79,7 +78,7 @@ export const LayoutTabDeviceListItem = ({
           <span>{item.dvcNick}</span>
         </em>
         <div
-          className={`cw_statusico ${isLoading ? 'cw_cont_loading_tabDeviceLogingState' : ''}`}
+          className={`cw_statusico ${isFetching ? 'cw_cont_loading_tabDeviceLogingState' : ''}`}
         >
           <em
             className={`${getDvcComType(item.comType)} ${getDvcWifiNetState(item.comType, deviceNetStatus)}`}

@@ -22,10 +22,10 @@ export const SideBar = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isFetching,
+    isFetching: isDeviceInfoPagingFetching,
   } = useGetDeviceInfosPaging(initialParams);
 
-  const isFetchingFirstPage = isFetching && !isFetchingNextPage;
+  const isFetchingFirstPage = isDeviceInfoPagingFetching && !isFetchingNextPage;
 
   const handlendReached = () => {
     if (hasNextPage && !isFetchingNextPage) {
@@ -55,7 +55,7 @@ export const SideBar = () => {
         }
       }, 0);
     }
-  }, [isSideBarOpen]);
+  }, [isSideBarOpen, initialParams]);
 
   // 스켈레톤 리스트
   const skeletonList = (count: number) => (
@@ -99,41 +99,44 @@ export const SideBar = () => {
           className="cw_contentsWrap"
           onScroll={handleScroll}
         >
-          <div className="cw_prdlistWrap">
-            <ul className="cw_myprdlist" id="cwMyprdList">
-              {/* 제품 리스트 무한스크롤  */}
-              {
-                // 1. 첫 페이지 로딩 시: 스켈레톤 UI만 표시
-                isFetchingFirstPage ? (
-                  skeletonList(5)
-                ) : (
-                  // 첫 로딩
-                  <>
-                    {/* 제품 목록 */}
-                    {posts?.pages.flat().map((item, index) => (
-                      <LayoutTabDeviceListItem
-                        key={item.barcode || `device-${index}`}
-                        index={index}
-                        item={item}
-                      />
-                    ))}
-                    {/* 다음 페이지 로딩 스켈레톤 */}
-                    {isFetchingNextPage && skeletonList(5)}
-                  </>
-                )
-              }
-              <li>
-                <Button className="cw_btn_reg">
-                  <span>{t('BTN.REGIST')}</span>
+          {isSideBarOpen && (
+            <div className="cw_prdlistWrap">
+              <ul className="cw_myprdlist" id="cwMyprdList">
+                {/* 제품 리스트 무한스크롤  */}
+                {
+                  // 1. 첫 페이지 로딩 시: 스켈레톤 UI만 표시
+                  isFetchingFirstPage ? (
+                    skeletonList(10)
+                  ) : (
+                    // 첫 로딩
+                    <>
+                      {/* 제품 목록 */}
+                      {posts?.pages.flat().map((item, index) => (
+                        <LayoutTabDeviceListItem
+                          key={item.barcode || `device-${index}`}
+                          // key={Math.random()}
+                          index={index}
+                          item={item}
+                        />
+                      ))}
+                      {/* 다음 페이지 로딩 스켈레톤 */}
+                      {isFetchingNextPage && skeletonList(10)}
+                    </>
+                  )
+                }
+                <li>
+                  <Button className="cw_btn_reg">
+                    <span>{t('BTN.REGIST')}</span>
+                  </Button>
+                </li>
+              </ul>
+              <div className="cw_c_btn cw_edit">
+                <Button className="cw_btn_edit">
+                  <span>{t('BTN.EDIT_PRODUCT')}</span>
                 </Button>
-              </li>
-            </ul>
-            <div className="cw_c_btn cw_edit">
-              <Button className="cw_btn_edit">
-                <span>{t('BTN.EDIT_PRODUCT')}</span>
-              </Button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
       {/* <div className="cw_loadingWrap cw_st02">
