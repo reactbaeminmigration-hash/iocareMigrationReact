@@ -20,6 +20,7 @@ function useGetDeviceInfosPaging(
   const { deviceInfos } = useDeviceStore();
   const { isStartingStep } = useUserStore();
   return useInfiniteQuery({
+    refetchOnMount: false,
     enabled: isStartingStep, // 최초 진입 플래그
     initialData: {
       pages: [
