@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { DataSyncManager } from './app/components/DataSyncManager';
 import { NavigationLoadingIndicator } from './app/components/NavigationLoadingIndicator';
 import { AppInitializer } from './AppInitializer';
-import qureyClient from './core/api/queryClient';
+import queryClient from './core/api/queryClient';
 import { LoadingSpinner } from './shared/components/LoadingSpinner/LoadingSpinner';
 import { useLoadingStore } from './shared/stores/loadingStore';
 
@@ -17,7 +17,7 @@ export const App = () => {
 
   return (
     <>
-      <QueryClientProvider client={qureyClient}>
+      <QueryClientProvider client={queryClient}>
         <AppInitializer>
           <DataSyncManager />
           <NavigationLoadingIndicator />
