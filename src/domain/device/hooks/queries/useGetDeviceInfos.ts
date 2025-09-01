@@ -14,6 +14,7 @@ function useGetDeviceInfos(
   return useQuery({
     queryKey: [queryKeys.DEVICE, queryKeys.GET_DEVICE_INFOS, params],
     queryFn: () => getDeviceInfos(params),
+    // staleTime: 60 * 1000,
     ...queryOptions,
   });
 }
