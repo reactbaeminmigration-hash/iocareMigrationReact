@@ -1,36 +1,30 @@
 import { useSidebar } from '@/shared/hooks/useSidebar';
-import { useSideBarStore } from '@/shared/stores/sidebarStore';
 import { t } from 'i18next';
 import { Button } from '../Button';
 import { SideBarContent } from './SideBarContent';
+import { useCallback } from 'react';
 
 export const SideBar = () => {
-  const { cls, toggle } = useSidebar();
-  const { isSideBarOpen } = useSideBarStore();
+  const { cls, toggle, isOpen } = useSidebar();
+  const handleBackClick = useCallback<React.MouseEventHandler<HTMLDivElement>>(
+    (e) => {
+      if (!isOpen) return;
+      if (e.target !== e.currentTarget) return;
+      toggle();
+    },
+    [isOpen, toggle],
+  );
   return (
-    <div className={`cw_sideWrap cwSide cwSideWrap ${cls}`}>
-      <div className="cw_sidecont cwSide">
+    <div className={`cw_sideWrap cwSide ${cls}`} onClick={handleBackClick}>
+      <div className="cw_sidecont cwSide" onClick={(e) => e.stopPropagation()}>
         <div className="cw_titWrap">
           <h1 className="cw_tit">{t('CON.MY_PRODUCT')}</h1>
-          <Button
-            className="cw_btn_close"
-            onClick={() => {
-              toggle();
-            }}
-          >
+          <Button className="cw_btn_close" onClick={toggle}>
             <span>Close</span>
           </Button>
         </div>
-
-        {isSideBarOpen && <SideBarContent />}
+        {isOpen && <SideBarContent />}
       </div>
-      {/* <div className="cw_loadingWrap cw_st02">
-        <div>
-        <em class="cw_load">
-        <span></span>
-        </em>
-        </div>
-        </div> */}
     </div>
   );
 };
