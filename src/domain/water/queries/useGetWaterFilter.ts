@@ -17,7 +17,7 @@ function useGetWaterFilter(
   queryOptions?: UseQueryCustomOptions<ResponseWaterHome, WaterFilterType>,
 ) {
   return useQuery<ResponseWaterHome, ResponseError, WaterFilterType>({
-    queryKey: [queryKeys.WATER, queryKeys.GET_WATER_STER, params],
+    queryKey: [queryKeys.WATER, queryKeys.GET_WATER_HOME, params],
     queryFn: () => getWaterHomeInfos(params),
     select(data) {
       return {

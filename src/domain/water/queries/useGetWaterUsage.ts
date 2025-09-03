@@ -24,7 +24,7 @@ function useGetWaterUsage(
   queryOptions?: UseQueryCustomOptions<ResponseWaterHome, WaterUsageType>,
 ) {
   return useQuery<ResponseWaterHome, ResponseError, WaterUsageType>({
-    queryKey: [queryKeys.WATER, queryKeys.GET_WATER_USAGE, params],
+    queryKey: [queryKeys.WATER, queryKeys.GET_WATER_HOME, params],
     queryFn: () => getWaterHomeInfos(params),
     select(data) {
       const usageDaily = data.watUsageDaily?.[0];

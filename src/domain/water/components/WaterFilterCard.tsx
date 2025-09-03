@@ -1,8 +1,10 @@
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { t } from 'i18next';
 import useGetWaterFilter from '../queries/useGetWaterFilter';
+import { useNavigate } from 'react-router-dom';
 
 export default function WaterFilterCard() {
+  const navigate = useNavigate();
   const waterHomeInfos = useDeviceStore((s) => s.lastSelectedDeviceInfos);
   const { data: waterFilter } = useGetWaterFilter(
     {
@@ -19,7 +21,7 @@ export default function WaterFilterCard() {
   );
 
   return (
-    <div className="cw_contbox02">
+    <div className="cw_contbox02" onClick={() => navigate('/water/settings')}>
       <div className="cw_tit">
         <h3>{t('HIDDEN.CONSUMABLES_STATE')}</h3>
       </div>
