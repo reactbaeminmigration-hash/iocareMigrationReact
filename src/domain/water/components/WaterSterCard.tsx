@@ -32,14 +32,19 @@ export default function WaterSterCard() {
   const iceTrayLastSterTime = waterSter?.iceTrayList?.[0]?.iceTrayLastSterTime!;
   const iceTrayNextSterTime = waterSter?.iceTrayList?.[0]?.iceTrayNextSterTime!;
 
-  function format(sterTime: string) {
-    if (sterTime == '') return '';
-    const year = sterTime.slice(0, 4) + '년';
-    const month = sterTime.slice(4, 6) + '월';
-    const day = sterTime.slice(6, 8) + '일';
-    const hour = sterTime.slice(8, 10) + '시';
-    const min = sterTime.slice(10, 12) + '분';
-    return year + month + day + hour + min;
+  function dateFormat(sterTime: string) {
+    const year = sterTime.slice(0, 4);
+    const month = sterTime.slice(4, 6);
+    const day = sterTime.slice(6, 8);
+    const hour =
+      Number(sterTime.slice(8, 10)) % 12 === 0
+        ? 12
+        : Number(sterTime.slice(8, 10)) % 12;
+    const min = sterTime.slice(10, 12);
+    const mer = hour >= 12 ? '오후' : '오전';
+
+    const formattedDate = `${year}년 ${month}월 ${day}일 ${mer} ${String(hour).padStart(2, '0')}:${min}`;
+    return formattedDate;
   }
 
   return (
@@ -49,121 +54,154 @@ export default function WaterSterCard() {
       </div>
       <div className="cw_cont">
         {/* 파우셋 살균 */}
-        <div className="cont_group">
-          <h4 className="tit_group">{t('HIDDEN.WATER_OUT_FAUSET')}</h4>
-          {(waterSter?.fausetList?.length ?? 0) > 0 && (
+        {(waterSter?.fausetList?.length ?? 0) > 0 && (
+          <div className="cont_group">
+            <h4 className="tit_group">{t('HIDDEN.WATER_OUT_FAUSET')}</h4>
             <>
               <dl className="sterilization_time">
                 <dt>{t('WATER.WATER_RECENT_STERILIZATION_TIME')}</dt>
                 <dd>
-                  {format(fsLastSterTime) ?? t('HIDDEN.WATER_STER_NO_DATA')}
+                  {fsLastSterTime
+                    ? dateFormat(fsLastSterTime)
+                    : t('HIDDEN.WATER_STER_NO_DATA')}
                 </dd>
               </dl>
               <dl className="sterilization_time schedule">
                 <dt>{t('HIDDEN.STER_NEXT_TIME')}</dt>
                 <dd>
-                  {format(fsNextSterTime) ?? t('HIDDEN.FAUSET_STER_NO_DATA')}
+                  {fsNextSterTime
+                    ? dateFormat(fsNextSterTime)
+                    : t('HIDDEN.FAUSET_STER_NO_DATA')}
                 </dd>
               </dl>
             </>
-          )}
-        </div>
-        {/* 파우셋 살균 */}
+          </div>
+        )}
+
         {/* 유로 살균 */}
-        <div className="cont_group">
-          <h4 className="tit_group">{t('HIDDEN.EURO')}</h4>
-          {(waterSter?.euroList?.length ?? 0) > 0 && (
+        {(waterSter?.euroList?.length ?? 0) > 0 && (
+          <div className="cont_group">
+            <h4 className="tit_group">{t('HIDDEN.EURO')}</h4>
             <>
               <dl className="sterilization_time">
                 <dt>{t('WATER.WATER_RECENT_STERILIZATION_TIME')}</dt>
-                <dd>{erLastSterTime ?? t('HIDDEN.WATER_STER_NO_DATA')}</dd>
+                <dd>
+                  {erLastSterTime
+                    ? dateFormat(erLastSterTime)
+                    : t('HIDDEN.WATER_STER_NO_DATA')}
+                </dd>
               </dl>
               <dl className="sterilization_time schedule">
                 <dt>{t('HIDDEN.STER_NEXT_TIME')}</dt>
-                <dd>{erNextSterTime ?? t('HIDDEN.EURO_STER_NO_DATA')}</dd>
+                <dd>
+                  {erNextSterTime
+                    ? dateFormat(erNextSterTime)
+                    : t('HIDDEN.EURO_STER_NO_DATA')}
+                </dd>
               </dl>
             </>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* 얼음 파우셋 살균 */}
-        <div className="cont_group">
-          <h4 className="tit_group">{t('ICON40.ICE_FAUSET')}</h4>
-          {(waterSter?.icePsList?.length ?? 0) > 0 && (
+        {(waterSter?.icePsList?.length ?? 0) > 0 && (
+          <div className="cont_group">
+            <h4 className="tit_group">{t('ICON40.ICE_FAUSET')}</h4>
             <>
               <dl className="sterilization_time">
                 <dt>{t('WATER.WATER_RECENT_STERILIZATION_TIME')}</dt>
-                <dd>{iceFsLastSterTime ?? t('HIDDEN.WATER_STER_NO_DATA')}</dd>
+                <dd>
+                  {iceFsLastSterTime
+                    ? dateFormat(iceFsLastSterTime)
+                    : t('HIDDEN.WATER_STER_NO_DATA')}
+                </dd>
               </dl>
               <dl className="sterilization_time schedule">
                 <dt>{t('HIDDEN.STER_NEXT_TIME')}</dt>
-                <dd>{iceFsNextSterTime ?? t('HIDDEN.FAUSET_STER_NO_DATA')}</dd>
+                <dd>
+                  {iceFsNextSterTime
+                    ? dateFormat(iceFsNextSterTime)
+                    : t('HIDDEN.FAUSET_STER_NO_DATA')}
+                </dd>
               </dl>
             </>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* 얼음 저장고 살균 */}
-        <div className="cont_group">
-          <h4 className="tit_group">{t('ICON40.ICE_TANK')}</h4>
-          {(waterSter?.iceTankList?.length ?? 0) > 0 && (
+        {(waterSter?.iceTankList?.length ?? 0) > 0 && (
+          <div className="cont_group">
+            <h4 className="tit_group">{t('ICON40.ICE_TANK')}</h4>
             <>
               <dl className="sterilization_time">
                 <dt>{t('WATER.WATER_RECENT_STERILIZATION_TIME')}</dt>
-                <dd>{iceTankLastSterTime ?? t('HIDDEN.WATER_STER_NO_DATA')}</dd>
+                <dd>
+                  {iceTankLastSterTime
+                    ? dateFormat(iceTankLastSterTime)
+                    : t('HIDDEN.WATER_STER_NO_DATA')}
+                </dd>
               </dl>
               <dl className="sterilization_time schedule">
                 <dt>{t('HIDDEN.STER_NEXT_TIME')}</dt>
                 <dd>
-                  {iceTankNextSterTime ??
-                    t('ICON40.TIME_8_FAUSET_STER_NO_DATA')}
+                  {iceTankNextSterTime
+                    ? dateFormat(iceTankNextSterTime)
+                    : t('ICON40.TIME_8_FAUSET_STER_NO_DATA')}
                 </dd>
               </dl>
             </>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* 얼음 탱크 UV 살균 */}
-        <div className="cont_group">
-          <h4 className="tit_group">{t('ICON40.COLD_WATER_TANK')}</h4>
-          {(waterSter?.iceTankUvList?.length ?? 0) > 0 && (
+        {(waterSter?.iceTankUvList?.length ?? 0) > 0 && (
+          <div className="cont_group">
+            <h4 className="tit_group">{t('ICON40.COLD_WATER_TANK')}</h4>
             <>
               <dl className="sterilization_time">
                 <dt>{t('WATER.WATER_RECENT_STERILIZATION_TIME')}</dt>
                 <dd>
-                  {iceTankUvLastSterTime ?? t('HIDDEN.WATER_STER_NO_DATA')}
+                  {iceTankUvLastSterTime
+                    ? dateFormat(iceTankUvLastSterTime)
+                    : t('HIDDEN.WATER_STER_NO_DATA')}
                 </dd>
               </dl>
               <dl className="sterilization_time schedule">
                 <dt>{t('HIDDEN.STER_NEXT_TIME')}</dt>
                 <dd>
-                  {iceTankUvNextSterTime ??
-                    t('ICON40.TIME_8_FAUSET_STER_NO_DATA')}
+                  {iceTankUvNextSterTime
+                    ? dateFormat(iceTankUvNextSterTime)
+                    : t('ICON40.TIME_8_FAUSET_STER_NO_DATA')}
                 </dd>
               </dl>
             </>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* 얼음 트레이 살균 */}
-        <div className="cont_group">
-          <h4 className="tit_group">{t('ICON40.ICE_TRAY')}</h4>
-          {(waterSter?.iceTrayList?.length ?? 0) > 0 && (
+        {(waterSter?.iceTrayList?.length ?? 0) > 0 && (
+          <div className="cont_group">
+            <h4 className="tit_group">{t('ICON40.ICE_TRAY')}</h4>
             <>
               <dl className="sterilization_time">
                 <dt>{t('WATER.WATER_RECENT_STERILIZATION_TIME')}</dt>
-                <dd>{iceTrayLastSterTime ?? t('HIDDEN.WATER_STER_NO_DATA')}</dd>
+                <dd>
+                  {iceTrayLastSterTime
+                    ? dateFormat(iceTrayLastSterTime)
+                    : t('HIDDEN.WATER_STER_NO_DATA')}
+                </dd>
               </dl>
               <dl className="sterilization_time schedule">
                 <dt>{t('HIDDEN.STER_NEXT_TIME')}</dt>
                 <dd>
-                  {iceTrayNextSterTime ??
-                    t('ICON40.TIME_8_FAUSET_STER_NO_DATA')}
+                  {iceTrayNextSterTime
+                    ? dateFormat(iceTrayNextSterTime)
+                    : t('ICON40.TIME_8_FAUSET_STER_NO_DATA')}
                 </dd>
               </dl>
             </>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
