@@ -3,6 +3,7 @@ import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { WifiConnectError } from '@/shared/components/Layout/WifiConnectError';
 import WaterSterCard from '../components/WaterSterCard';
 import WaterUsageCard from '../components/WaterUsageCard';
+import WaterFilterCard from '../components/WaterFilterCard';
 
 export const WaterHomePage = () => {
   const deviceList = [
@@ -24,6 +25,7 @@ export const WaterHomePage = () => {
             <div className="cw_tab_cont cw_container01">
               <WaterUsageCard />
               <WaterSterCard />
+              <WaterFilterCard />
             </div>
           );
         })()}
