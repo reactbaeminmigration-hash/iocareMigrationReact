@@ -12,6 +12,7 @@ function useGetAppSetting(
   queryOptions?: UseQueryCustomOptions<ResponseAppSetting>,
 ) {
   return useQuery({
+    staleTime: 60 * 1000,
     queryKey: [queryKeys.AUTH, queryKeys.GET_APP_SETTING, params],
     queryFn: () => getAppSetting(params),
     ...queryOptions,

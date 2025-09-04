@@ -12,6 +12,7 @@ function useGetLatestupdated(
   queryOptions?: UseQueryCustomOptions<ResponseLatestUpdated>,
 ) {
   return useQuery({
+    staleTime: 60 * 1000,
     queryKey: [queryKeys.DEVICE, queryKeys.GET_LATEST_UPDATED, params],
     queryFn: () => getLatestUpdated(params),
     ...queryOptions,

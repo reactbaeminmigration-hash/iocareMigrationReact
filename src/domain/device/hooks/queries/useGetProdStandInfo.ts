@@ -12,6 +12,7 @@ function useGetProdStandInfo(
   queryOptions?: UseQueryCustomOptions<ResponseProdStandInfo>,
 ) {
   return useQuery({
+    staleTime: 60 * 1000,
     queryKey: [queryKeys.DEVICE, queryKeys.GET_PROD_STAND_INFO, params],
     queryFn: () => getProdStandInfo(params),
     ...queryOptions,

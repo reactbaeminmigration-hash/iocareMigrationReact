@@ -1,4 +1,5 @@
 import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet } from 'react-router-dom';
 import { DataSyncManager } from './app/components/DataSyncManager';
 import { NavigationLoadingIndicator } from './app/components/NavigationLoadingIndicator';
@@ -23,6 +24,7 @@ export const App = () => {
           <NavigationLoadingIndicator />
           {isLoading && <LoadingSpinner />}
           <Outlet></Outlet>
+          {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
         </AppInitializer>
       </QueryClientProvider>
     </>
