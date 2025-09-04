@@ -14,6 +14,10 @@ import type {
   ResponseLatestUpdated,
 } from '../types/latestUpdate.types';
 import type {
+  RequestOtaStatus,
+  ResponseOtaStatus,
+} from '../types/otaStatus.types';
+import type {
   RequestProdStandInfo,
   ResponseProdStandInfo,
 } from '../types/prodStandInfo.types';
@@ -62,4 +66,20 @@ const getDeviceConn = async (
   return data.data;
 };
 
-export { getDeviceConn, getDeviceInfos, getLatestUpdated, getProdStandInfo };
+// OTA 연결 정보 조회
+const getOtaStatus = async (
+  params: RequestOtaStatus,
+): Promise<ResponseOtaStatus> => {
+  const { data } = await axiosInstance.get<ApiResponse<ResponseOtaStatus>>(
+    `/v1/com/ota?${buildGenericQueryString(params)}`,
+  );
+  return data.data;
+};
+
+export {
+  getDeviceConn,
+  getDeviceInfos,
+  getLatestUpdated,
+  getOtaStatus,
+  getProdStandInfo,
+};
