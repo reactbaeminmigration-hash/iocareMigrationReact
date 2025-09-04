@@ -5,6 +5,10 @@ import type {
   RequestWaterHome,
   ResponseWaterHome,
 } from '../types/waterHome.types';
+import type {
+  RequestWaterReport,
+  ResponseWaterReport,
+} from '../types/waterReport.types';
 
 const getWaterHomeInfos = async (
   params: RequestWaterHome,
@@ -15,4 +19,13 @@ const getWaterHomeInfos = async (
   return data.data;
 };
 
-export { getWaterHomeInfos };
+const getWaterReportPublished = async (
+  params: RequestWaterReport,
+): Promise<ResponseWaterReport> => {
+  const { data } = await axiosInstance.get<ApiResponse<ResponseWaterReport>>(
+    `/v1/water/report-published?${buildGenericQueryString(params)}`,
+  );
+  return data.data;
+};
+
+export { getWaterHomeInfos, getWaterReportPublished };
