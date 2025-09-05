@@ -1,4 +1,4 @@
-import { useReplaceDeviceState } from '@/shared/hooks/useReplaceHomeScreen';
+import { useReplaceDeviceState } from '@/shared/hooks/useReplaceDeviceState';
 import type { ReactNode } from 'react';
 import { useOtaStatusLogic } from './useOtaStatusLogic';
 

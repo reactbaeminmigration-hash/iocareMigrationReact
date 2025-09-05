@@ -42,11 +42,10 @@ export function useReplaceDeviceState({
     lastDeviceInfo?.iotYn === 'Y' && lastDeviceInfo?.instYn === 'N';
 
   const shouldFetchStatus = !!barcode && !isNoData && isIot && !isNoInst;
-  const {
-    isPending,
-    isFetching,
-    data: isOnline,
-  } = useDeviceStatus({ scopeKey, enabled: shouldFetchStatus });
+  const { isOnline, isPending, isFetching } = useDeviceStatus({
+    scopeKey,
+    enabled: shouldFetchStatus,
+  });
 
   const loading = shouldFetchStatus && (isPending || isFetching);
 
