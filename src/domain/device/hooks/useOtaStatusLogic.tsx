@@ -4,8 +4,8 @@ import { OtaFailComponent } from '../components/OtaFailComponent';
 import { OtaUpdatingComponent } from '../components/OtaUpdatingComponent';
 import { useDeviceStore } from '../stores/useDeviceStore';
 import { OtaUpdateState } from '../types/otaStatus.types';
-import useGetDeviceStatus from './queries/useGetDeviceStatus';
 import useGetOtaStatus from './queries/useGetOtaStatus';
+import { useDeviceStatus } from './useDeviceStatus';
 
 interface useOtaStatusLogicProps {
   // 훅의 props이므로 이름 변경 제안
@@ -20,28 +20,19 @@ export const useOtaStatusLogic = ({
 }: useOtaStatusLogicProps) => {
   const { lastSelectedDeviceInfos } = useDeviceStore();
   const devId = lastSelectedDeviceInfos.barcode;
-
   const {
-    data: deviceStatusData,
-    isLoading: deviceStatusIsLoading,
-    isSuccess: deviceStatusIsSuccess,
-  } = useGetDeviceStatus(
-    {
-      scopeKey,
-      deviceList: [{ devIds: devId }],
-    },
-    { enabled },
-  );
+    isPending: deviceStatusIsPending,
+    isFetching: deviceStatusIsFetching,
+    isOnline,
+  } = useDeviceStatus({ scopeKey, enabled });
+
+  const deviceStatusIsLoading = deviceStatusIsPending || deviceStatusIsFetching;
 
   const {
     data: otaData,
     isLoading: otaIsLoading,
     isError: otaIsError,
-    isSuccess: otaIsSuccess,
-  } = useGetOtaStatus(
-    { scopeKey, devId },
-    { enabled: enabled && deviceStatusIsSuccess },
-  );
+  } = useGetOtaStatus({ scopeKey, devId }, { enabled: enabled && isOnline });
 
   const isLoading = deviceStatusIsLoading || otaIsLoading;
 
@@ -49,8 +40,6 @@ export const useOtaStatusLogic = ({
     if (isLoading) {
       return <div>로딩중</div>;
     }
-
-    const isOnline = !!deviceStatusData?.[0]?.netStatus;
     if (!isOnline) {
       return <NoNetStatusScreen />;
     }
@@ -83,7 +72,6 @@ export const useOtaStatusLogic = ({
 
   return {
     isLoading,
-    isSuccess: deviceStatusIsSuccess && otaIsSuccess,
     node: getFinalNode(),
   };
 };

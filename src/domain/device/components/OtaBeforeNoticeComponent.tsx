@@ -1,8 +1,8 @@
 import { NoNetStatusScreen } from '@/shared/components/FullScreenOverlay/NoNetStatusScreen';
 import type { ReactNode } from 'react';
 import { Trans } from 'react-i18next';
-import useGetDeviceStatus from '../hooks/queries/useGetDeviceStatus';
 import useGetOtaStatus from '../hooks/queries/useGetOtaStatus';
+import { useDeviceStatus } from '../hooks/useDeviceStatus';
 import { useDeviceStore } from '../stores/useDeviceStore';
 
 interface OtaBeforeNoticeComponentProp {
@@ -13,20 +13,15 @@ export const OtaBeforeNoticeComponent = ({
   scopeKey,
 }: OtaBeforeNoticeComponentProp) => {
   const { lastSelectedDeviceInfos } = useDeviceStore();
-  const { data: deviceStatusData, isSuccess: deviceStatusIsSuccess } =
-    useGetDeviceStatus({
-      scopeKey,
-      deviceList: [{ devIds: lastSelectedDeviceInfos.barcode }],
-    });
+  const { isOnline } = useDeviceStatus({ scopeKey });
 
-  const isOnline = !!deviceStatusData?.[0]?.netStatus;
   if (!isOnline) {
     return <NoNetStatusScreen />;
   }
 
   const { data: otaData, isError: otaIsError } = useGetOtaStatus(
     { scopeKey, devId: lastSelectedDeviceInfos.barcode },
-    { enabled: deviceStatusIsSuccess },
+    { enabled: isOnline },
   );
 
   if (!otaData || otaIsError) {

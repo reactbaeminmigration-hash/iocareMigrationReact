@@ -2,6 +2,7 @@ import { OtaBeforeNoticeComponent } from '@/domain/device/components/OtaBeforeNo
 import { useCheckProductState } from '@/domain/device/hooks/useCheckProductState';
 import { useLocalSpinner } from '@/shared/hooks/useLocalSpinner';
 import { useRef } from 'react';
+import { AirHomeComponent } from '../components/AirHomeComponent';
 
 const AIR_HFULL_LOADING = ['airHFullLoading'];
 
@@ -17,7 +18,10 @@ export const AirHomePage = () => {
       <div ref={containerRef} className="cw_webcontainer airHFullLoading">
         {!productStateIsLoading &&
           (productStateNode ?? (
-            <OtaBeforeNoticeComponent scopeKey={AIR_HFULL_LOADING} />
+            <div className="cw_tab_cont cw_container01">
+              <OtaBeforeNoticeComponent scopeKey={AIR_HFULL_LOADING} />
+              <AirHomeComponent></AirHomeComponent>
+            </div>
           ))}
       </div>
     </div>
