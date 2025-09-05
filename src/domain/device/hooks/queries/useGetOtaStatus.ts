@@ -24,7 +24,7 @@ function useGetOtaStatus(
   const { scopeKey = [], ...apiParams } = params;
   return useQuery({
     meta: {
-      showGlobalSpinner: false,
+      showGlobalSpinner: !!scopeKey,
     },
     queryKey: [
       ...scopeKey,
