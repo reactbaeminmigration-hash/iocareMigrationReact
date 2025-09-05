@@ -15,7 +15,7 @@ export const REPLACE_HOME = {
 
 export type ReplaceHomeScreenTypes = (typeof REPLACE_HOME)[keyof typeof REPLACE_HOME];
 
-export function useReplaceHomeScreen(): { kind: ReplaceHomeScreenTypes; node: React.ReactNode | null } {
+export function useReplaceHomeScreen(): { kind: ReplaceHomeScreenTypes; node: React.ReactNode | null; loading: boolean } {
     const lastDeviceInfo = useDeviceStore((state) => state.lastSelectedDeviceInfos);
     const barcode = lastDeviceInfo?.barcode;
 
@@ -24,11 +24,12 @@ export function useReplaceHomeScreen(): { kind: ReplaceHomeScreenTypes; node: Re
     const isNoInst = lastDeviceInfo?.iotYn === 'Y' && lastDeviceInfo?.instYn === 'N';
     
     const shouldFetchStatus = !!barcode && !isNoData && isIot && !isNoInst;
-    const { data } = useGetDeviceStatus(
+    const { data, isPending, isFetching } = useGetDeviceStatus(
         { deviceList: [{ devIds: barcode }] },
         { enabled: shouldFetchStatus }
     );
 
+    const loading = shouldFetchStatus && (isPending || isFetching);
     const isOnline = !!data?.[0]?.netStatus === true;
 
     // 우선순위 : NO_DATA > NO_IOT > NO_INST > NO_NET
@@ -39,18 +40,23 @@ export function useReplaceHomeScreen(): { kind: ReplaceHomeScreenTypes; node: Re
         !isOnline ? 'NO_NET' :
         'NONE';
 
+    let node: React.ReactNode | null = null;
     switch (type) {
-        case 'NO_NET':
-            return {kind: type, node: <NoNetStatusScreen />};
-        case 'NO_IOT':
-            return {kind: type, node: <NoIotScreen dvcTypeCd={lastDeviceInfo?.dvcTypeCd} />};
-        case 'NO_INST':
-            return {kind: type, node: <NoInstScreen dvcTypeCd={lastDeviceInfo?.dvcTypeCd} />};
-        case 'NO_DATA':
-            return {kind: type, node: <NoDataScreen />};
-        case 'NONE':
-            return {kind: type, node: null};
+        case "NO_NET":
+            node = <NoNetStatusScreen />;
+            break;
+        case "NO_IOT":
+            node = <NoIotScreen dvcTypeCd={lastDeviceInfo?.dvcTypeCd} />;
+            break;
+        case "NO_INST":
+            node = <NoInstScreen dvcTypeCd={lastDeviceInfo?.dvcTypeCd} />;
+            break;
+        case "NO_DATA":
+            node = <NoDataScreen />;
+            break;
         default:
-            return {kind: type, node: null};
+            node = null;
     }
+
+    return { kind: type, node, loading };
 }
