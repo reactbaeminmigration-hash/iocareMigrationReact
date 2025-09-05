@@ -11,7 +11,7 @@ export function useCheckProductState({ scopeKey }: useCheckProductStateProps): {
   finalNode: ReactNode;
 } {
   const { node: replaceNode, loading: isReplaceHomeLoading } =
-    useReplaceHomeScreen();
+    useReplaceHomeScreen({scopeKey});
   // 제품 상태체크가 문제가 없고 로딩 완료되었을때
   const shouldEnableOtaLogic = !isReplaceHomeLoading && replaceNode === null;
   const {

@@ -15,7 +15,17 @@ export const REPLACE_HOME = {
 
 export type ReplaceHomeScreenTypes = (typeof REPLACE_HOME)[keyof typeof REPLACE_HOME];
 
-export function useReplaceHomeScreen(): { kind: ReplaceHomeScreenTypes; node: React.ReactNode | null; loading: boolean } {
+interface ReplaceHomeResult {
+    kind: ReplaceHomeScreenTypes; 
+    node: React.ReactNode | null; 
+    loading: boolean; 
+    scopeKey?: string[]
+}
+interface replaceHomeScopeKey {
+    scopeKey?: string[];
+}
+
+export function useReplaceHomeScreen({scopeKey}: replaceHomeScopeKey): ReplaceHomeResult {
     const lastDeviceInfo = useDeviceStore((state) => state.lastSelectedDeviceInfos);
     const barcode = lastDeviceInfo?.barcode;
 
@@ -25,7 +35,7 @@ export function useReplaceHomeScreen(): { kind: ReplaceHomeScreenTypes; node: Re
     
     const shouldFetchStatus = !!barcode && !isNoData && isIot && !isNoInst;
     const { data, isPending, isFetching } = useGetDeviceStatus(
-        { deviceList: [{ devIds: barcode }] },
+        { scopeKey, deviceList: [{ devIds: barcode }] },
         { enabled: shouldFetchStatus }
     );
 
@@ -58,5 +68,5 @@ export function useReplaceHomeScreen(): { kind: ReplaceHomeScreenTypes; node: Re
             node = null;
     }
 
-    return { kind: type, node, loading };
+    return { kind: type, node, loading, scopeKey };
 }
