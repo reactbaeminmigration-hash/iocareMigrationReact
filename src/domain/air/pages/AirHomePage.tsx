@@ -1,3 +1,4 @@
+import { OtaBeforeNoticeComponent } from '@/domain/device/components/OtaBeforeNoticeComponent';
 import { useCheckProductState } from '@/domain/device/hooks/useCheckProductState';
 import { useLocalSpinner } from '@/shared/hooks/useLocalSpinner';
 import { useRef } from 'react';
@@ -16,17 +17,7 @@ export const AirHomePage = () => {
       <div ref={containerRef} className="cw_webcontainer airHFullLoading">
         {!productStateIsLoading &&
           (productStateNode ?? (
-            <div className="cw_tab_cont cw_container01">
-              <h2 className="cw_hide">홈</h2>
-              <div className="OTA_msgbox">
-                <h1 className="tit"></h1>
-                <p></p>
-                <p></p>
-                <button type="button" className="cw_btn_popclose w">
-                  <span>Close</span>
-                </button>
-              </div>
-            </div>
+            <OtaBeforeNoticeComponent scopeKey={AIR_HFULL_LOADING} />
           ))}
       </div>
     </div>

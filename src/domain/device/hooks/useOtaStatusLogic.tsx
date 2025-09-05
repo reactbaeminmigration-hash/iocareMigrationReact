@@ -27,6 +27,7 @@ export const useOtaStatusLogic = ({
     isSuccess: deviceStatusIsSuccess,
   } = useGetDeviceStatus(
     {
+      scopeKey,
       deviceList: [{ devIds: devId }],
     },
     { enabled },
