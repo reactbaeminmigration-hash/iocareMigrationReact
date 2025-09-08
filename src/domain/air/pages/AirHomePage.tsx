@@ -1,6 +1,6 @@
 import { OtaBeforeNoticeComponent } from '@/domain/device/components/OtaBeforeNoticeComponent';
 import { useCheckProductState } from '@/domain/device/hooks/useCheckProductState';
-import { useLoadingClass } from '@/shared/hooks/useLoadingClass';
+import { LoadingLocalSpinner } from '@/shared/components/LoadingSpinner/LoadingLocalSpinner';
 import { AirHomeComponent } from '../components/AirHomeComponent';
 
 const AIR_HFULL_LOADING = ['airHFullLoading'];
@@ -10,15 +10,12 @@ export const AirHomePage = () => {
     useCheckProductState({
       scopeKey: AIR_HFULL_LOADING,
     });
-
-  const containerClass = useLoadingClass({
-    scopeKey: AIR_HFULL_LOADING,
-    baseClassName: 'cw_webcontainer airHFullLoading',
-  });
-
   return (
     <div className="cw_contentsWrap">
-      <div className={containerClass}>
+      <LoadingLocalSpinner
+        scopeKey={AIR_HFULL_LOADING}
+        className="cw_webcontainer airHFullLoading"
+      >
         {!productStateIsLoading &&
           (productStateNode ?? (
             <div className="cw_tab_cont cw_container01">
@@ -27,7 +24,7 @@ export const AirHomePage = () => {
               <AirHomeComponent></AirHomeComponent>
             </div>
           ))}
-      </div>
+      </LoadingLocalSpinner>
     </div>
   );
 };
