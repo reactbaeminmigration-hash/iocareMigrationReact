@@ -24,8 +24,9 @@ export const ReportSelectHeader = ({ selectedMonthly, onChange }: Props) => {
     const make = (d: Date): Report => {
       const year = d.getFullYear();
       const month = d.getMonth() + 1;
+      const next = addMonths(d, 1);
       return {
-        reportDate: `${year}${z2(String(addMonths(d, 2).getMonth()))}01`, // API에 담을 현재 월
+        reportDate: `${next.getFullYear()}${z2(next.getMonth() + 1)}01`, // API에 담을 현재 월
         reportMonth: `${year}${z2(month)}`,
         reportMonthly: `${year}${t('CON.YEAR')} ${month}${t('CON.MONTH')}`,
       };
