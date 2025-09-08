@@ -34,7 +34,7 @@ export const ReportSelectHeader = ({ selectedMonthly, onChange }: Props) => {
     return Array.from({ length: 12 }, (_, i) =>
       make(new Date(startDate.getFullYear(), startDate.getMonth() - i)),
     );
-  }, []);
+  }, [startDate, t]);
 
   useEffect(() => {
     if (!selectedMonthly && reportOption[0])

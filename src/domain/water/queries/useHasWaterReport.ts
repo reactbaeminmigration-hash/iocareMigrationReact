@@ -3,18 +3,18 @@ import type {
   UseQueryCustomOptions,
 } from '@/shared/types/common';
 import type {
-  RequestWaterReport,
-  ResponseWaterReport,
-} from '../types/waterReport.types';
+  RequestWaterReportPublished,
+  ResponseWaterReportPublished,
+} from '../types/waterReportPublished.types';
 import { useQuery } from '@tanstack/react-query';
 import { getWaterReportPublished } from '../api/waterApi';
 import { queryKeys } from '../constants/queryKey';
 
 function useHasWaterReport(
-  params: RequestWaterReport,
-  queryOptions?: UseQueryCustomOptions<ResponseWaterReport>,
+  params: RequestWaterReportPublished,
+  queryOptions?: UseQueryCustomOptions<ResponseWaterReportPublished>,
 ) {
-  return useQuery<ResponseWaterReport, ResponseError>({
+  return useQuery<ResponseWaterReportPublished, ResponseError>({
     queryKey: [queryKeys.WATER, queryKeys.GET_WATER_REPORT_PUBLISHED, params],
     queryFn: () => getWaterReportPublished(params),
     ...queryOptions,

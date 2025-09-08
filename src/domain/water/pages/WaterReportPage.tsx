@@ -1,12 +1,16 @@
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { ReportSelectHeader } from '../../../shared/components/Layout/ReportSelectHeader';
 import useHasWaterReport from '../queries/useHasWaterReport';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { nowToString, timeStampToString } from '@/shared/utils/common.utils';
+import { t } from 'i18next';
+import WaterTotalReportCard from '../components/WaterTotalReportCard';
+import type { WaterReportParams } from '../types/waterReportPublished.types';
 
 export const WaterReportPage = () => {
   const productInfos = useDeviceStore((s) => s.lastSelectedDeviceInfos);
   const [selectedMonthly, setSelectedMonthly] = useState(nowToString());
+
   const { data: hasReport } = useHasWaterReport(
     {
       devId: productInfos.barcode,
@@ -18,7 +22,16 @@ export const WaterReportPage = () => {
       enabled: !!productInfos?.barcode, // 값 없으면 호출 안 함
     },
   );
-  console.log(hasReport);
+
+  const reportParams: WaterReportParams = useMemo(
+    () => ({
+      devId: productInfos.barcode,
+      reportDate: selectedMonthly,
+      resetDttm: timeStampToString(productInfos.resetDttm),
+    }),
+    [productInfos.barcode, selectedMonthly, productInfos.resetDttm],
+  );
+
   return (
     <div className="cw_tab_cont cw_reportWrap cw_report_fix">
       {hasReport?.has12MonthsReportData && (
@@ -27,11 +40,21 @@ export const WaterReportPage = () => {
           onChange={setSelectedMonthly}
         />
       )}
-      {hasReport?.isNoData ? (
-        <div>데이터 없음ㅜㅜㅜ</div>
-      ) : (
-        <div>데이터 있음!!!</div>
-      )}
+      <div className="cw_scroll_area cwTabCont ba_report_change_loading">
+        <div className="cw_accWrap01">
+          {hasReport?.isNoData ? (
+            <div className="cw_system_error cw_iocare_water cw_fix">
+              <p
+                dangerouslySetInnerHTML={{ __html: t('WATER.WATER_NO_REPORT') }}
+              ></p>
+            </div>
+          ) : (
+            <ul>
+              <WaterTotalReportCard params={reportParams} />
+            </ul>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
