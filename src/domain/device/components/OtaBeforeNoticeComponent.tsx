@@ -49,8 +49,7 @@ export const OtaBeforeNoticeComponent = ({
 
     if (noticeContent) {
       return (
-        <div className="cw_tab_cont cw_container01">
-          <h2 className="cw_hide">홈</h2>
+        <>
           <div className="OTA_msgbox">
             <h1 className="tit"></h1>
             {noticeContent}
@@ -58,7 +57,7 @@ export const OtaBeforeNoticeComponent = ({
               <span>Close</span>
             </button>
           </div>
-        </div>
+        </>
       );
     }
   }
