@@ -25,8 +25,8 @@ export function useLogin() {
   const login = async (code: string | null) => {
     if (code) {
       const getTokenData = await getTokenMutation.mutateAsync({
-        // authCode: code,
-        authCode: '',
+        authCode: code,
+        // authCode: '',
         redirectUrl: import.meta.env.VITE_DEV_REDIRECT_URL,
       });
       console.log('토큰 가져오기 성공:', getTokenData);
