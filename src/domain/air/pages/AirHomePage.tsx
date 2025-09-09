@@ -10,6 +10,40 @@ export const AirHomePage = () => {
     useCheckProductState({
       scopeKey: AIR_HFULL_LOADING,
     });
+  // const { setGlobalPopup } = useGlobalPopupStore();
+  // useEffect(() => {
+  //   setGlobalPopup({
+  //     popupType: 'basic',
+  //     title: '제목 확인',
+  //     contents: '메시지 확인',
+  //     btns: [
+  //       {
+  //         text: '확인',
+  //         type: '',
+  //         action: () => {
+  //           console.log('ddd');
+  //         },
+  //       },
+  //     ],
+  //   });
+  // }, [setGlobalPopup]);
+  // const { setErrorPopup } = useErrorPopupStore();
+  // useEffect(() => {
+  //   setErrorPopup({
+  //     popupType: 'basic',
+  //     title: '제목 확인',
+  //     contents: '메시지 확인',
+  //     btns: [
+  //       {
+  //         text: '확인',
+  //         type: '',
+  //         action: () => {
+  //           console.log('ddd');
+  //         },
+  //       },
+  //     ],
+  //   });
+  // }, [setErrorPopup]);
   return (
     <div className="cw_contentsWrap">
       <LoadingLocalSpinner

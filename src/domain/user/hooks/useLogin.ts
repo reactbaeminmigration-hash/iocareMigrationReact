@@ -23,45 +23,42 @@ export function useLogin() {
 
   // 인증 진행 후 토큰 발급 최종 사용자 정보로 로그인
   const login = async (code: string | null) => {
-    try {
-      if (code) {
-        const getTokenData = await getTokenMutation.mutateAsync({
-          authCode: code,
-          redirectUrl: import.meta.env.VITE_DEV_REDIRECT_URL,
-        });
-        console.log('토큰 가져오기 성공:', getTokenData);
-        setAuthTokens({
-          accessToken: getTokenData.accessToken,
-          refreshToken: getTokenData.refreshToken,
-        });
-      } else {
-        setHeader('accessToken', `${accessToken}`);
-        setHeader('refreshToken', `${refreshToken}`);
-      }
-
-      const loginData = await loginMutation.mutateAsync({
-        authCode: code ?? '',
-        devDstTimezn: 0,
-        devDtTimezn: 0,
-        timeZone: '',
-        deviceUUID: '',
-        isMobile: '',
-        langCd: '',
-        osType: 0,
-        osVersion: '',
-        pushToken: '',
+    if (code) {
+      const getTokenData = await getTokenMutation.mutateAsync({
+        // authCode: code,
+        authCode: '',
         redirectUrl: import.meta.env.VITE_DEV_REDIRECT_URL,
-        serviceCode: '',
-        appVersion: '',
       });
-      const decodedPayload: JwtPayload = decodeToken(loginData.userInfo);
-      const userDataInfo: UserDataInfo = decodedPayload as UserDataInfo;
-      console.log(JSON.stringify(userDataInfo));
-      console.log('로그인 정보 가져오기 성공:', loginData);
-      setUserInfo(userDataInfo);
-    } catch (error: any) {
-      alert(`로그인 실패: ${error.message || '알 수 없는 오류'}`);
+      console.log('토큰 가져오기 성공:', getTokenData);
+      setAuthTokens({
+        accessToken: getTokenData.accessToken,
+        refreshToken: getTokenData.refreshToken,
+      });
+    } else {
+      setHeader('accessToken', `${accessToken}`);
+      setHeader('refreshToken', `${refreshToken}`);
     }
+
+    const loginData = await loginMutation.mutateAsync({
+      authCode: code ?? '',
+      devDstTimezn: 0,
+      devDtTimezn: 0,
+      timeZone: '',
+      deviceUUID: '',
+      isMobile: '',
+      langCd: '',
+      osType: 0,
+      osVersion: '',
+      pushToken: '',
+      redirectUrl: import.meta.env.VITE_DEV_REDIRECT_URL,
+      serviceCode: '',
+      appVersion: '',
+    });
+    const decodedPayload: JwtPayload = decodeToken(loginData.userInfo);
+    const userDataInfo: UserDataInfo = decodedPayload as UserDataInfo;
+    console.log(JSON.stringify(userDataInfo));
+    console.log('로그인 정보 가져오기 성공:', loginData);
+    setUserInfo(userDataInfo);
   };
 
   // 통합회원 인증후 로그인 진행

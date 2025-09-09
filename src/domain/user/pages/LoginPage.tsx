@@ -1,7 +1,6 @@
 import { decodeToken } from '@/core/auth/utils/jwtDecode';
 import { useGetDeviceType } from '@/domain/device/hooks/useGetDeviceType';
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
-import { isResponseError } from '@/shared/utils/error.utils';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginActions } from '../components/LoginActions';
@@ -10,7 +9,7 @@ import { LoginSwiper } from '../components/LoginSwiper';
 import { useUserStore } from '../stores/useUserStore';
 
 export const LoginPage = () => {
-  const { accessToken, isInitialDataLoaded, error, setError } = useUserStore();
+  const { accessToken, isInitialDataLoaded } = useUserStore();
   const navigate = useNavigate();
   const { getDvcTypeRoute } = useGetDeviceType();
   const route = useDeviceStore(
@@ -22,17 +21,6 @@ export const LoginPage = () => {
       navigate('/' + getDvcTypeRoute(route));
     }
   }, [isInitialDataLoaded, navigate]);
-
-  useEffect(() => {
-    if (error) {
-      if (isResponseError(error)) {
-        alert(error.response?.data.message);
-      } else {
-        alert(error.message || '알 수 없는 오류가 발생했습니다.');
-      }
-      setError(null);
-    }
-  }, [error, setError]);
 
   // 유효한 토큰이 있으면 자동로그인 진행
   useEffect(() => {
