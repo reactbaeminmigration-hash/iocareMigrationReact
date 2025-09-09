@@ -11,6 +11,7 @@ export interface ResponseWaterReportPublished {
 }
 
 export type WaterReportParams = Readonly<{
+  isNoDate: boolean | undefined;
   devId: string;
   reportDate: string; // "YYYYMM01"
   resetDttm: string; // "YYYYMMDD"

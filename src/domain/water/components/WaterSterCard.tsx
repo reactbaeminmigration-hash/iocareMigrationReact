@@ -41,7 +41,7 @@ export default function WaterSterCard() {
         ? 12
         : Number(sterTime.slice(8, 10)) % 12;
     const min = sterTime.slice(10, 12);
-    const mer = hour >= 12 ? '오후' : '오전';
+    const mer = Number(sterTime.slice(8, 10)) >= 12 ? '오후' : '오전';
 
     const formattedDate = `${year}년 ${month}월 ${day}일 ${mer} ${String(hour).padStart(2, '0')}:${min}`;
     return formattedDate;

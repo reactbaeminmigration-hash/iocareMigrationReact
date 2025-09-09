@@ -6,6 +6,7 @@ import { nowToString, timeStampToString } from '@/shared/utils/common.utils';
 import { t } from 'i18next';
 import WaterTotalReportCard from '../components/WaterTotalReportCard';
 import type { WaterReportParams } from '../types/waterReportPublished.types';
+import WaterDailyReportCard from '../components/WaterDailyReportCard';
 
 export const WaterReportPage = () => {
   const productInfos = useDeviceStore((s) => s.lastSelectedDeviceInfos);
@@ -23,14 +24,12 @@ export const WaterReportPage = () => {
     },
   );
 
-  const reportParams: WaterReportParams = useMemo(
-    () => ({
-      devId: productInfos.barcode,
-      reportDate: selectedMonthly,
-      resetDttm: timeStampToString(productInfos.resetDttm),
-    }),
-    [productInfos.barcode, selectedMonthly, productInfos.resetDttm],
-  );
+  const reportParams: WaterReportParams = {
+    isNoDate: hasReport?.isNoData,
+    devId: productInfos?.barcode,
+    reportDate: selectedMonthly,
+    resetDttm: timeStampToString(productInfos.resetDttm),
+  };
 
   return (
     <div className="cw_tab_cont cw_reportWrap cw_report_fix">
@@ -51,6 +50,7 @@ export const WaterReportPage = () => {
           ) : (
             <ul>
               <WaterTotalReportCard params={reportParams} />
+              <WaterDailyReportCard params={reportParams} />
             </ul>
           )}
         </div>

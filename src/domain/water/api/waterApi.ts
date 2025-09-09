@@ -13,6 +13,10 @@ import type {
   RequestWaterReport,
   ResponseWaterReport,
 } from '../types/waterReport.types';
+import type {
+  RequestWaterDailyAmt,
+  ResponseWaterDailyAmt,
+} from '../types/waterDailyAmt.types';
 
 const getWaterHomeInfos = async (
   params: RequestWaterHome,
@@ -41,4 +45,18 @@ const getWaterReport = async (
   return data.data;
 };
 
-export { getWaterHomeInfos, getWaterReportPublished, getWaterReport };
+const getWaterDailyAmt = async (
+  params: RequestWaterDailyAmt,
+): Promise<ResponseWaterDailyAmt> => {
+  const { data } = await axiosInstance.get<ApiResponse<ResponseWaterDailyAmt>>(
+    `/v1/water/daily-amt?${buildGenericQueryString(params)}`,
+  );
+  return data.data;
+};
+
+export {
+  getWaterHomeInfos,
+  getWaterReportPublished,
+  getWaterReport,
+  getWaterDailyAmt,
+};

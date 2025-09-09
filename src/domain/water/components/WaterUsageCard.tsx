@@ -82,6 +82,7 @@ export default function WaterUsageCard() {
           fontSize: 10,
         },
       },
+      tickInterval: 1,
       stackLabels: {
         enabled: true,
         format: '{total:.1f}ℓ',

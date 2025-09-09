@@ -15,7 +15,7 @@ function useGetWaterTotalReport(
   queryOptions?: UseQueryCustomOptions<ResponseWaterReport>,
 ) {
   return useQuery<ResponseWaterReport, ResponseError>({
-    queryKey: [queryKeys.WATER, queryKeys.GET_WATER_REPORT_PUBLISHED, params],
+    queryKey: [queryKeys.WATER, queryKeys.GET_WATER_REPORT_TOTAL, params],
     queryFn: () => getWaterReport(params),
     ...queryOptions,
   });

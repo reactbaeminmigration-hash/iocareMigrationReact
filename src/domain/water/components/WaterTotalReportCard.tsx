@@ -5,12 +5,15 @@ import type { WaterReportParams } from '../types/waterReportPublished.types';
 type Props = { params: WaterReportParams };
 
 export default function WaterTotalReportCard({ params }: Props) {
-  const { devId, reportDate, resetDttm } = params;
-  const { data: totalReport } = useGetWaterTotalReport({
-    devId,
-    reportDate,
-    resetDttm,
-  });
+  const { devId, reportDate, resetDttm, isNoDate } = params;
+  const { data: totalReport } = useGetWaterTotalReport(
+    {
+      devId,
+      reportDate,
+      resetDttm,
+    },
+    { enabled: isNoDate === false },
+  );
   return (
     <li className="cw_overall cw_open">
       {/* title */}
