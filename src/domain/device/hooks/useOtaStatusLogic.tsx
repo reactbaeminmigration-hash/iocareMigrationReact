@@ -9,13 +9,13 @@ import { useDeviceStatus } from './useDeviceStatus';
 
 interface useOtaStatusLogicProps {
   // 훅의 props이므로 이름 변경 제안
-  scopeKey?: string[];
+  localLoadingKey?: string[];
   enabled?: boolean;
 }
 
 // 로직 훅이므로 Overlay보다는 Logic을 이름에 사용하는 것을 제안
 export const useOtaStatusLogic = ({
-  scopeKey,
+  localLoadingKey,
   enabled,
 }: useOtaStatusLogicProps) => {
   const { lastSelectedDeviceInfos } = useDeviceStore();
@@ -24,7 +24,7 @@ export const useOtaStatusLogic = ({
     isPending: deviceStatusIsPending,
     isFetching: deviceStatusIsFetching,
     isOnline,
-  } = useDeviceStatus({ scopeKey, enabled });
+  } = useDeviceStatus({ localLoadingKey, enabled });
 
   const deviceStatusIsLoading = deviceStatusIsPending || deviceStatusIsFetching;
 
@@ -32,7 +32,10 @@ export const useOtaStatusLogic = ({
     data: otaData,
     isLoading: otaIsLoading,
     isError: otaIsError,
-  } = useGetOtaStatus({ scopeKey, devId }, { enabled: enabled && isOnline });
+  } = useGetOtaStatus(
+    { localLoadingKey, devId },
+    { enabled: enabled && isOnline },
+  );
 
   const isLoading = deviceStatusIsLoading || otaIsLoading;
 

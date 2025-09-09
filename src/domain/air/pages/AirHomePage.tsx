@@ -6,21 +6,20 @@ import { AirHomeComponent } from '../components/AirHomeComponent';
 const AIR_HFULL_LOADING = ['airHFullLoading'];
 
 export const AirHomePage = () => {
-  const { finalNode: productStateNode, isLoading: productStateIsLoading } =
-    useCheckProductState({
-      scopeKey: AIR_HFULL_LOADING,
-    });
+  const { productStateNode, isProductStateLoading } = useCheckProductState({
+    localLoadingKey: AIR_HFULL_LOADING,
+  });
   return (
     <div className="cw_contentsWrap">
       <LoadingLocalSpinner
-        scopeKey={AIR_HFULL_LOADING}
-        className="cw_webcontainer airHFullLoading"
+        localLoadingKey={AIR_HFULL_LOADING}
+        className="cw_webcontainer"
       >
-        {!productStateIsLoading &&
+        {!isProductStateLoading &&
           (productStateNode ?? (
             <div className="cw_tab_cont cw_container01">
               <h2 className="cw_hide">홈</h2>
-              <OtaBeforeNoticeComponent scopeKey={AIR_HFULL_LOADING} />
+              <OtaBeforeNoticeComponent localLoadingKey={AIR_HFULL_LOADING} />
               <AirHomeComponent></AirHomeComponent>
             </div>
           ))}

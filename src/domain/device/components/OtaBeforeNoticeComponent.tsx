@@ -6,21 +6,21 @@ import { useDeviceStatus } from '../hooks/useDeviceStatus';
 import { useDeviceStore } from '../stores/useDeviceStore';
 
 interface OtaBeforeNoticeComponentProp {
-  scopeKey?: string[];
+  localLoadingKey?: string[];
 }
 
 export const OtaBeforeNoticeComponent = ({
-  scopeKey,
+  localLoadingKey,
 }: OtaBeforeNoticeComponentProp) => {
   const { lastSelectedDeviceInfos } = useDeviceStore();
-  const { isOnline } = useDeviceStatus({ scopeKey });
+  const { isOnline } = useDeviceStatus({ localLoadingKey });
 
   if (!isOnline) {
     return <NoNetStatusScreen />;
   }
 
   const { data: otaData, isError: otaIsError } = useGetOtaStatus(
-    { scopeKey, devId: lastSelectedDeviceInfos.barcode },
+    { localLoadingKey, devId: lastSelectedDeviceInfos.barcode },
     { enabled: isOnline },
   );
 

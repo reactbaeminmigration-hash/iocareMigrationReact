@@ -2,18 +2,18 @@ import { useIsFetching } from '@tanstack/react-query';
 
 interface LoadingLocalSpinnerProps {
   children: React.ReactNode;
-  scopeKey: string[];
+  localLoadingKey: string[];
   className?: string;
   as?: React.ElementType;
 }
 
 export const LoadingLocalSpinner = ({
   children,
-  scopeKey,
+  localLoadingKey,
   className,
   as: Component = 'div',
 }: LoadingLocalSpinnerProps) => {
-  const isAnythingLoading = useIsFetching({ queryKey: scopeKey }) > 0;
+  const isAnythingLoading = useIsFetching({ queryKey: localLoadingKey }) > 0;
 
   const containerClassName = `${className || ''} ${
     isAnythingLoading ? 'cw_cont_loading' : ''

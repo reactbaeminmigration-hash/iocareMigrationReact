@@ -8,24 +8,24 @@ import type {
 } from '../../types/deviceConn.types';
 
 type DeviceConnParams = RequestDeviceConn & {
-  scopeKey?: string[];
+  localLoadingKey?: string[];
 };
 
 function useGetDeviceStatus(
   params: DeviceConnParams,
   queryOptions?: UseQueryCustomOptions<ResponseDeviceConn>,
 ) {
-  const { scopeKey = [], ...apiParams } = params;
+  const { localLoadingKey = [], ...apiParams } = params;
 
   return useQuery({
     queryKey: [
-      ...scopeKey,
+      ...localLoadingKey,
       queryKeys.DEVICE,
       queryKeys.GET_DEVICE_CONN,
       apiParams,
     ],
     meta: {
-      showGlobalSpinner: scopeKey.length === 0, // scopeKey가 없을 때만 글로벌 스피너 표시
+      showGlobalSpinner: localLoadingKey.length === 0, // scopeKey가 없을 때만 글로벌 스피너 표시
     },
     queryFn: () => getDeviceConn(apiParams),
 

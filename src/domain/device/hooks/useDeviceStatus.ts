@@ -2,19 +2,19 @@ import useGetDeviceStatus from '@/domain/device/hooks/queries/useGetDeviceStatus
 import { useDeviceStore } from '../stores/useDeviceStore';
 
 interface UseDeviceOnlineStatusProps {
-  scopeKey?: string[];
+  localLoadingKey?: string[];
   enabled?: boolean;
 }
 
 export function useDeviceStatus({
-  scopeKey,
+  localLoadingKey,
   enabled = true,
 }: UseDeviceOnlineStatusProps) {
   const barcode = useDeviceStore(
     (state) => state.lastSelectedDeviceInfos?.barcode,
   );
   const { data, isPending, isFetching, isError, error } = useGetDeviceStatus(
-    { scopeKey, deviceList: [{ devIds: barcode }] },
+    { localLoadingKey, deviceList: [{ devIds: barcode }] },
     { enabled: !!barcode && enabled },
   );
 

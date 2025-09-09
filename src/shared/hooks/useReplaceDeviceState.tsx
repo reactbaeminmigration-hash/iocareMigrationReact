@@ -1,9 +1,9 @@
-import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
-import { NoNetStatusScreen } from '../components/FullScreenOverlay/NoNetStatusScreen';
-import { NoIotScreen } from '../components/FullScreenOverlay/NoIotScreen';
-import { NoInstScreen } from '../components/FullScreenOverlay/NoInstScreen';
-import { NoDataScreen } from '../components/FullScreenOverlay/NoDataScreen';
 import { useDeviceStatus } from '@/domain/device/hooks/useDeviceStatus';
+import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
+import { NoDataScreen } from '../components/FullScreenOverlay/NoDataScreen';
+import { NoInstScreen } from '../components/FullScreenOverlay/NoInstScreen';
+import { NoIotScreen } from '../components/FullScreenOverlay/NoIotScreen';
+import { NoNetStatusScreen } from '../components/FullScreenOverlay/NoNetStatusScreen';
 
 export const REPLACE_HOME = {
   NONE: 'NONE',
@@ -20,14 +20,14 @@ interface ReplaceHomeResult {
   kind: ReplaceHomeScreenTypes;
   node: React.ReactNode | null;
   loading: boolean;
-  scopeKey?: string[];
+  localLoadingKey?: string[];
 }
 interface replaceHomeScopeKey {
-  scopeKey?: string[];
+  localLoadingKey?: string[];
 }
 
 export function useReplaceDeviceState({
-  scopeKey,
+  localLoadingKey,
 }: replaceHomeScopeKey): ReplaceHomeResult {
   const lastDeviceInfo = useDeviceStore(
     (state) => state.lastSelectedDeviceInfos,
@@ -43,7 +43,7 @@ export function useReplaceDeviceState({
 
   const shouldFetchStatus = !!barcode && !isNoData && isIot && !isNoInst;
   const { isOnline, isPending, isFetching } = useDeviceStatus({
-    scopeKey,
+    localLoadingKey,
     enabled: shouldFetchStatus,
   });
 
@@ -78,5 +78,5 @@ export function useReplaceDeviceState({
       node = null;
   }
 
-  return { kind: type, node, loading, scopeKey };
+  return { kind: type, node, loading, localLoadingKey };
 }

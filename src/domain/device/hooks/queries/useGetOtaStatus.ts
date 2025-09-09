@@ -13,7 +13,7 @@ const UPDATE_WAIT_POLLING_INTERVAL = 2 * 1000; // 2초 마다 폴링
 const UPDATING_POLLING_INTERVAL = 60 * 1000; // 1분 마다 폴링
 
 type OtaStatusparams = RequestOtaStatus & {
-  scopeKey?: string[];
+  localLoadingKey?: string[];
 };
 
 function useGetOtaStatus(
@@ -21,13 +21,13 @@ function useGetOtaStatus(
   queryOptions?: UseQueryCustomOptions<ResponseOtaStatus>,
 ) {
   const pollCountRef = useRef(0);
-  const { scopeKey = [], ...apiParams } = params;
+  const { localLoadingKey = [], ...apiParams } = params;
   return useQuery({
     meta: {
-      showGlobalSpinner: !scopeKey,
+      showGlobalSpinner: !localLoadingKey,
     },
     queryKey: [
-      ...scopeKey,
+      ...localLoadingKey,
       queryKeys.DEVICE,
       queryKeys.GET_OTA_STATUS,
       apiParams,

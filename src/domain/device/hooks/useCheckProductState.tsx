@@ -3,15 +3,17 @@ import type { ReactNode } from 'react';
 import { useOtaStatusLogic } from './useOtaStatusLogic';
 
 interface useCheckProductStateProps {
-  scopeKey?: string[];
+  localLoadingKey?: string[];
 }
 
-export function useCheckProductState({ scopeKey }: useCheckProductStateProps): {
-  isLoading: boolean;
-  finalNode: ReactNode;
+export function useCheckProductState({
+  localLoadingKey,
+}: useCheckProductStateProps): {
+  isProductStateLoading: boolean;
+  productStateNode: ReactNode;
 } {
   const { node: replaceNode, loading: isReplaceHomeLoading } =
-    useReplaceDeviceState({ scopeKey });
+    useReplaceDeviceState({ localLoadingKey });
   // 제품 상태체크가 문제가 없고 로딩 완료되었을때
   const shouldEnableOtaLogic = !isReplaceHomeLoading && replaceNode === null;
   const {
@@ -19,20 +21,20 @@ export function useCheckProductState({ scopeKey }: useCheckProductStateProps): {
     isLoading: otaIsLoading,
     // isSuccess: otaIsSuccess,
   } = useOtaStatusLogic({
-    scopeKey,
+    localLoadingKey,
     enabled: shouldEnableOtaLogic,
   });
 
-  let finalNode: ReactNode = null;
+  let productStateNode: ReactNode = null;
   if (isReplaceHomeLoading) {
-    finalNode = null;
+    productStateNode = null;
   } else if (replaceNode) {
-    finalNode = replaceNode;
+    productStateNode = replaceNode;
   } else {
-    finalNode = otaNode;
+    productStateNode = otaNode;
   }
   return {
-    isLoading: isReplaceHomeLoading || otaIsLoading,
-    finalNode,
+    isProductStateLoading: isReplaceHomeLoading || otaIsLoading,
+    productStateNode,
   };
 }
