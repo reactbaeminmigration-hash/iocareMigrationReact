@@ -75,7 +75,6 @@ export default function WaterMonthReportCard({ params }: Props) {
       stackLabels: {
         enabled: true,
         formatter: function (this: Highcharts.StackItemObject) {
-          console.log(this);
           return converMilL(this.total) + 'ℓ';
         },
         style: {

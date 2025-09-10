@@ -1,35 +1,33 @@
-import useGetDeviceConn from '@/domain/device/hooks/queries/useGetDeviceConn';
-import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
-import { WifiConnectError } from '@/shared/components/Layout/WifiConnectError';
 import WaterSterCard from '../components/WaterSterCard';
 import WaterUsageCard from '../components/WaterUsageCard';
 import WaterFilterCard from '../components/WaterFilterCard';
+import { useCheckProductState } from '@/domain/device/hooks/useCheckProductState';
+import { LoadingLocalSpinner } from '@/shared/components/LoadingSpinner/LoadingLocalSpinner';
+import { OtaBeforeNoticeComponent } from '@/domain/device/components/OtaBeforeNoticeComponent';
+
+const WATER_HFULL_LOADING = ['waterHFullLoading'];
 
 export const WaterHomePage = () => {
-  const deviceList = [
-    { devIds: useDeviceStore.getState().lastSelectedDeviceInfos.barcode },
-  ];
-  const { data: ResponseDeviceConn } = useGetDeviceConn({ deviceList });
+  const { productStateNode, isProductStateLoading } = useCheckProductState({
+    localLoadingKey: WATER_HFULL_LOADING,
+  });
 
   return (
     <div className="cw_contentsWrap">
-      <div className="cw_webcontainer">
-        {(() => {
-          if (
-            Array.isArray(ResponseDeviceConn) &&
-            !ResponseDeviceConn[0].netStatus
-          ) {
-            return <WifiConnectError />;
-          }
-          return (
+      <LoadingLocalSpinner
+        localLoadingKey={WATER_HFULL_LOADING}
+        className="cw_webcontainer"
+      >
+        {!isProductStateLoading &&
+          (productStateNode ?? (
             <div className="cw_tab_cont cw_container01">
+              <OtaBeforeNoticeComponent localLoadingKey={WATER_HFULL_LOADING} />
               <WaterUsageCard />
               <WaterSterCard />
               <WaterFilterCard />
             </div>
-          );
-        })()}
-      </div>
+          ))}
+      </LoadingLocalSpinner>
     </div>
   );
 };
