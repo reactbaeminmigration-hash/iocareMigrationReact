@@ -46,6 +46,7 @@ export interface CategoryInfo {
 
 // category.categories 요소
 export interface CategoryItem {
+  imageUrl: string;
   familyId: string;
   familyName: string;
   productModel: string;

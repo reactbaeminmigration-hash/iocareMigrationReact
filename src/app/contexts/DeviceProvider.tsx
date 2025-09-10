@@ -1,21 +1,15 @@
-import { createContext, useContext, useMemo, type ReactNode } from 'react';
-
-const tabs = [
-  { path: '/home', label: 'BTN.HOME' },
-  { path: '/report', label: 'BTN.REPORT' },
-  { path: '/control', label: 'BTN.CONTROL' },
-  { path: '/notice', label: 'BTN.NOTICE' },
-  { path: '/settings', label: 'BTN.SETTING' },
-] as const;
-
-interface DeviceContextType {
-  tabs: typeof tabs;
-}
+import { useUnifiedDeviceData } from '@/domain/device/hooks/useUnifiedDeviceData';
+import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
+import { createContext, useContext, type ReactNode } from 'react';
+import type { DeviceContextType } from './DeviceContext.types';
 
 export const DeviceContext = createContext<DeviceContextType | null>(null);
 
 export const DeviceProvider = ({ children }: { children: ReactNode }) => {
-  const value = useMemo(() => ({ tabs }), [tabs]);
+  const { lastSelectedDeviceInfos: deviceState } = useDeviceStore();
+
+  const value = useUnifiedDeviceData(deviceState);
+
   return (
     <DeviceContext.Provider value={value}>{children}</DeviceContext.Provider>
   );
@@ -24,7 +18,7 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
 export const useDeviceContext = () => {
   const context = useContext(DeviceContext);
   if (!context) {
-    throw new Error('useDeviceContext 사용 도중 에러');
+    throw new Error('useDeviceContext must be used within a DeviceProvider');
   }
   return context;
 };
