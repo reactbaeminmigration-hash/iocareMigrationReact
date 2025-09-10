@@ -1,12 +1,13 @@
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { ReportSelectHeader } from '../../../shared/components/Layout/ReportSelectHeader';
 import useHasWaterReport from '../queries/useHasWaterReport';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { nowToString, timeStampToString } from '@/shared/utils/common.utils';
 import { t } from 'i18next';
 import WaterTotalReportCard from '../components/WaterTotalReportCard';
 import type { WaterReportParams } from '../types/waterReportPublished.types';
 import WaterDailyReportCard from '../components/WaterDailyReportCard';
+import WaterMonthReportCard from '../components/WaterMonthReportCard';
 
 export const WaterReportPage = () => {
   const productInfos = useDeviceStore((s) => s.lastSelectedDeviceInfos);
@@ -51,6 +52,7 @@ export const WaterReportPage = () => {
             <ul>
               <WaterTotalReportCard params={reportParams} />
               <WaterDailyReportCard params={reportParams} />
+              <WaterMonthReportCard params={reportParams} />
             </ul>
           )}
         </div>
