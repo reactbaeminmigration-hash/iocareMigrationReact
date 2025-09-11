@@ -55,7 +55,6 @@ export const useUserStore = create<UserState>()(
               return {
                 accessToken: newAccessToken,
                 refreshToken: newRefreshToken,
-                isAuthenticated: !!newAccessToken,
               };
             },
             false,

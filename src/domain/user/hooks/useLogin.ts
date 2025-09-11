@@ -17,8 +17,13 @@ function isAuthMessageData(data: any): data is AuthMessageData {
 export function useLogin() {
   const { getTokenMutation, loginMutation } = useAuth();
   // const { setDeviceInfos } = useDeviceStore();
-  const { accessToken, setAuthTokens, setUserInfo, setIsAutoLogin } =
-    useUserStore();
+  const {
+    accessToken,
+    setAuthTokens,
+    setUserInfo,
+    setIsAutoLogin,
+    setIsAuthenticated,
+  } = useUserStore();
 
   // 인증 진행 후 토큰 발급 최종 사용자 정보로 로그인
   const login = async (code: string | null = '') => {
@@ -60,6 +65,7 @@ export function useLogin() {
     console.log(JSON.stringify(userDataInfo));
     console.log('로그인 정보 가져오기 성공:', loginData);
     setUserInfo(userDataInfo);
+    setIsAuthenticated(true);
   };
 
   // 통합회원 인증후 로그인 진행

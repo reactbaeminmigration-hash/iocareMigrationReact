@@ -10,8 +10,7 @@ import { useLogin } from '../hooks/useLogin';
 import { useUserStore } from '../stores/useUserStore';
 
 export const LoginPage = () => {
-  const { accessToken, isInitialDataLoaded, isAutoLogin, setIsAuthenticated } =
-    useUserStore();
+  const { accessToken, isInitialDataLoaded, isAutoLogin } = useUserStore();
   const { login } = useLogin();
   const navigate = useNavigate();
   const { getDvcTypeRoute } = useGetDeviceType();
@@ -32,7 +31,6 @@ export const LoginPage = () => {
       let claims = decodeToken(accessToken!);
       if (claims.remember_me) {
         login();
-        setIsAuthenticated(true);
       }
     }
   }, [accessToken]);
