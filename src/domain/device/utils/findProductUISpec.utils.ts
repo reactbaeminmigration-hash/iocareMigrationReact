@@ -3,10 +3,11 @@ import type {
   FoundProductUISpec,
   ProductUISpec,
 } from '@/domain/device/types/productUISpec.types';
+import { WATER_PRODUCT_DEFINITIONS } from '@/domain/water/constants/waterDefinitions';
 
 const allDeviceUISpecs: ProductUISpec[] = [
   ...AIR_PRODUCT_DEFINITIONS,
-  // ...WATER
+  ...WATER_PRODUCT_DEFINITIONS,
 ];
 
 export function findProductUISpecByCode(

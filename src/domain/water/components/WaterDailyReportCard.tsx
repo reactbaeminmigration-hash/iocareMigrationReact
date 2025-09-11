@@ -18,7 +18,7 @@ export default function WaterDailyReportCard({ params }: Props) {
   );
 
   const dayList: number[] = Array.from(
-    { length: Number(dailyAmt?.dailyLastDay) },
+    { length: Number(dailyAmt?.dailyLastDay) || 0 },
     (_, i) => i + 1,
   );
 
@@ -40,7 +40,7 @@ export default function WaterDailyReportCard({ params }: Props) {
   const options = {
     chart: {
       type: 'areaspline',
-      marginVal: [20, 10, 20, 30],
+      margin: [20, 10, 20, 30],
       height: 150,
     },
     title: {
@@ -61,7 +61,7 @@ export default function WaterDailyReportCard({ params }: Props) {
           fontSize: 12,
         },
       },
-      max: Number(dailyAmt?.dailyLastDay),
+      max: dayList.length,
       categories: dayList,
       tickInterval: 6,
     },
@@ -112,7 +112,9 @@ export default function WaterDailyReportCard({ params }: Props) {
     },
     series: [
       {
-        data: dailyAmt?.dailyWatQntList,
+        data: Array.isArray(dailyAmt?.dailyWatQntList)
+          ? dailyAmt!.dailyWatQntList
+          : [],
         showInLegend: false,
       },
     ],
