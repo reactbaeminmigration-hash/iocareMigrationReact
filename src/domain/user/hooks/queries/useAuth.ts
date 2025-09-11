@@ -22,12 +22,28 @@ function useLogin(mutationOption?: UseMutationCustomOptions) {
   });
 }
 
+// function useLogout(mutationOption?: UseMutationCustomOptions) {
+//   const { accessToken, refreshToken } = useUserStore.getState();
+//   if (!accessToken || !refreshToken) {
+//     return Promise.resolve(); // Or reject, depending on desired behavior
+//   }
+//   return useMutation({
+//     mutationFn: postLogout,
+//     onSettled: () => {
+//       // resetUser();
+//     },
+//     ...mutationOption,
+//   });
+// }
+
 function useAuth() {
   const getTokenMutation = useGetToken();
   const loginMutation = useLogin();
+  // const logoutMutation = useLogout();
   return {
     getTokenMutation,
     loginMutation,
+    // logoutMutation,
   };
 }
 

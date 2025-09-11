@@ -29,7 +29,8 @@ export type UserActionType =
   | 'set_initial_data_loaded'
   | 'set_error'
   | 'set_isAutoLogin'
-  | 'set_isAuthenticated';
+  | 'set_isAuthenticated'
+  | 'logout';
 
 export const useUserStore = create<UserState>()(
   devtools(
@@ -76,6 +77,17 @@ export const useUserStore = create<UserState>()(
             { isAutoLogin: autoLogin },
             false,
             'set_isAutoLogin' as UserActionType,
+          ),
+        logout: () =>
+          set(
+            {
+              accessToken: null,
+              refreshToken: null,
+              userInfo: null,
+              isAutoLogin: false,
+            },
+            false,
+            'logout' as UserActionType,
           ),
         error: null,
         setError: (error) =>

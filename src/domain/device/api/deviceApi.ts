@@ -1,4 +1,4 @@
-import axiosInstance from '@/core/api/axios';
+import { axiosInstance } from '@/core/api/axios';
 import type { ApiResponse } from '@/shared/types/common';
 import buildGenericQueryString from '@/shared/utils/queryString';
 import type {

@@ -1,4 +1,4 @@
-import axiosInstance from '@/core/api/axios';
+import { axiosInstance } from '@/core/api/axios';
 
 function setHeader(key: string, value: string) {
   axiosInstance.defaults.headers.common[key] = value;

@@ -1,4 +1,4 @@
-import axiosInstance from '@/core/api/axios';
+import { axiosInstance, refreshApiClient } from '@/core/api/axios';
 import type {
   RequestDeviceInfos,
   ResponseDeviceInfos,
@@ -10,7 +10,14 @@ import type {
   ResponseAppSetting,
 } from '../types/appSetting.types';
 import type { RequestLogin, ResponseLogin } from '../types/login.types';
-import type { RequestToken, ResponseToken } from '../types/token.types';
+import type {
+  RequestPostLogout,
+  RequestRefreshToken,
+  RequestToken,
+  ResponsePostLogout,
+  ResponseRefreshToken,
+  ResponseToken,
+} from '../types/token.types';
 
 const getToken = async ({
   authCode,
@@ -52,4 +59,43 @@ const getDeviceInfos = async (
   return data.data;
 };
 
-export { getAppSetting, getDeviceInfos, getToken, postLogin };
+const getRefreshToken = async ({
+  accessToken,
+  refreshToken,
+}: RequestRefreshToken): Promise<ResponseRefreshToken> => {
+  const { data } = await refreshApiClient.post<
+    ApiResponse<ResponseRefreshToken>
+  >(
+    '/v1/com/refresh-token',
+    {
+      refreshToken,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  );
+
+  return data.data;
+};
+
+const postLogout = async (
+  params: RequestPostLogout,
+): Promise<ResponsePostLogout> => {
+  const { data } = await axiosInstance.post<ApiResponse<ResponsePostLogout>>(
+    '/v1/com/logout',
+    params,
+  );
+
+  return data.data;
+};
+
+export {
+  getAppSetting,
+  getDeviceInfos,
+  getRefreshToken,
+  getToken,
+  postLogin,
+  postLogout,
+};
