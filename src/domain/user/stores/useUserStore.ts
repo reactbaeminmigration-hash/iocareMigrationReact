@@ -9,6 +9,7 @@ interface UserState {
   refreshToken: string | null;
   isAuthenticated: boolean;
   isInitialDataLoaded: boolean;
+  isAutoLogin: boolean;
   setAuthTokens: (tokens: {
     accessToken?: string | null;
     refreshToken?: string | null;
@@ -16,6 +17,8 @@ interface UserState {
   userInfo: UserDataInfo | null;
   setUserInfo: (userInfo: UserDataInfo) => void;
   setInitialDataLoaded: (loaded: boolean) => void;
+  setIsAutoLogin: (autoLogin: boolean) => void;
+  setIsAuthenticated: (authenticated: boolean) => void;
   error: Error | null;
   setError: (error: Error | null) => void;
 }
@@ -24,7 +27,9 @@ export type UserActionType =
   | 'set_auth_tokens'
   | 'set_user_info'
   | 'set_initial_data_loaded'
-  | 'set_error';
+  | 'set_error'
+  | 'set_isAutoLogin'
+  | 'set_isAuthenticated';
 
 export const useUserStore = create<UserState>()(
   devtools(
@@ -36,6 +41,12 @@ export const useUserStore = create<UserState>()(
         accessToken: null,
         refreshToken: null,
         isAuthenticated: false,
+        setIsAuthenticated: (authenticated) =>
+          set(
+            { isAuthenticated: authenticated },
+            false,
+            'set_isAuthenticated' as UserActionType,
+          ),
         setAuthTokens: (tokens) =>
           set(
             (state) => {
@@ -60,6 +71,13 @@ export const useUserStore = create<UserState>()(
             false,
             'set_initial_data_loaded' as UserActionType,
           ),
+        isAutoLogin: false,
+        setIsAutoLogin: (autoLogin) =>
+          set(
+            { isAutoLogin: autoLogin },
+            false,
+            'set_isAutoLogin' as UserActionType,
+          ),
         error: null,
         setError: (error) =>
           set({ error }, false, 'set_error' as UserActionType),
@@ -69,6 +87,7 @@ export const useUserStore = create<UserState>()(
         partialize: (state) => ({
           accessToken: state.accessToken,
           refreshToken: state.refreshToken,
+          isAutoLogin: state.isAutoLogin,
         }),
       },
     ),

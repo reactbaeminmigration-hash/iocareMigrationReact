@@ -6,10 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { LoginActions } from '../components/LoginActions';
 import { LoginHeader } from '../components/LoginHeader';
 import { LoginSwiper } from '../components/LoginSwiper';
+import { useLogin } from '../hooks/useLogin';
 import { useUserStore } from '../stores/useUserStore';
 
 export const LoginPage = () => {
-  const { accessToken, isInitialDataLoaded } = useUserStore();
+  const { accessToken, isInitialDataLoaded, isAutoLogin, setIsAuthenticated } =
+    useUserStore();
+  const { login } = useLogin();
   const navigate = useNavigate();
   const { getDvcTypeRoute } = useGetDeviceType();
   const route = useDeviceStore(
@@ -24,9 +27,13 @@ export const LoginPage = () => {
 
   // 유효한 토큰이 있으면 자동로그인 진행
   useEffect(() => {
-    if (accessToken) {
+    console.log(isAutoLogin);
+    if (accessToken && isAutoLogin) {
       let claims = decodeToken(accessToken!);
-      claims.remember_me;
+      if (claims.remember_me) {
+        login();
+        setIsAuthenticated(true);
+      }
     }
   }, [accessToken]);
 

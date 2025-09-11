@@ -1,5 +1,4 @@
 import { decodeToken } from '@/core/auth/utils/jwtDecode';
-import { setHeader } from '@/shared/utils/header';
 import type { JwtPayload } from 'jwt-decode';
 import { useUserStore } from '../stores/useUserStore';
 import type { AuthMessageData } from '../types/auth.types';
@@ -18,11 +17,11 @@ function isAuthMessageData(data: any): data is AuthMessageData {
 export function useLogin() {
   const { getTokenMutation, loginMutation } = useAuth();
   // const { setDeviceInfos } = useDeviceStore();
-  const { accessToken, refreshToken, setAuthTokens, setUserInfo } =
+  const { accessToken, setAuthTokens, setUserInfo, setIsAutoLogin } =
     useUserStore();
 
   // 인증 진행 후 토큰 발급 최종 사용자 정보로 로그인
-  const login = async (code: string | null) => {
+  const login = async (code: string | null = '') => {
     if (code) {
       const getTokenData = await getTokenMutation.mutateAsync({
         authCode: code,
@@ -35,8 +34,8 @@ export function useLogin() {
         refreshToken: getTokenData.refreshToken,
       });
     } else {
-      setHeader('accessToken', `${accessToken}`);
-      setHeader('refreshToken', `${refreshToken}`);
+      // setHeader('accessToken', `${accessToken}`);
+      // setHeader('refreshToken', `${refreshToken}`);
     }
 
     const loginData = await loginMutation.mutateAsync({
@@ -56,6 +55,8 @@ export function useLogin() {
     });
     const decodedPayload: JwtPayload = decodeToken(loginData.userInfo);
     const userDataInfo: UserDataInfo = decodedPayload as UserDataInfo;
+    let claims = decodeToken(accessToken!);
+    setIsAutoLogin(!!claims.remember_me);
     console.log(JSON.stringify(userDataInfo));
     console.log('로그인 정보 가져오기 성공:', loginData);
     setUserInfo(userDataInfo);
