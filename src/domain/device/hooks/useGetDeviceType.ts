@@ -2,7 +2,7 @@ const dvcCode = [
   { code: '001', route: 'water', type: '정수기' },
   { code: '002', route: 'bidet', type: '비데' },
   { code: '004', route: 'air', type: '청정기' },
-  { code: '005', route: 'air', type: '가습기' },
+  { code: '005', route: 'dehumid', type: '제습기' },
   { code: '008', route: 'mattress', type: '매트리스' },
 ];
 

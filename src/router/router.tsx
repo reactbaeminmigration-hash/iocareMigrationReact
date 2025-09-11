@@ -7,6 +7,7 @@ import { airRoutes } from '../domain/air/router/router';
 import { LoginPage } from '../domain/user/pages/LoginPage';
 import { ProtectedRoute } from './ProtectedRoute';
 import { routerPath } from './routerPath';
+import { dehumidRoutes } from '@/domain/dehumid/router/router';
 
 const router = createHashRouter([
   {
@@ -36,6 +37,7 @@ const router = createHashRouter([
                 children: [
                   ...airRoutes,
                   ...WaterRoutes,
+                  ...dehumidRoutes,
                   // {
                   //   path: routerPath.wifiError,
                   //   lazy: async () => {

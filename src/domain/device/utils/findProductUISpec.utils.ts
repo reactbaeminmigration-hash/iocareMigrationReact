@@ -1,4 +1,5 @@
 import { AIR_PRODUCT_DEFINITIONS } from '@/domain/air/constants/airDefinitions';
+import { DEHUMID_PRODUCT_DEFINITIONS } from '@/domain/dehumid/constants/dehumidDefinitions';
 import type {
   FoundProductUISpec,
   ProductUISpec,
@@ -8,6 +9,7 @@ import { WATER_PRODUCT_DEFINITIONS } from '@/domain/water/constants/waterDefinit
 const allDeviceUISpecs: ProductUISpec[] = [
   ...AIR_PRODUCT_DEFINITIONS,
   ...WATER_PRODUCT_DEFINITIONS,
+  ...DEHUMID_PRODUCT_DEFINITIONS,
 ];
 
 export function findProductUISpecByCode(
