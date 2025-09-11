@@ -1,10 +1,9 @@
 import { useSpinner } from '@/shared/hooks/useSpinner';
 import { useIsFetching } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
-import { useNavigation } from 'react-router-dom';
 
 export const NavigationLoadingIndicator = () => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   // useIsFetching에 predicate 필터를 추가합니다.
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const isFetching = useIsFetching({
@@ -16,11 +15,11 @@ export const NavigationLoadingIndicator = () => {
   });
   const { showSpinner, hideSpinner } = useSpinner();
 
-  const isRouterLoading = navigation.state === 'loading';
+  // const isRouterLoading = navigation.state === 'loading';
   const isQueryFetching = isFetching > 0;
 
   // 최종 로딩 상태
-  const isLoading = isRouterLoading || isQueryFetching;
+  const isLoading = isQueryFetching;
 
   useEffect(() => {
     if (isLoading) {
