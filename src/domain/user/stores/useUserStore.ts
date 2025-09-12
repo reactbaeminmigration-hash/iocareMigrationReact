@@ -21,6 +21,7 @@ interface UserState {
   setIsAuthenticated: (authenticated: boolean) => void;
   error: Error | null;
   setError: (error: Error | null) => void;
+  resetUser: () => void;
 }
 
 export type UserActionType =
@@ -30,7 +31,7 @@ export type UserActionType =
   | 'set_error'
   | 'set_isAutoLogin'
   | 'set_isAuthenticated'
-  | 'logout';
+  | 'resetUser';
 
 export const useUserStore = create<UserState>()(
   devtools(
@@ -78,16 +79,15 @@ export const useUserStore = create<UserState>()(
             false,
             'set_isAutoLogin' as UserActionType,
           ),
-        logout: () =>
+        resetUser: () =>
           set(
             {
               accessToken: null,
               refreshToken: null,
-              userInfo: null,
               isAutoLogin: false,
             },
             false,
-            'logout' as UserActionType,
+            'resetUser' as UserActionType,
           ),
         error: null,
         setError: (error) =>

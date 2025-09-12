@@ -19,7 +19,7 @@ const refreshApiClient = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const { accessToken, refreshToken, setAuthTokens } =
+    const { accessToken, refreshToken, setAuthTokens, resetUser } =
       useUserStore.getState();
     try {
       if (!accessToken || !refreshToken) {
@@ -41,7 +41,7 @@ axiosInstance.interceptors.request.use(
           config.headers.Authorization = `Bearer ${newAccessToken}`;
           setAuthTokens({ accessToken: newAccessToken });
         } catch (refreshError) {
-          // logout();
+          resetUser();
           window.location.href = '/';
           return Promise.reject(refreshError);
         }
@@ -49,7 +49,7 @@ axiosInstance.interceptors.request.use(
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
     } catch (error) {
-      // logout();
+      resetUser();
       window.location.href = '/';
       return Promise.reject(error);
     }
@@ -60,16 +60,14 @@ axiosInstance.interceptors.request.use(
   },
 );
 
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if (error.response?.status === 401 || error.response?.status === 400) {
-//       const { logout } = useUserStore.getState();
-//       logout();
-//       // window.location.href = '/';
-//     }
-//     return Promise.reject(error);
-//   },
-// );
+refreshApiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const { resetUser } = useUserStore.getState();
+    resetUser();
+    window.location.href = '/';
+    return Promise.reject(error);
+  },
+);
 
 export { axiosInstance, refreshApiClient };

@@ -22,6 +22,12 @@ export const AIR_PRODUCT_DEFINITIONS: ProductUISpec[] = [
         features: {},
       },
       {
+        modelName: 'MARVEL_20', // 노블 20평
+        productCodes: ['113826'],
+        manuals: { filePath: '117' },
+        features: {},
+      },
+      {
         modelName: 'MARVEL_30', // 노블 30평
         productCodes: ['113209'],
         manuals: { filePath: '117' },

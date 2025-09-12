@@ -27,6 +27,7 @@ export function useLogin() {
 
   // 인증 진행 후 토큰 발급 최종 사용자 정보로 로그인
   const login = async (code: string | null = '') => {
+    let tokenForThisLogin: string | null = accessToken;
     if (code) {
       const getTokenData = await getTokenMutation.mutateAsync({
         authCode: code,
@@ -38,6 +39,7 @@ export function useLogin() {
         accessToken: getTokenData.accessToken,
         refreshToken: getTokenData.refreshToken,
       });
+      tokenForThisLogin = getTokenData.accessToken;
     } else {
       // setHeader('accessToken', `${accessToken}`);
       // setHeader('refreshToken', `${refreshToken}`);
@@ -60,7 +62,7 @@ export function useLogin() {
     });
     const decodedPayload: JwtPayload = decodeToken(loginData.userInfo);
     const userDataInfo: UserDataInfo = decodedPayload as UserDataInfo;
-    let claims = decodeToken(accessToken!);
+    let claims = decodeToken(tokenForThisLogin!);
     setIsAutoLogin(!!claims.remember_me);
     console.log(JSON.stringify(userDataInfo));
     console.log('로그인 정보 가져오기 성공:', loginData);
