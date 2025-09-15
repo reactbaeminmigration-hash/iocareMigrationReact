@@ -34,7 +34,7 @@ export default function WaterMonthReportCard({ params }: Props) {
       text: '',
     },
     xAxis: {
-      categories: monthQnt?.monthList?.map((m) => `${Number(m)}월`),
+      categories: monthQnt?.monthList?.map((m) => `${Number(m)}월`) ?? [],
       title: {
         enabled: false,
       },
@@ -118,19 +118,19 @@ export default function WaterMonthReportCard({ params }: Props) {
       {
         type: 'column',
         name: '냉수',
-        data: monthQnt?.coldWatList,
+        data: monthQnt?.coldWatList ?? [],
         color: '#6bc5f8',
       },
       {
         type: 'column',
         name: '정수',
-        data: monthQnt?.cleanWatList,
+        data: monthQnt?.cleanWatList ?? [],
         color: '#7adfcd',
       },
       {
         type: 'column',
         name: '온수',
-        data: monthQnt?.hotWatList,
+        data: monthQnt?.hotWatList ?? [],
         color: '#ffcc89',
       },
     ],
