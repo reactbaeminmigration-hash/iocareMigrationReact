@@ -1,10 +1,14 @@
+import { useDeviceContext } from '@/app/contexts/DeviceProvider';
 import { useTooltip } from '@/shared/hooks/useTooltip';
 import { Trans } from 'react-i18next';
+import useGetAirDeviceHome from '../hooks/queries/useGetAirDeviceHome';
 
 export const AirHomeComponent = () => {
   const onClickHandlerAirGrapDetil = () => {};
 
   const airStateTooltip = useTooltip<HTMLDListElement>();
+  const { deviceState } = useDeviceContext();
+  const {} = useGetAirDeviceHome(deviceState);
 
   return (
     <div className="cw_contbox02">

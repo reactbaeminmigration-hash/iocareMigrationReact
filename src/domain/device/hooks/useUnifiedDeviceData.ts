@@ -34,6 +34,7 @@ export const useUnifiedDeviceData = (
 
     return {
       tabs,
+      deviceState,
       deviceUISpec,
       deviceStandInfo,
       deviceCategory,
