@@ -1,6 +1,6 @@
+import { isMqttProduct } from '@/domain/device/helpers/device.helpers';
 import type { DeviceInfo } from '@/domain/device/types/device.types';
 import { formatTimestampToYyyyMmDdHhNn } from '@/shared/utils/date.utils';
-import { isMqttProduct } from '../helpers/device.helpers';
 import type { RequestAirDeviceHome } from '../types/airDeviceHome.types';
 
 export const toAirDeivceHomeRequest = (
