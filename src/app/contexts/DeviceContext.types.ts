@@ -3,12 +3,14 @@ import type {
   CategoryItem,
   ProdStandDeviceInfo,
 } from '@/domain/device/types/common.types';
+import type { DeviceInfo } from '@/domain/device/types/device.types';
 import type { FoundProductUISpec } from '@/domain/device/types/productUISpec.types';
 import type { ITab } from '@/shared/components/Layout/LayoutTab';
 import type { TranslationKey } from '@/shared/types/common';
 
 export interface DeviceContextType {
   tabs: readonly ITab[];
+  deviceState: DeviceInfo;
   deviceUISpec: FoundProductUISpec;
   deviceStandInfo: ProdStandDeviceInfo;
   deviceCategory: CategoryItem;
