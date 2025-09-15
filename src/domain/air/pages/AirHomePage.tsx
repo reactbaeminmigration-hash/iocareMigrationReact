@@ -1,7 +1,7 @@
 import { OtaBeforeNoticeComponent } from '@/domain/device/components/OtaBeforeNoticeComponent';
 import { useCheckProductState } from '@/domain/device/hooks/useCheckProductState';
 import { LoadingLocalSpinner } from '@/shared/components/LoadingSpinner/LoadingLocalSpinner';
-import { AirHomeComponent } from '../components/AirHomeComponent';
+import { AirHomeComponent } from '../components/home/AirHomeComponent';
 
 const AIR_HFULL_LOADING = ['airHFullLoading'];
 

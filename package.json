@@ -20,6 +20,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.84.1",
     "axios": "^1.11.0",
+    "classnames": "^2.5.1",
     "highcharts": "^12.3.0",
     "highcharts-react-official": "^3.2.2",
     "i18next": "^25.3.2",
