@@ -7,7 +7,7 @@ export interface RequestWaterControlStatus {
 }
 
 export interface ResponseWaterControlStatus {
-  controlStatus: string[];
+  controlStatus: Record<string, string>;
   lastBubbleSterTime: string;
   lastDrainageTime: string;
   lastSterTime: string;

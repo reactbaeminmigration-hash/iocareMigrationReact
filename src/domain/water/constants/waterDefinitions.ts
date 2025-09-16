@@ -16,7 +16,7 @@ export const WATER_PRODUCT_DEFINITIONS: ProductUISpec[] = [
     tabs: defaultTabsInfo,
     models: [
       {
-        modelName: 'HIDDEN_B', // 노블 15평
+        modelName: 'HIDDEN_B',
         productCodes: [
           '113232',
           '113233',
@@ -33,6 +33,19 @@ export const WATER_PRODUCT_DEFINITIONS: ProductUISpec[] = [
           '113834',
           '113937',
         ],
+        manuals: { filePath: '181' },
+        features: {},
+      },
+    ],
+  },
+  {
+    family: 'ICON_20',
+    region: 'KR',
+    tabs: defaultTabsInfo,
+    models: [
+      {
+        modelName: 'ICON 2.0',
+        productCodes: ['113417'],
         manuals: { filePath: '181' },
         features: {},
       },

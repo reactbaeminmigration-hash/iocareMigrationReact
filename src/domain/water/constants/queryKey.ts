@@ -6,6 +6,7 @@ const queryKeys = {
   GET_WATER_REPORT_DAILY: 'getWaterReportDaily',
   GET_WATER_REPORT_MONTH: 'getWaterReportMonth',
   GET_CONTROL_STATUS: 'getWaterContolStatus',
+  GET_CONTROL: 'getWaterContol',
 } as const;
 
 export { queryKeys };

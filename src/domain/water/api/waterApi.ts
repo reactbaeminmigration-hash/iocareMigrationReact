@@ -25,6 +25,10 @@ import type {
   RequestWaterControlStatus,
   ResponseWaterControlStatus,
 } from '../types/waterControlStatus.types';
+import type {
+  RequestWaterControl,
+  ResponseWaterControl,
+} from '../types/waterControl.types';
 
 const getWaterHomeInfos = async (
   params: RequestWaterHome,
@@ -82,6 +86,16 @@ const getWaterControlStatus = async (
   return data.data;
 };
 
+const getWaterControl = async (
+  params: RequestWaterControl,
+): Promise<ResponseWaterControl> => {
+  const { data } = await axiosInstance.post<ApiResponse<ResponseWaterControl>>(
+    '/v1/com/control-device',
+    params,
+  );
+  return data.data;
+};
+
 export {
   getWaterHomeInfos,
   getWaterReportPublished,
@@ -89,4 +103,5 @@ export {
   getWaterDailyAmt,
   getWaterMonthAmt,
   getWaterControlStatus,
+  getWaterControl,
 };
