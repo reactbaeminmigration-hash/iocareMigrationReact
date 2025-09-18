@@ -1,1 +1,1 @@
-export interface Waterfeatures {}
+export interface WaterFeatures {}
