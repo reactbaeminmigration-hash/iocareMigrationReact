@@ -1,11 +1,7 @@
 import { t } from 'i18next';
-type ControlProps = { protocol: string; status: string };
+import type { Props } from '../constants/controlDefinitions';
 
-export const SleepModeComponent: React.FC<ControlProps> = ({
-  protocol,
-  status,
-}) => {
-  console.log(protocol);
+export const SleepModeComponent: React.FC<Props> = ({ status }) => {
   console.log(status);
   return (
     // 0037

@@ -3,6 +3,8 @@ import useGetWaterControlStatus from '../queries/useGetWaterControlStatus';
 import {
   WATER_CONTROL,
   WATER_CONTROL_REGISTRY,
+  WATER_CONTROL_UI,
+  type ProdList,
 } from '../constants/controlDefinitions';
 
 export const WaterControlPage = () => {
@@ -18,22 +20,25 @@ export const WaterControlPage = () => {
     { enabled: !!deviceInfo },
   );
 
-  const prodName =
-    deviceInfo?.prodName as keyof typeof WATER_CONTROL.controlSpec;
-  const prodControl = WATER_CONTROL.controlSpec[prodName];
+  const prodName = deviceInfo?.prodName as ProdList;
+  const controlList = WATER_CONTROL_UI[prodName] ?? [];
+  const statusList = dvc?.controlStatus ?? {};
 
   return (
     <div id="controlWrap" className="cw_contentsWrap">
       <div className="cw_webcontainer">
-        {prodControl.map((rows, i) => (
+        {controlList.map((rows, i) => (
           <div className="gridWrap" key={i}>
-            {rows.map((key) => {
-              const Component = WATER_CONTROL_REGISTRY[key];
-              const proto = WATER_CONTROL.controls[key]?.id;
-              const status = (dvc?.controlStatus as Record<string, string>)?.[
-                proto
-              ];
-              return <Component key={key} protocol={proto} status={status} />;
+            {rows.map((id) => {
+              const Component = WATER_CONTROL_REGISTRY[id];
+              const protocol = WATER_CONTROL.controls[id].protocol;
+              return (
+                <Component
+                  key={protocol}
+                  protocol={protocol}
+                  status={statusList}
+                />
+              );
             })}
           </div>
         ))}
