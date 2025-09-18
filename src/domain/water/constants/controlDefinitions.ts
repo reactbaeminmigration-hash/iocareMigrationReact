@@ -9,7 +9,7 @@ export type Props = { protocol: string; status: Record<string, string> };
 
 // 제품별 기능 노출 목록 (모델명 기준)
 export const WATER_CONTROL_UI = {
-  ICON_20: [['myCapacity', 'sleepMode']],
+  ICON_20: [['myCapacity'], ['sleepMode']],
   HIDDEN_B_TW: [['waitMode', 'myCapacity'], ['sleepMode']],
   ELITE: [],
 } satisfies Record<string, Protocol[][]>;

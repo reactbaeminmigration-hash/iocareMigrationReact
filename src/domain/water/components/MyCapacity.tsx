@@ -71,10 +71,6 @@ export const MyCapacityComponent: React.FC<Props> = ({ protocol, status }) => {
           key={setCapacityProto}
           protocol={setCapacityProto}
           status={status}
-          // isOpen={isOpen}
-          // onOpen={() => setOpen(true)}
-          // onClose={() => setOpen(false)}
-          // 필요 시 onConfirm에서 mutate({ funcId: '0047', cmdVal: value })
         />
       )}
     </div>
