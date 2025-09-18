@@ -1,5 +1,5 @@
 import type { ProductUISpec } from '@/domain/device/types/productUISpec.types';
-import type { Airfeatures } from '../types/features.types';
+import type { AirFeatures } from '../types/features.types';
 
 export const defaultTabsInfo = [
   { path: '/home', label: 'BTN.HOME' },
@@ -14,7 +14,7 @@ export const defaultFeaturesInfo = {
 } as const;
 
 // 에어 도메인에 속하는 제품 정의 목록
-export const AIR_PRODUCT_DEFINITIONS: ProductUISpec<Airfeatures>[] = [
+export const AIR_PRODUCT_DEFINITIONS: ProductUISpec<AirFeatures>[] = [
   {
     family: 'MARVEL',
     region: 'KR',
@@ -25,7 +25,9 @@ export const AIR_PRODUCT_DEFINITIONS: ProductUISpec<Airfeatures>[] = [
         modelName: 'MARVEL_15', // 노블 15평
         productCodes: ['113182', '113218'],
         manuals: { filePath: '117' },
-        features: {},
+        features: {
+          iaqRule: 'STANDARD',
+        },
       },
       {
         modelName: 'MARVEL_20', // 노블 20평

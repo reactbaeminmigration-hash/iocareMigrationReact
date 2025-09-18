@@ -3,11 +3,15 @@ import type { FoundProductUISpec } from '@/domain/device/types/productUISpec.typ
 import { findProductUISpecByCode } from '@/domain/device/utils/findProductUISpec.utils';
 import { useMemo } from 'react';
 
-export const useDeviceUISpec = (
+export const useDeviceUISpec = <T_Features>(
   prodCd: string | null | undefined,
-): FoundProductUISpec => {
+): FoundProductUISpec<T_Features> => {
   return useMemo(() => {
-    if (!prodCd) return defaultContextValue.deviceUISpec;
-    return findProductUISpecByCode(prodCd) ?? defaultContextValue.deviceUISpec;
+    if (!prodCd)
+      return defaultContextValue.deviceUISpec as FoundProductUISpec<T_Features>;
+    return (
+      findProductUISpecByCode<T_Features>(prodCd) ??
+      (defaultContextValue.deviceUISpec as FoundProductUISpec<T_Features>)
+    );
   }, [prodCd]);
 };
