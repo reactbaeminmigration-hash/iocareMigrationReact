@@ -1,13 +1,17 @@
+import type { IAQData, ProdStatus } from '../types/airDeviceHome.types';
+import type {
+  IaqDisplayInfo,
+  SensorStatusResult,
+} from '../types/airQuality.types';
 import type { AirFeatures } from '../types/features.types';
-import type { IaqDisplayInfo, SensorStatusResult } from '../types/airQuality.types';
 
 // 메인 상태 표시를 위한 상태/클래스 맵
 const MAIN_STATUS_MAP = {
-  GOOD: { i18nKey: 'WEATHER.GOOD', className: 'cw_good' },
-  NORMAL: { i18nKey: 'WEATHER.NORMAL', className: 'cw_normal' },
-  BAD: { i18nKey: 'WEATHER.BAD', className: 'cw_bad' },
-  VERY_BAD: { i18nKey: 'WEATHER.VERY_BAD', className: 'cw_verybad' },
-  UNKNOWN: { i18nKey: 'WEATHER.UNKNOWN', className: 'cw_unknown' },
+  GOOD: { i18nKey: 'WEATHER.GOOD', className: 'good' },
+  NORMAL: { i18nKey: 'WEATHER.NORMAL', className: 'normal' },
+  BAD: { i18nKey: 'WEATHER.BAD', className: 'bad' },
+  VERY_BAD: { i18nKey: 'WEATHER.VERY_BAD', className: 'verybad' },
+  UNKNOWN: { i18nKey: 'WEATHER.UNKNOWN', className: 'unknown' },
 } as const;
 
 // 텍스트 표시를 위한 상태/클래스 맵
@@ -43,7 +47,7 @@ const mapGradeToValue = (grade?: string | null): number => {
  */
 export const getIaqStatus = (
   features: AirFeatures,
-  apiData: { iaq?: any; prodStatus?: any },
+  apiData: { iaq?: IAQData; prodStatus?: ProdStatus },
 ): IaqDisplayInfo => {
   let primaryValue = -1;
 
@@ -53,10 +57,14 @@ export const getIaqStatus = (
       primaryValue = mapGradeToValue(apiData.prodStatus?.dustPollution);
       break;
     case 'RAW_PM25':
-      primaryValue = apiData.iaq?.dustpm25 ? parseInt(apiData.iaq.dustpm25, 10) : -1;
+      primaryValue = apiData.iaq?.dustpm25
+        ? parseInt(apiData.iaq.dustpm25, 10)
+        : -1;
       break;
     case 'INTEGRATED_STATUS':
-      primaryValue = apiData.iaq?.inairquality ? parseInt(apiData.iaq.inairquality, 10) : -1;
+      primaryValue = apiData.iaq?.inairquality
+        ? parseInt(apiData.iaq.inairquality, 10)
+        : -1;
       break;
   }
 
@@ -78,7 +86,11 @@ export const getIaqStatus = (
   }
 
   if (isNaN(primaryValue) || primaryValue < 0) {
-    return { ...MAIN_STATUS_MAP.UNKNOWN, value: displayValue, unit: displayUnit };
+    return {
+      ...MAIN_STATUS_MAP.UNKNOWN,
+      value: displayValue,
+      unit: displayUnit,
+    };
   }
 
   // 3. features.thresholdProfile을 보고 어떤 기준을 적용할지 결정
@@ -86,14 +98,39 @@ export const getIaqStatus = (
 
   // 4. 기준에 따라 상태 결정
   if ('normal' in thresholds) {
-    if (primaryValue <= thresholds.good) return { ...MAIN_STATUS_MAP.GOOD, value: displayValue, unit: displayUnit };
-    if (primaryValue <= thresholds.normal) return { ...MAIN_STATUS_MAP.NORMAL, value: displayValue, unit: displayUnit };
-    if (primaryValue <= thresholds.bad) return { ...MAIN_STATUS_MAP.BAD, value: displayValue, unit: displayUnit };
-    return { ...MAIN_STATUS_MAP.VERY_BAD, value: displayValue, unit: displayUnit };
+    if (primaryValue <= thresholds.good)
+      return {
+        ...MAIN_STATUS_MAP.GOOD,
+        value: displayValue,
+        unit: displayUnit,
+      };
+    if (primaryValue <= thresholds.normal)
+      return {
+        ...MAIN_STATUS_MAP.NORMAL,
+        value: displayValue,
+        unit: displayUnit,
+      };
+    if (primaryValue <= thresholds.bad)
+      return { ...MAIN_STATUS_MAP.BAD, value: displayValue, unit: displayUnit };
+    return {
+      ...MAIN_STATUS_MAP.VERY_BAD,
+      value: displayValue,
+      unit: displayUnit,
+    };
   } else {
-    if (primaryValue <= thresholds.good) return { ...MAIN_STATUS_MAP.GOOD, value: displayValue, unit: displayUnit };
-    if (primaryValue <= thresholds.bad) return { ...MAIN_STATUS_MAP.BAD, value: displayValue, unit: displayUnit };
-    return { ...MAIN_STATUS_MAP.VERY_BAD, value: displayValue, unit: displayUnit };
+    if (primaryValue <= thresholds.good)
+      return {
+        ...MAIN_STATUS_MAP.GOOD,
+        value: displayValue,
+        unit: displayUnit,
+      };
+    if (primaryValue <= thresholds.bad)
+      return { ...MAIN_STATUS_MAP.BAD, value: displayValue, unit: displayUnit };
+    return {
+      ...MAIN_STATUS_MAP.VERY_BAD,
+      value: displayValue,
+      unit: displayUnit,
+    };
   }
 };
 
@@ -102,7 +139,9 @@ export const getIaqStatus = (
  * @param pm25Value - API로부터 받은 초미세먼지 문자열 값
  * @returns SensorStatusResult 객체 (className: cw_txt_good 등)
  */
-export const getPm25Status = (pm25Value?: string | null): SensorStatusResult => {
+export const getPm25Status = (
+  pm25Value?: string | null,
+): SensorStatusResult => {
   const value = pm25Value ? parseInt(pm25Value, 10) : -1;
   if (isNaN(value) || value < 0) return TEXT_STATUS_MAP.UNKNOWN;
 
@@ -117,7 +156,9 @@ export const getPm25Status = (pm25Value?: string | null): SensorStatusResult => 
  * @param pm10Value - API로부터 받은 미세먼지 문자열 값
  * @returns SensorStatusResult 객체 (className: cw_txt_good 등)
  */
-export const getPm10Status = (pm10Value?: string | null): SensorStatusResult => {
+export const getPm10Status = (
+  pm10Value?: string | null,
+): SensorStatusResult => {
   const value = pm10Value ? parseInt(pm10Value, 10) : -1;
   if (isNaN(value) || value < 0) return TEXT_STATUS_MAP.UNKNOWN;
 

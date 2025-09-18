@@ -4,7 +4,6 @@ import useGetAirDeviceHome from '@/domain/air/hooks/queries/useGetAirDeviceHome'
 import type { AirFeatures } from '@/domain/air/types/features.types';
 import { useTooltip } from '@/shared/hooks/useTooltip';
 import cx from 'classnames';
-import { t } from 'i18next';
 import { Trans } from 'react-i18next';
 
 export const AirHomeQualityStatus = () => {
@@ -17,11 +16,12 @@ export const AirHomeQualityStatus = () => {
     return null; // Or a loading skeleton
   }
 
-  // 이제 이 함수 한번만 호출하면 상태, 값, 단위 모두를 얻을 수 있습니다.
-  const iaqDisplay = getIaqStatus(features, {
+  const iaqStatus = getIaqStatus(features, {
     iaq: data.IAQ,
     prodStatus: data.prodStatus,
   });
+
+  console.log(iaqStatus);
 
   return (
     <>
@@ -35,10 +35,14 @@ export const AirHomeQualityStatus = () => {
         </dt>
         <dd>
           <div className="cw_aircondition">
-            <strong className={cx('cw_txt incwTxt', iaqDisplay.className)}>
-              <span>{t(iaqDisplay.i18nKey)}</span>
+            <strong
+              className={cx('cw_txt incwTxt', `cw_${iaqStatus.className}`)}
+            >
+              <span className={cx(iaqStatus.className)}>
+                <Trans i18nKey={iaqStatus.i18nKey} />
+              </span>
               <div className="value">
-                {iaqDisplay.value} {iaqDisplay.unit}
+                {iaqStatus.value} {iaqStatus.unit}
               </div>
             </strong>
             <dl
