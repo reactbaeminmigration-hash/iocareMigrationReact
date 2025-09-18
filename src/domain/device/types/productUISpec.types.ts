@@ -17,24 +17,25 @@ export interface ProductFeatures {
 }
 
 // 특정 제품 모델 정보
-export interface ProductModel {
+export interface ProductModel<T_Features> {
   modelName: string;
   productCodes: string[]; // 해당 모델에 속하는 자재 코드 목록
   manuals: ProductManuals | {};
-  features: ProductFeatures | {};
+  features: Partial<T_Features> | {};
 }
 
 // 최상위 제품 정의 구조
-export interface ProductUISpec {
+export interface ProductUISpec<T_Features> {
   family: string; // 제품군 이름 (예: 'CAPTAIN')
   region: string; // 판매 지역 (예: 'KR', 'US')
   tabs: ProductTab[]; // 제품별로 보여줄 탭 목록
-  models: ProductModel[]; // 해당 제품군에 속하는 모델 목록
+  features: T_Features;
+  models: ProductModel<T_Features>[]; // 해당 제품군에 속하는 모델 목록
 }
 
-export interface FoundProductUISpec {
+export interface FoundProductUISpec<T_Features> {
   family: string;
   region: string;
   tabs: ProductTab[];
-  model: ProductModel;
+  model: ProductModel<T_Features>;
 }

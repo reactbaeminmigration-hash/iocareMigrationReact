@@ -1,4 +1,5 @@
 import type { ProductUISpec } from '@/domain/device/types/productUISpec.types';
+import type { Airfeatures } from '../types/features.types';
 
 export const defaultTabsInfo = [
   { path: '/home', label: 'BTN.HOME' },
@@ -8,12 +9,17 @@ export const defaultTabsInfo = [
   { path: '/settings', label: 'BTN.SETTING' },
 ];
 
+export const defaultFeaturesInfo = {
+  iaqRule: 'PM2.5_BASED',
+} as const;
+
 // 에어 도메인에 속하는 제품 정의 목록
-export const AIR_PRODUCT_DEFINITIONS: ProductUISpec[] = [
+export const AIR_PRODUCT_DEFINITIONS: ProductUISpec<Airfeatures>[] = [
   {
     family: 'MARVEL',
     region: 'KR',
     tabs: defaultTabsInfo,
+    features: defaultFeaturesInfo,
     models: [
       {
         modelName: 'MARVEL_15', // 노블 15평
@@ -39,6 +45,7 @@ export const AIR_PRODUCT_DEFINITIONS: ProductUISpec[] = [
     family: 'AIRMEGA',
     region: 'US',
     tabs: defaultTabsInfo,
+    features: defaultFeaturesInfo,
     models: [
       {
         modelName: 'AIRMEGA_400S',

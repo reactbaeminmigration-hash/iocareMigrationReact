@@ -1,4 +1,5 @@
 import type { ProductUISpec } from '@/domain/device/types/productUISpec.types';
+import type { Waterfeatures } from '../types/features.types';
 
 export const defaultTabsInfo = [
   { path: '/home', label: 'BTN.HOME' },
@@ -9,11 +10,12 @@ export const defaultTabsInfo = [
 ];
 
 // 워터 도메인에 속하는 제품 정의 목록
-export const WATER_PRODUCT_DEFINITIONS: ProductUISpec[] = [
+export const WATER_PRODUCT_DEFINITIONS: ProductUISpec<Waterfeatures>[] = [
   {
     family: 'HIDDEN',
     region: 'KR',
     tabs: defaultTabsInfo,
+    features: {},
     models: [
       {
         modelName: 'HIDDEN_B',
@@ -42,6 +44,7 @@ export const WATER_PRODUCT_DEFINITIONS: ProductUISpec[] = [
     family: 'ICON_20',
     region: 'KR',
     tabs: defaultTabsInfo,
+    features: {},
     models: [
       {
         modelName: 'ICON 2.0',
@@ -55,6 +58,7 @@ export const WATER_PRODUCT_DEFINITIONS: ProductUISpec[] = [
     family: 'ELITE',
     region: 'KR',
     tabs: defaultTabsInfo,
+    features: {},
     models: [
       {
         modelName: 'ELITE',
