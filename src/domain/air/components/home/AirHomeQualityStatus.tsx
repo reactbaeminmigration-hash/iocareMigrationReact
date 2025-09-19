@@ -6,7 +6,7 @@ import { useTooltip } from '@/shared/hooks/useTooltip';
 import cx from 'classnames';
 import { Trans } from 'react-i18next';
 
-export const AirHomeQualityStatus = () => {
+export const AirHomeIaqQualityStatus = () => {
   const { deviceState, deviceUISpec } = useDeviceContext();
   const features = deviceUISpec.model.features as AirFeatures;
   const { data, isLoading } = useGetAirDeviceHome(deviceState);

@@ -3,7 +3,9 @@ import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { createContext, useContext, type ReactNode } from 'react';
 import type { DeviceContextType } from './DeviceContext.types';
 
-export const DeviceContext = createContext<DeviceContextType | null>(null);
+export const DeviceContext = createContext<DeviceContextType<unknown> | null>(
+  null,
+);
 
 export const DeviceProvider = ({ children }: { children: ReactNode }) => {
   const { lastSelectedDeviceInfos: deviceState } = useDeviceStore();

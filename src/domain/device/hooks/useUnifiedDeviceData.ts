@@ -13,7 +13,7 @@ import { useDeviceUISpec } from './useDeviceUISpec';
 
 export const useUnifiedDeviceData = (
   deviceState: DeviceInfo | null,
-): DeviceContextType => {
+): DeviceContextType<unknown> => {
   const prodCd = deviceState?.prodCd;
 
   const deviceUISpec = useDeviceUISpec(prodCd);
@@ -21,8 +21,10 @@ export const useUnifiedDeviceData = (
   const deviceCategory = useDeviceCategory(prodCd);
 
   // 2. 최종 데이터를 조립합니다.
-  const unifiedData = useMemo((): DeviceContextType => {
+  const unifiedData = useMemo((): DeviceContextType<unknown> => {
     if (!deviceState) {
+      // defaultContextValue는 DeviceContextType<object> 타입이므로,
+      // DeviceContextType<unknown>에 할당 가능합니다.
       return defaultContextValue;
     }
 

@@ -49,10 +49,12 @@ export const getIaqStatus = (
   features: AirFeatures,
   apiData: { iaq?: IAQData; prodStatus?: ProdStatus },
 ): IaqDisplayInfo => {
+  const { iaqDataSource, thresholdProfile, mainIndicator } =
+    features.home.iaqGraph;
   let primaryValue = -1;
 
   // 1. features.iaqDataSource를 보고 어떤 값을 사용할지 결정
-  switch (features.iaqDataSource) {
+  switch (iaqDataSource) {
     case 'POLLUTION_GRADE':
       primaryValue = mapGradeToValue(apiData.prodStatus?.dustPollution);
       break;
@@ -71,7 +73,7 @@ export const getIaqStatus = (
   // 2. 표시할 값과 단위를 결정 (기존 getMainIndicator 로직)
   let displayValue = '--';
   let displayUnit = '';
-  switch (features.mainIndicator) {
+  switch (mainIndicator) {
     case 'PM10':
       displayValue = apiData.iaq?.dustpm10 ?? '--';
       displayUnit = 'μg/m³';
@@ -94,7 +96,7 @@ export const getIaqStatus = (
   }
 
   // 3. features.thresholdProfile을 보고 어떤 기준을 적용할지 결정
-  const thresholds = THRESHOLD_SETS[features.thresholdProfile];
+  const thresholds = THRESHOLD_SETS[thresholdProfile];
 
   // 4. 기준에 따라 상태 결정
   if ('normal' in thresholds) {

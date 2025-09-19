@@ -8,15 +8,15 @@ import type { FoundProductUISpec } from '@/domain/device/types/productUISpec.typ
 import type { ITab } from '@/shared/components/Layout/LayoutTab';
 import type { TranslationKey } from '@/shared/types/common';
 
-export interface DeviceContextType {
+export interface DeviceContextType<T_Features> {
   tabs: readonly ITab[];
   deviceState: DeviceInfo;
-  deviceUISpec: FoundProductUISpec;
+  deviceUISpec: FoundProductUISpec<T_Features>;
   deviceStandInfo: ProdStandDeviceInfo;
   deviceCategory: CategoryItem;
 }
 
-export const defaultContextValue: DeviceContextType = {
+export const defaultContextValue: DeviceContextType<object> = {
   tabs: defaultTabsInfo.map((tab) => ({
     path: tab.path,
     label: tab.label as TranslationKey,
@@ -79,6 +79,7 @@ export const defaultContextValue: DeviceContextType = {
     family: '',
     region: '',
     tabs: [],
+    features: {},
     model: {
       modelName: '',
       productCodes: [],

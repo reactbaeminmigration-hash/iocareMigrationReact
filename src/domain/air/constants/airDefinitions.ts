@@ -1,5 +1,12 @@
 import type { ProductUISpec } from '@/domain/device/types/productUISpec.types';
 import type { AirFeatures } from '../types/features.types';
+import {
+  IAQ_DATA_SOURCE,
+  MAIN_INDICATOR,
+  SENSOR_TYPE,
+  THRESHOLD_PROFILE,
+  VOCS_DISPLAY_RULE,
+} from '../types/features.types';
 
 export const defaultTabsInfo = [
   { path: '/home', label: 'BTN.HOME' },
@@ -11,11 +18,21 @@ export const defaultTabsInfo = [
 
 // defaultFeaturesInfo 객체에 AirFeatures 타입을 명시적으로 지정합니다.
 export const defaultFeaturesInfo: AirFeatures = {
-  iaqDataSource: 'RAW_PM25', // 실내공기질 데이터
-  mainIndicator: 'PM2.5', // 실내공기질 표기
-  thresholdProfile: 'MARVEL_PM25', // 실내공기질 단계
-  vocsDisplayRule: 'GRADE_BASED',
-  availableSensors: ['PM1.0', 'PM2.5', 'PM10', 'CO2', 'VOCS'],
+  home: {
+    iaqGraph: {
+      iaqDataSource: IAQ_DATA_SOURCE.RAW_PM25, // 실내공기질 데이터
+      mainIndicator: MAIN_INDICATOR.PM2_5, // 실내공기질 표기
+      thresholdProfile: THRESHOLD_PROFILE.MARVEL_PM25, // 실내공기질 단계
+      vocsDisplayRule: VOCS_DISPLAY_RULE.GRADE_BASED,
+      availableSensors: [
+        SENSOR_TYPE.PM1_0,
+        SENSOR_TYPE.PM2_5,
+        SENSOR_TYPE.PM10,
+        SENSOR_TYPE.CO2,
+        SENSOR_TYPE.VOCS,
+      ],
+    },
+  },
 };
 
 // 에어 도메인에 속하는 제품 정의 목록
@@ -29,19 +46,19 @@ export const AIR_PRODUCT_DEFINITIONS: ProductUISpec<AirFeatures>[] = [
       {
         modelName: 'MARVEL_15', // 노블 15평
         productCodes: ['113182', '113218'],
-        manuals: { filePath: '117' },
+        manuals: { type: 'filePath', value: '117' },
         features: {},
       },
       {
         modelName: 'MARVEL_20', // 노블 20평
         productCodes: ['113826'],
-        manuals: { filePath: '117' },
+        manuals: { type: 'filePath', value: '117' },
         features: {},
       },
       {
         modelName: 'MARVEL_30', // 노블 30평
         productCodes: ['113209'],
-        manuals: { filePath: '117' },
+        manuals: { type: 'filePath', value: '117' },
         features: {},
       },
     ],
@@ -55,13 +72,15 @@ export const AIR_PRODUCT_DEFINITIONS: ProductUISpec<AirFeatures>[] = [
       {
         modelName: 'AIRMEGA_400S',
         productCodes: ['111012', '112571'],
-        manuals: { fileName: 'Airmega300S400S.pdf' },
+        manuals: { type: 'fileName', value: 'Airmega300S400S.pdf' },
         features: {
-          iaqDataSource: 'POLLUTION_GRADE', // 실내공기질 데이터
-          mainIndicator: 'PM2.5', // 실내공기질 표기
-          thresholdProfile: 'STANDARD', // 실내공기질 단계
-          vocsDisplayRule: 'GRADE_BASED',
-          availableSensors: ['PM1.0', 'PM2.5', 'PM10', 'CO2', 'VOCS'],
+          home: {
+            iaqGraph: {
+              iaqDataSource: IAQ_DATA_SOURCE.POLLUTION_GRADE, // 실내공기질 데이터
+              mainIndicator: MAIN_INDICATOR.PM2_5, // 실내공기질 표기
+              thresholdProfile: THRESHOLD_PROFILE.STANDARD, // 실내공기질 단계
+            },
+          },
         },
       },
     ],

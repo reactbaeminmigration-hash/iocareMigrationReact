@@ -37,5 +37,6 @@ export interface FoundProductUISpec<T_Features> {
   family: string;
   region: string;
   tabs: ProductTab[];
+  features: T_Features;
   model: ProductModel<T_Features>;
 }
