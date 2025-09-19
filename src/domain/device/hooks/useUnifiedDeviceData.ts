@@ -1,6 +1,6 @@
 import {
-  type DeviceContextType,
   defaultContextValue,
+  type DeviceContextType,
 } from '@/app/contexts/DeviceContext.types';
 import { defaultTabsInfo } from '@/domain/air/constants/airDefinitions';
 import type { DeviceInfo } from '@/domain/device/types/device.types';
@@ -23,8 +23,6 @@ export const useUnifiedDeviceData = (
   // 2. 최종 데이터를 조립합니다.
   const unifiedData = useMemo((): DeviceContextType<unknown> => {
     if (!deviceState) {
-      // defaultContextValue는 DeviceContextType<object> 타입이므로,
-      // DeviceContextType<unknown>에 할당 가능합니다.
       return defaultContextValue;
     }
 

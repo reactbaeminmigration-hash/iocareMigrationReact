@@ -5,6 +5,7 @@ import type {
   ProductUISpec,
 } from '@/domain/device/types/productUISpec.types';
 import { WATER_PRODUCT_DEFINITIONS } from '@/domain/water/constants/waterDefinitions';
+import { deepMerge, type IndexedObject } from '@/shared/utils/deepMerge';
 
 const allDeviceUISpecs = [
   ...AIR_PRODUCT_DEFINITIONS,
@@ -12,7 +13,7 @@ const allDeviceUISpecs = [
   ...DEHUMID_PRODUCT_DEFINITIONS,
 ];
 
-export function findProductUISpecByCode<T_Features>(
+export function findProductUISpecByCode<T_Features extends IndexedObject>(
   prodCode: string,
 ): FoundProductUISpec<T_Features> | undefined {
   for (const deviceUISpec of allDeviceUISpecs as ProductUISpec<T_Features>[]) {
@@ -20,14 +21,15 @@ export function findProductUISpecByCode<T_Features>(
       model.productCodes.includes(prodCode),
     );
     if (foundModel) {
-      const resolvedFeatures = {
-        ...deviceUISpec.features,
-        ...foundModel.features,
-      };
+      const resolvedFeatures = deepMerge(
+        deviceUISpec.features,
+        foundModel.features,
+      );
       return {
         family: deviceUISpec.family,
         tabs: deviceUISpec.tabs,
         region: deviceUISpec.region,
+        features: resolvedFeatures, // Added this line
         model: {
           ...foundModel,
           features: resolvedFeatures,

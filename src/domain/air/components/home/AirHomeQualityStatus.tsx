@@ -11,6 +11,7 @@ export const AirHomeIaqQualityStatus = () => {
   const features = deviceUISpec.model.features as AirFeatures;
   const { data, isLoading } = useGetAirDeviceHome(deviceState);
   const airStateTooltip = useTooltip<HTMLDListElement>();
+  console.log(features);
 
   if (isLoading || !data) {
     return null; // Or a loading skeleton
