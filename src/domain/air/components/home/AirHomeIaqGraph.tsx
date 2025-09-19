@@ -1,14 +1,34 @@
+import { useDeviceContext } from '@/app/contexts/DeviceProvider';
+import { LoadingLocalSpinner } from '@/shared/components/LoadingSpinner/LoadingLocalSpinner';
 import { useTooltip } from '@/shared/hooks/useTooltip';
 import cx from 'classnames';
 import { Trans } from 'react-i18next';
+import { graphServiceForMarvel } from '../../helpers/airGraph.helper';
+import useGetAirIaqDetail from '../../hooks/queries/useGetAirIaqDetail';
+
+const AIR_IAQ_GRAPG_DETAIL_LOADING = ['airIaqGrapgDetailLoading'];
 
 export const AirHomeIaqGraph = () => {
   const pm25GraghTooltip = useTooltip<HTMLDivElement>();
+  const { deviceState } = useDeviceContext();
+  let LocalLoadingKey = AIR_IAQ_GRAPG_DETAIL_LOADING;
+  const { data: iaqDetailData, isLoading: isIaqDetailLoading } =
+    useGetAirIaqDetail(deviceState, 3, LocalLoadingKey);
+
+  if (isIaqDetailLoading || !iaqDetailData) {
+    return null; // Or a loading skeleton
+  }
+  console.log(iaqDetailData);
+  const {} = graphServiceForMarvel(iaqDetailData.list, 'hour', 6);
+
   return (
     <div className="cw_accWrap02">
       <ul>
         <li>
-          <div className="cw_graph02 allAir">
+          <LoadingLocalSpinner
+            localLoadingKey={AIR_IAQ_GRAPG_DETAIL_LOADING}
+            className="cw_graph02"
+          >
             <div className="cw_txt06">
               <span></span>
             </div>
@@ -123,6 +143,14 @@ export const AirHomeIaqGraph = () => {
                 </div>
               </div>
             </div>
+          </LoadingLocalSpinner>
+          <p className="cw_txt06">
+            <span>
+              <Trans i18nKey={'AIR.AGGREGATION_TIME'} />
+            </span>
+          </p>
+          <div className="cw_acc_cont">
+            <div className="cw_graphtype_view"></div>
           </div>
           {/* 여기부 부터 시작 */}
         </li>

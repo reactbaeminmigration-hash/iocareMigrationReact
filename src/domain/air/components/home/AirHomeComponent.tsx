@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { AirHomeIaqGraph } from './AirHomeIAQGraph';
+import { AirHomeIaqGraph } from './AirHomeIaqGraph';
 import { AirHomeIaqQualityStatus } from './AirHomeQualityStatus';
 import { AirHomeSectionHeader } from './AirHomeSectionHeader';
 
