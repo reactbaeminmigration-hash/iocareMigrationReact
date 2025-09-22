@@ -1,6 +1,9 @@
+import { ExtractLightComponent } from '../components/ExtractLight';
 import { MyCapacityComponent } from '../components/MyCapacity';
 import { SettingCapacityComponent } from '../components/SettingCapacity';
 import { SleepModeComponent } from '../components/SleepMode';
+import { SoundModeComponent } from '../components/SoundMode';
+import { SoundVolumeComponent } from '../components/SoundVolume';
 import { WaitModeComponent } from '../components/WaitMode';
 
 export type ProdList = keyof typeof WATER_CONTROL_UI;
@@ -9,7 +12,7 @@ export type Props = { protocol: string; status: Record<string, string> };
 
 // 제품별 기능 노출 목록 (모델명 기준)
 export const WATER_CONTROL_UI = {
-  ICON_20: [['myCapacity'], ['sleepMode']],
+  ICON_20: [['myCapacity'], ['sleepMode', 'extractLight'], ['soundMode']],
   HIDDEN_B_TW: [['waitMode', 'myCapacity'], ['sleepMode']],
   ELITE: [],
 } satisfies Record<string, Protocol[][]>;
@@ -35,6 +38,8 @@ export const WATER_CONTROL = {
     welcomeLight: { protocol: '004A' },
     euroSter: { protocol: '0007' },
     euroSterTime: { protocol: '0013' },
+    soundMode: { protocol: '0031' },
+    soundVolume: { protocol: '0033' }, // '0031'의 sub protocol
   },
 };
 
@@ -58,10 +63,12 @@ export const WATER_CONTROL_REGISTRY: Record<
   sleepingMode2: MyCapacityComponent, // 임시
   sleepingMode3: MyCapacityComponent, // 임시
   sleepMode: SleepModeComponent,
-  extractLight: MyCapacityComponent, // 임시
+  extractLight: ExtractLightComponent,
   welcomeLight: MyCapacityComponent, // 임시
   euroSter: MyCapacityComponent, // 임시
   euroSterTime: MyCapacityComponent, // 임시
+  soundMode: SoundModeComponent,
+  soundVolume: SoundVolumeComponent,
 };
 
 export const CAPACITY_CATEGORY = [
@@ -161,4 +168,10 @@ export const CAPACITY_CATEGORY = [
   { id: '85', value: '970ml', rValue: '970' },
   { id: '86', value: '980ml', rValue: '980' },
   { id: '87', value: '990ml', rValue: '990' },
+];
+
+export const SOUND_CATEGORY = [
+  { id: '1', value: '무음', rValue: '1' },
+  { id: '2', value: '효과음', rValue: '2' },
+  { id: '3', value: '음성', rValue: '3' },
 ];

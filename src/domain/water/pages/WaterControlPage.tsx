@@ -8,19 +8,19 @@ import {
 } from '../constants/controlDefinitions';
 
 export const WaterControlPage = () => {
-  const deviceInfo = useDeviceStore((state) => state.lastSelectedDeviceInfos);
+  const device = useDeviceStore((state) => state.lastSelectedDeviceInfos);
   const { data: dvc } = useGetWaterControlStatus(
     {
-      devId: deviceInfo.barcode,
-      mqttDevice: deviceInfo.wifiType == 'M',
+      devId: device.barcode,
+      mqttDevice: device.wifiType == 'M',
       dvcBrandCd: 'CW',
-      dvcTypeCd: deviceInfo.dvcTypeCd,
-      prodName: deviceInfo.prodName,
+      dvcTypeCd: device.dvcTypeCd,
+      prodName: device.prodName,
     },
-    { enabled: !!deviceInfo },
+    { enabled: !!device },
   );
 
-  const prodName = deviceInfo?.prodName as ProdList;
+  const prodName = device?.prodName as ProdList;
   const controlList = WATER_CONTROL_UI[prodName] ?? [];
   const statusList = dvc?.controlStatus ?? {};
 

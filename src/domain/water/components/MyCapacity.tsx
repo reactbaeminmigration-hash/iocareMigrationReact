@@ -1,43 +1,18 @@
 import { t } from 'i18next';
-import { useEffect, useState } from 'react';
-import useGetWaterControl from '../queries/useGetWaterControl';
-import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { SettingCapacityComponent } from './SettingCapacity';
 import { WATER_CONTROL, type Props } from '../constants/controlDefinitions';
 import { useTooltip } from '@/shared/hooks/useTooltip';
+import { useControl } from '../hooks/useControl';
 
 export const MyCapacityComponent: React.FC<Props> = ({ protocol, status }) => {
-  const deviceInfo = useDeviceStore((state) => state.lastSelectedDeviceInfos);
   const toolTip = useTooltip<HTMLDivElement>();
-  const { mutate, isPending } = useGetWaterControl();
+  const { value, update, isPending } = useControl({
+    protocol,
+    status,
+  });
+  const checked = value === '1';
 
-  const [checked, setChecked] = useState(status[protocol] === '1');
-  useEffect(() => {
-    setChecked(status[protocol] === '1');
-  }, [status, protocol]);
-
-  const setCapacityProto = WATER_CONTROL.controls.settingCapacity.protocol; // '0047'
-
-  const handleToggle = (nextChecked: boolean) => {
-    const prev = checked;
-    setChecked(nextChecked);
-    if (!deviceInfo?.barcode) {
-      setChecked(prev);
-      return;
-    }
-    mutate(
-      {
-        devId: deviceInfo.barcode,
-        dvcTypeCd: deviceInfo.dvcTypeCd,
-        isMultiControl: false,
-        refreshFlag: false,
-        funcList: [{ funcId: protocol, cmdVal: nextChecked ? '1' : '0' }],
-      },
-      {
-        onError: () => setChecked(prev),
-      },
-    );
-  };
+  const subProtocol = WATER_CONTROL.controls.settingCapacity.protocol; // '0047'
 
   return (
     <div className="row">
@@ -60,7 +35,7 @@ export const MyCapacityComponent: React.FC<Props> = ({ protocol, status }) => {
               className="0051"
               checked={checked}
               disabled={isPending}
-              onChange={(e) => handleToggle(e.target.checked)}
+              onChange={(e) => update(e.target.checked ? '1' : '0')}
             />
             <span>ON</span>
           </label>
@@ -68,8 +43,8 @@ export const MyCapacityComponent: React.FC<Props> = ({ protocol, status }) => {
       </div>
       {checked && (
         <SettingCapacityComponent
-          key={setCapacityProto}
-          protocol={setCapacityProto}
+          key={subProtocol}
+          protocol={subProtocol}
           status={status}
         />
       )}
