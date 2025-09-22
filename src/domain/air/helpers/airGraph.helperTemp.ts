@@ -7,13 +7,12 @@ import { t } from 'i18next';
 
 // Define types for the input list items
 export interface GraphDataItem {
-  graphValue: string | null;
-  graphHighValue: string | null;
-  pm25graphValue?: string | null; // Optional as it's checked with hasOwnProperty
-  pm25graphHighValue?: string | null; // Optional
+  graphValue: number | null;
+  graphHighValue: number | null;
+  pm25graphValue?: number | null;
+  pm25graphHighValue?: number | null;
   msrDt: string;
-  place: 'in' | 'out' | string; // 'in', 'out', or other values
-  // Add other properties if they exist in the original list items
+  place: 'in' | 'out' | string;
 }
 
 // Define types for the output object
@@ -49,13 +48,6 @@ export function graphServiceForMarvel(
 
   const timeArray: string[] = [];
 
-  // These are effectively constant based on the original code's charCase logic
-  const graphValueText = 'graphValue';
-  const graphHighValueText = 'graphHighValue';
-  const pm25_graphValueText = 'pm25graphValue';
-  const pm25_graphHighValueText = 'pm25graphHighValue';
-  const msrDtText = 'msrDt';
-
   let formatSubArray: [number, number];
 
   switch (timeFlag) {
@@ -67,37 +59,32 @@ export function graphServiceForMarvel(
       break;
   }
 
-  for (let i = 0; i < list.length; i++) {
-    let graphValueChargeText: number | null =
-      list[i][graphValueText] === null || list[i][graphValueText] === '0'
-        ? null
-        : Number(list[i][graphValueText]);
-    let graphHighValueChargeText: number | null =
-      list[i][graphHighValueText] === null ||
-      list[i][graphHighValueText] === '0'
-        ? null
-        : Number(list[i][graphHighValueText]);
-    let pm25_graphValueChargeText: number | null =
-      list[i][pm25_graphValueText as keyof GraphDataItem] === null ||
-      list[i][pm25_graphValueText as keyof GraphDataItem] === '0'
-        ? null
-        : Number(list[i][pm25_graphValueText as keyof GraphDataItem]);
-    let pm25_graphHighChargeValueText: number | null =
-      list[i][pm25_graphHighValueText as keyof GraphDataItem] === null ||
-      list[i][pm25_graphHighValueText as keyof GraphDataItem] === '0'
-        ? null
-        : Number(list[i][pm25_graphHighValueText as keyof GraphDataItem]);
+  // Helper to process values: if value is 0 or null, return null, otherwise return the number.
+  const processValue = (value: number | null | undefined): number | null => {
+      if (value === 0 || value === null || value === undefined) {
+          return null;
+      }
+      return value;
+  };
 
-    if (list[i].place === 'in') {
+  for (let i = 0; i < list.length; i++) {
+    const item = list[i];
+    const graphValueChargeText = processValue(item.graphValue);
+    const graphHighValueChargeText = processValue(item.graphHighValue);
+    const pm25_graphValueChargeText = processValue(item.pm25graphValue);
+    const pm25_graphHighChargeValueText = processValue(item.pm25graphHighValue);
+
+
+    if (item.place === 'in') {
       inGraphData.push(graphValueChargeText);
       inMaxGraphData.push(graphHighValueChargeText);
       xAxis.push(
         Number(
-          list[i][msrDtText].substring(formatSubArray[0], formatSubArray[1]),
+          item.msrDt.substring(formatSubArray[0], formatSubArray[1]),
         ),
       );
-      timeArray.push(list[i][msrDtText]);
-    } else if (list[i].place === 'out') {
+      timeArray.push(item.msrDt);
+    } else if (item.place === 'out') {
       if (deviceState.prodName !== 'MARVEL_20P_JP') {
         switch (timeFlag) {
           case 'hour':
@@ -125,13 +112,13 @@ export function graphServiceForMarvel(
         }
       }
     } else {
-      // Assuming this 'else' block handles cases where 'place' is neither 'in' nor 'out'
-      // and contains pm25 data. The original code checks for hasOwnProperty,
-      // but with TypeScript, we can make the properties optional and check for existence.
-      if (list[i].pm25graphValue !== undefined) {
+      // This block seems to be for 'in' data that also contains pm25 data.
+      // The original logic was a bit ambiguous.
+      // Let's stick to the original logic but with type safety.
+      if (item.pm25graphValue !== undefined) {
         pm25_inGraphData.push(pm25_graphValueChargeText);
       }
-      if (list[i].pm25graphHighValue !== undefined) {
+      if (item.pm25graphHighValue !== undefined) {
         pm25_inMaxGraphData.push(pm25_graphHighChargeValueText);
       }
 
@@ -139,21 +126,18 @@ export function graphServiceForMarvel(
       inMaxGraphData.push(graphHighValueChargeText);
       xAxis.push(
         Number(
-          list[i][msrDtText].substring(formatSubArray[0], formatSubArray[1]),
+          item.msrDt.substring(formatSubArray[0], formatSubArray[1]),
         ),
       );
-      timeArray.push(list[i][msrDtText]);
+      timeArray.push(item.msrDt);
     }
   }
 
   if (timeFlag === 'hour') {
     if (rangeValue === 6) {
       if (outGraphData.length === rangeValue * 6) {
-        let graphValueChargeTextlengthM: number | null =
-          list[list.length - 1][graphValueText] === null ||
-          list[list.length - 1][graphValueText] === '0'
-            ? null
-            : Number(list[list.length - 1][graphValueText]);
+        const lastItem = list[list.length - 1];
+        const graphValueChargeTextlengthM = processValue(lastItem.graphValue);
         outGraphData.push(graphValueChargeTextlengthM);
       } else {
         for (let i = outGraphData.length; i <= rangeValue * 6; i++) {
@@ -191,7 +175,7 @@ export function graphServiceForMarvel(
   lastDateObj.setFullYear(Number(latestDate.substring(0, 4)));
   lastDateObj.setMonth(Number(latestDate.substring(4, 6)) - 1);
   lastDateObj.setDate(Number(latestDate.substring(6, 8)));
-  lastDateObj.setHours(Number(latestDate.substring(8, 10)));
+    lastDateObj.setHours(Number(latestDate.substring(8, 10)));
   lastDateObj.setMinutes(Number(latestDate.substring(10, 12)));
 
   const lastDayData = {

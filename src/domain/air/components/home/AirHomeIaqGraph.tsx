@@ -2,9 +2,11 @@ import { useDeviceContext } from '@/app/contexts/DeviceProvider';
 import { LoadingLocalSpinner } from '@/shared/components/LoadingSpinner/LoadingLocalSpinner';
 import { useTooltip } from '@/shared/hooks/useTooltip';
 import cx from 'classnames';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 import { Trans } from 'react-i18next';
-import { graphServiceForMarvel } from '../../helpers/airGraph.helper';
 import useGetAirIaqDetail from '../../hooks/queries/useGetAirIaqDetail';
+import { useIaqGraphData } from '../../hooks/useIaqGraphHook';
 
 const AIR_IAQ_GRAPG_DETAIL_LOADING = ['airIaqGrapgDetailLoading'];
 
@@ -15,11 +17,174 @@ export const AirHomeIaqGraph = () => {
   const { data: iaqDetailData, isLoading: isIaqDetailLoading } =
     useGetAirIaqDetail(deviceState, 3, LocalLoadingKey);
 
+  const { xAxisTime, inGraphData, outGraphData, inMaxGraphData } =
+    useIaqGraphData(
+      iaqDetailData && {
+        list: iaqDetailData.list,
+        rangeValue: 6,
+        timeFlag: 'hour',
+      },
+    );
+
   if (isIaqDetailLoading || !iaqDetailData) {
     return null; // Or a loading skeleton
   }
-  console.log(iaqDetailData);
-  const {} = graphServiceForMarvel(iaqDetailData.list, 'hour', 6);
+
+  console.log(xAxisTime);
+  console.log(inGraphData);
+  console.log(outGraphData);
+  console.log(inMaxGraphData);
+
+  const data = [
+    {
+      name: 'maximum',
+      type: 'scatter',
+      color: '#ffa0a0',
+      marker: {
+        radius: 1,
+        symbol: 'circle',
+      },
+      data: [],
+    },
+    {
+      name: '실외',
+      type: 'spline',
+      color: '#c8c8c8',
+      dashStyle: 'ShortDot',
+      yAxis: 1,
+      data: [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+      ],
+      _symbolIndex: 0,
+    },
+    {
+      name: '실내',
+      type: 'spline',
+      color: '#2baaf2',
+      data: [],
+      _symbolIndex: 1,
+    },
+  ];
+
+  const options = {
+    chart: {
+      renderTo: 'all_air_time',
+      type: 'spline',
+      height: 133,
+      margin: [0, 10, 20, 0],
+    },
+    title: {
+      text: '',
+    },
+    xAxis: {
+      tickInterval: 6,
+      categories: xAxisTime,
+      lineColor: '#616161',
+      lineWidth: 2,
+      tickWidth: 0,
+      showFirstLabel: true,
+      labels: {
+        y: 16,
+        style: {
+          color: '#616161',
+          fontFamily: 'NanumSquareBold',
+          fontSize: 12,
+        },
+      },
+    },
+    yAxis: [
+      {
+        title: {
+          enabled: false,
+        },
+        labels: {
+          enabled: false,
+        },
+        gridLineColor: '#eeeeee',
+        tickPositions: [0, 25, 50, 75, 100],
+        tickInterval: 25,
+        max: 100,
+        showFirstLabel: false,
+      },
+      {
+        title: {
+          enabled: false,
+        },
+        tickPositions: [0, 25, 50, 75, 100],
+        tickInterval: 25,
+        max: 100,
+        opposite: true,
+      },
+    ],
+    plotOptions: {
+      spline: {
+        lineWidth: 2,
+        label: {
+          enabled: true,
+          connectorAllowed: false,
+        },
+        marker: {
+          enabled: false,
+        },
+        color: 'red',
+        enableMouseTracking: false,
+      },
+      scatter: {
+        enableMouseTracking: false,
+      },
+    },
+    tooltip: {
+      enabled: false,
+    },
+    credits: {
+      enabled: false,
+    },
+    series: data,
+    legend: {
+      enabled: false,
+      align: 'right',
+      y: 20,
+    },
+    exporting: {
+      enabled: false,
+    },
+  };
 
   return (
     <div className="cw_accWrap02">
@@ -134,7 +299,12 @@ export const AirHomeIaqGraph = () => {
                   </div>
                 </div>
                 <div className="cw_graph_data">
-                  <div id="all_air_time" style={{ minHeight: '133px' }}></div>
+                  <div id="all_air_time" style={{ minHeight: '133px' }}>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={options}
+                    />
+                  </div>
                   <div className="cw_x_axis">
                     <span className="cw_unit">
                       <Trans i18nKey={'AIR_REPORT.HOUR_DETAIL'} />
