@@ -55,6 +55,7 @@ export const SettingCapacityComponent: React.FC<Props> = ({
             </span>
             <button
               type="button"
+              name="0047"
               className="btn_dropdown"
               onClick={(e) => {
                 e.stopPropagation();

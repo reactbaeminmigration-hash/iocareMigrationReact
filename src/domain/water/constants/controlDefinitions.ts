@@ -1,63 +1,89 @@
+import { t } from 'i18next';
+import { AllLockSettingComponent } from '../components/AllLockSetting';
+import { AutoMoveComponent } from '../components/AutoMove';
+import { ColdWaterComponent } from '../components/ColdWater';
+import { CupSensingComponent } from '../components/CupSensing';
 import { ExtractLightComponent } from '../components/ExtractLight';
+import { HotLockSettingComponent } from '../components/HotLockSetting';
 import { MyCapacityComponent } from '../components/MyCapacity';
 import { SettingCapacityComponent } from '../components/SettingCapacity';
 import { SleepModeComponent } from '../components/SleepMode';
+import { SoundComponent } from '../components/Sound';
 import { SoundModeComponent } from '../components/SoundMode';
 import { SoundVolumeComponent } from '../components/SoundVolume';
+import { SuperHotWaterComponent } from '../components/SuperHotWater';
 import { WaitModeComponent } from '../components/WaitMode';
+import { PowerSaveComponent } from '../components/PowerSave';
+import { EuroSterTimeComponent } from '../components/EuroSterTime';
 
 export type ProdList = keyof typeof WATER_CONTROL_UI;
-export type Protocol = keyof typeof WATER_CONTROL.controls;
+export type Protocol = keyof typeof WATER_PROTOCOL;
 export type Props = { protocol: string; status: Record<string, string> };
 
 // 제품별 기능 노출 목록 (모델명 기준)
 export const WATER_CONTROL_UI = {
-  ICON_20: [['myCapacity'], ['sleepMode', 'extractLight'], ['soundMode']],
-  HIDDEN_B_TW: [['waitMode', 'myCapacity'], ['sleepMode']],
+  ICON_20: [
+    ['euroSterTime'],
+    ['myCapacity'],
+    ['sleepMode', 'extractLight'],
+    ['soundMode'],
+    ['coldWater', 'superHotWater'],
+    ['hotLockSetting', 'allLockSetting'],
+  ],
+  HIDDEN_B_TW: [
+    ['waitMode', 'cupSensing', 'autoMove'],
+    ['myCapacity'],
+    ['euroSterTime'],
+    ['soundMode'],
+    ['coldWater'],
+    ['hotLockSetting', 'allLockSetting'],
+  ],
   ELITE: [],
 } satisfies Record<string, Protocol[][]>;
 
 // 프로토콜 키
-export const WATER_CONTROL = {
-  controls: {
-    waitMode: { protocol: '004B' },
-    cupSensing: { protocol: '004E' },
-    autoMove: { protocol: '004C' },
-    myCapacity: { protocol: '0051' },
-    settingCapacity: { protocol: '0047' }, // '0051'의 sub protocol
-    extractCapacityHalf: { protocol: '00BE' },
-    extractCapacityCup: { protocol: '00BF' },
-    extractCapacityTwoCup: { protocol: '00C0' },
-    powerSave: { protocol: '0004' },
-    sleepingMode: { protocol: '005E' },
-    sleepingMode1: { protocol: '0060' }, // '005E'의 sub protocol
-    sleepingMode2: { protocol: '0061' }, // '005E'의 sub protocol
-    sleepingMode3: { protocol: '0062' }, // '005E'의 sub protocol
-    sleepMode: { protocol: '0037' },
-    extractLight: { protocol: '0049' },
-    welcomeLight: { protocol: '004A' },
-    euroSter: { protocol: '0007' },
-    euroSterTime: { protocol: '0013' },
-    soundMode: { protocol: '0031' },
-    soundVolume: { protocol: '0033' }, // '0031'의 sub protocol
-  },
+export const WATER_PROTOCOL = {
+  waitMode: '004B',
+  cupSensing: '004E',
+  autoMove: '004C',
+  myCapacity: '0051',
+  settingCapacity: '0047', // '0051'의 sub protocol
+  extractCapacityHalf: '00BE',
+  extractCapacityCup: '00BF',
+  extractCapacityTwoCup: '00C0',
+  powerSave: '0004',
+  sleepingMode: '005E',
+  sleepingMode1: '0060', // '005E'의 sub protocol
+  sleepingMode2: '0061', // '005E'의 sub protocol
+  sleepingMode3: '0062', // '005E'의 sub protocol
+  sleepMode: '0037',
+  extractLight: '0049',
+  welcomeLight: '004A',
+  euroSter: '0007',
+  euroSterTime: '0013',
+  sound: '0006',
+  soundMode: '0031',
+  soundVolume: '0033', // '0031'의 sub protocol
+  coldWater: '0002',
+  superHotWater: '003B',
+  hotLockSetting: '0003',
+  allLockSetting: '0005',
 };
 
 // 프로토콜별 컴포넌트 정의
-
-export const WATER_CONTROL_REGISTRY: Record<
+export const WATER_CONTROL_COMPONENT: Record<
   Protocol,
   React.ComponentType<Props>
 > = {
   waitMode: WaitModeComponent,
-  cupSensing: WaitModeComponent, // 임시
-  autoMove: WaitModeComponent, // 임시
+  cupSensing: CupSensingComponent,
+  autoMove: AutoMoveComponent,
   myCapacity: MyCapacityComponent,
   settingCapacity: SettingCapacityComponent,
   extractCapacityHalf: MyCapacityComponent, // 임시
   extractCapacityCup: MyCapacityComponent, // 임시
   extractCapacityTwoCup: MyCapacityComponent, // 임시
-  powerSave: MyCapacityComponent, // 임시
+  powerSave: PowerSaveComponent, // 임시
   sleepingMode: MyCapacityComponent, // 임시
   sleepingMode1: MyCapacityComponent, // 임시
   sleepingMode2: MyCapacityComponent, // 임시
@@ -66,9 +92,14 @@ export const WATER_CONTROL_REGISTRY: Record<
   extractLight: ExtractLightComponent,
   welcomeLight: MyCapacityComponent, // 임시
   euroSter: MyCapacityComponent, // 임시
-  euroSterTime: MyCapacityComponent, // 임시
+  euroSterTime: EuroSterTimeComponent,
+  sound: SoundComponent,
   soundMode: SoundModeComponent,
   soundVolume: SoundVolumeComponent,
+  coldWater: ColdWaterComponent,
+  superHotWater: SuperHotWaterComponent,
+  hotLockSetting: HotLockSettingComponent,
+  allLockSetting: AllLockSettingComponent,
 };
 
 export const CAPACITY_CATEGORY = [
@@ -171,7 +202,22 @@ export const CAPACITY_CATEGORY = [
 ];
 
 export const SOUND_CATEGORY = [
-  { id: '1', value: '무음', rValue: '1' },
-  { id: '2', value: '효과음', rValue: '2' },
-  { id: '3', value: '음성', rValue: '3' },
+  { id: '0', value: `${t('HIDDEN.CONTROL.SILENT')}`, rValue: '1' },
+  { id: '1', value: `${t('HIDDEN.CONTROL.SOUND_EFFECT')}`, rValue: '2' },
+  { id: '2', value: `${t('HIDDEN.CONTROL.VOICE')}`, rValue: '3' },
+];
+
+export const WAIT_CATEGORY = [
+  { id: '0', value: `${t('HIDDEN.CONTROL.WAIT_MODE_ITM_0')}`, rValue: '0' },
+  { id: '1', value: `${t('HIDDEN.CONTROL.WAIT_MODE_ITM_1')}`, rValue: '1' },
+  // { id: '2', value: '날짜', rValue: '2' },
+  { id: '3', value: `${t('HIDDEN.CONTROL.WAIT_MODE_ITM_3')}`, rValue: '3' },
+];
+
+export const AUTO_MOVE_CATEGORY = [
+  { id: '0', value: `1${t('CON.MINUTE')}`, rValue: '1' },
+  { id: '1', value: `5${t('CON.MINUTE')}`, rValue: '5' },
+  { id: '2', value: `10${t('CON.MINUTE')}`, rValue: '10' },
+  { id: '3', value: `30${t('CON.MINUTE')}`, rValue: '30' },
+  { id: '4', value: `1${t('CON.TIME')}`, rValue: '60' },
 ];

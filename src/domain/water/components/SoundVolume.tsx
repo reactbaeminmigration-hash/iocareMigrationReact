@@ -42,6 +42,7 @@ export const SoundVolumeComponent: React.FC<Props> = ({ protocol, status }) => {
           min="1"
           max="5"
           step="1"
+          className="0033"
           ref={rangeRef}
           onChange={(e) => onVolumeChange(e.currentTarget)}
           disabled={isPending}

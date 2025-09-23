@@ -54,6 +54,9 @@ export function useMobileSelect({
       },
     });
 
+    const root = (msRef.current as any).mobileSelect as HTMLElement;
+    root.classList.add('cw_none');
+
     return () => {
       msRef.current?.destroy();
       msRef.current = null;

@@ -1,17 +1,15 @@
 import { t } from 'i18next';
-import { SettingCapacityComponent } from './SettingCapacity';
-import { WATER_PROTOCOL, type Props } from '../constants/controlDefinitions';
+import { type Props } from '../constants/controlDefinitions';
 import { useTooltip } from '@/shared/hooks/useTooltip';
 import { useControl } from '../hooks/useControl';
 
-export const MyCapacityComponent: React.FC<Props> = ({ protocol, status }) => {
+export const CupSensingComponent: React.FC<Props> = ({ protocol, status }) => {
   const toolTip = useTooltip<HTMLDivElement>();
   const { value, update, isPending } = useControl({
     protocol,
     status,
   });
   const checked = value === '1';
-  const subProtocol = WATER_PROTOCOL.settingCapacity; // '0047'
 
   return (
     <div className="row">
@@ -20,9 +18,9 @@ export const MyCapacityComponent: React.FC<Props> = ({ protocol, status }) => {
         ref={toolTip.containerRef}
       >
         <button type="button" className="cw_btn_help" onClick={toolTip.toggle}>
-          <span>{t('HIDDEN.CONTROL.MY_CAPACITY')}</span>
+          <span>{t('HIDDEN.CONTROL.CUP_SENSING')}</span>
           <span className="cw_tooltip_box">
-            {t('HIDDEN.CONTROL.TOOL_TIP.MY_CAPACITY')}
+            {t('HIDDEN.CONTROL.TOOL_TIP.CUP_SENSING')}
           </span>
         </button>
       </div>
@@ -31,7 +29,7 @@ export const MyCapacityComponent: React.FC<Props> = ({ protocol, status }) => {
           <label>
             <input
               type="checkbox"
-              className="0051"
+              className="004E"
               checked={checked}
               disabled={isPending}
               onChange={(e) => update(e.target.checked ? '1' : '0')}
@@ -40,13 +38,6 @@ export const MyCapacityComponent: React.FC<Props> = ({ protocol, status }) => {
           </label>
         </div>
       </div>
-      {checked && (
-        <SettingCapacityComponent
-          key={subProtocol}
-          protocol={subProtocol}
-          status={status}
-        />
-      )}
     </div>
   );
 };

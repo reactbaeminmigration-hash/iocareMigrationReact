@@ -1,8 +1,8 @@
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import useGetWaterControlStatus from '../queries/useGetWaterControlStatus';
 import {
-  WATER_CONTROL,
-  WATER_CONTROL_REGISTRY,
+  WATER_PROTOCOL,
+  WATER_CONTROL_COMPONENT,
   WATER_CONTROL_UI,
   type ProdList,
 } from '../constants/controlDefinitions';
@@ -30,8 +30,8 @@ export const WaterControlPage = () => {
         {controlList.map((rows, i) => (
           <div className="gridWrap" key={i}>
             {rows.map((id) => {
-              const Component = WATER_CONTROL_REGISTRY[id];
-              const protocol = WATER_CONTROL.controls[id].protocol;
+              const Component = WATER_CONTROL_COMPONENT[id];
+              const protocol = WATER_PROTOCOL[id];
               return (
                 <Component
                   key={protocol}
