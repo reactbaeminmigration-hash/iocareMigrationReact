@@ -1,18 +1,16 @@
 import { t } from 'i18next';
-import { type Props } from '../constants/controlDefinitions';
+import { type Props } from '../../constants/controlDefinitions';
 import { useTooltip } from '@/shared/hooks/useTooltip';
-import { useControl } from '../hooks/useControl';
+import { useControl } from '../../hooks/useControl';
 
-export const ExtractLightComponent: React.FC<Props> = ({
-  protocol,
-  status,
-}) => {
+export const PowerSaveComponent: React.FC<Props> = ({ protocol, status }) => {
   const toolTip = useTooltip<HTMLDivElement>();
   const { value, update, isPending } = useControl({
     protocol,
     status,
   });
   const checked = value === '1';
+
   return (
     <div className="row">
       <div
@@ -20,9 +18,9 @@ export const ExtractLightComponent: React.FC<Props> = ({
         ref={toolTip.containerRef}
       >
         <button type="button" className="cw_btn_help" onClick={toolTip.toggle}>
-          <span>{t('ICON_20.EXTRACT_LIGHT')}</span>
+          <span>{t('ICON40.CONTROL.POWER_SAVE')}</span>
           <span className="cw_tooltip_box">
-            {t('ICON_20.EXTRACT_LIGHT_INFO')}
+            {t('ICON40.CONTROL.TOOL_TIP.POWER_SAVE_TOOL_TIP')}
           </span>
         </button>
       </div>
@@ -31,7 +29,7 @@ export const ExtractLightComponent: React.FC<Props> = ({
           <label>
             <input
               type="checkbox"
-              className="0049"
+              className="0004"
               checked={checked}
               disabled={isPending}
               onChange={(e) => update(e.target.checked ? '1' : '0')}

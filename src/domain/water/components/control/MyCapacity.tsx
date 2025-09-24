@@ -1,15 +1,17 @@
 import { t } from 'i18next';
-import { type Props } from '../constants/controlDefinitions';
+import { SettingCapacityComponent } from './SettingCapacity';
+import { WATER_PROTOCOL, type Props } from '../../constants/controlDefinitions';
 import { useTooltip } from '@/shared/hooks/useTooltip';
-import { useControl } from '../hooks/useControl';
+import { useControl } from '../../hooks/useControl';
 
-export const PowerSaveComponent: React.FC<Props> = ({ protocol, status }) => {
+export const MyCapacityComponent: React.FC<Props> = ({ protocol, status }) => {
   const toolTip = useTooltip<HTMLDivElement>();
   const { value, update, isPending } = useControl({
     protocol,
     status,
   });
   const checked = value === '1';
+  const subProtocol = WATER_PROTOCOL.settingCapacity; // '0047'
 
   return (
     <div className="row">
@@ -18,9 +20,9 @@ export const PowerSaveComponent: React.FC<Props> = ({ protocol, status }) => {
         ref={toolTip.containerRef}
       >
         <button type="button" className="cw_btn_help" onClick={toolTip.toggle}>
-          <span>{t('ICON40.CONTROL.POWER_SAVE')}</span>
+          <span>{t('HIDDEN.CONTROL.MY_CAPACITY')}</span>
           <span className="cw_tooltip_box">
-            {t('ICON40.CONTROL.TOOL_TIP.POWER_SAVE_TOOL_TIP')}
+            {t('HIDDEN.CONTROL.TOOL_TIP.MY_CAPACITY')}
           </span>
         </button>
       </div>
@@ -29,7 +31,7 @@ export const PowerSaveComponent: React.FC<Props> = ({ protocol, status }) => {
           <label>
             <input
               type="checkbox"
-              className="0004"
+              className="0051"
               checked={checked}
               disabled={isPending}
               onChange={(e) => update(e.target.checked ? '1' : '0')}
@@ -38,6 +40,13 @@ export const PowerSaveComponent: React.FC<Props> = ({ protocol, status }) => {
           </label>
         </div>
       </div>
+      {checked && (
+        <SettingCapacityComponent
+          key={subProtocol}
+          protocol={subProtocol}
+          status={status}
+        />
+      )}
     </div>
   );
 };

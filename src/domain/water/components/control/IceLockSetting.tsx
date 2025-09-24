@@ -1,8 +1,11 @@
 import { t } from 'i18next';
-import { type Props } from '../constants/controlDefinitions';
-import { useControl } from '../hooks/useControl';
+import { type Props } from '../../constants/controlDefinitions';
+import { useControl } from '../../hooks/useControl';
 
-export const SoundComponent: React.FC<Props> = ({ protocol, status }) => {
+export const IceLockSettingComponent: React.FC<Props> = ({
+  protocol,
+  status,
+}) => {
   const { value, update, isPending } = useControl({
     protocol,
     status,
@@ -11,14 +14,14 @@ export const SoundComponent: React.FC<Props> = ({ protocol, status }) => {
   return (
     <div className="row">
       <div className="title">
-        <span>{t('HIDDEN.CONTROL.SOUND')}</span>
+        <span>{t('ICON40.CONTROL.ICE_LOCK_SETTING')}</span>
       </div>
       <div className="option">
         <div className="cw_onoffswitch">
           <label>
             <input
               type="checkbox"
-              className="0006"
+              className="0032"
               checked={checked}
               disabled={isPending}
               onChange={(e) => update(e.target.checked ? '1' : '0')}

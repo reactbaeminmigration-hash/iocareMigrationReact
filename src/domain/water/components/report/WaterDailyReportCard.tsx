@@ -1,8 +1,8 @@
 import { t } from 'i18next';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts, { type AxisLabelsFormatterContextObject } from 'highcharts';
-import useGetWaterDailyReport from '../queries/useGetWaterDailyReport';
-import type { WaterReportParams } from '../types/waterReportPublished.types';
+import useGetWaterDailyReport from '../../queries/useGetWaterDailyReport';
+import type { WaterReportParams } from '../../types/waterReportPublished.types';
 
 type Props = { params: WaterReportParams };
 

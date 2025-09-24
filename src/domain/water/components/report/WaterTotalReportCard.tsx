@@ -1,6 +1,6 @@
 import { t } from 'i18next';
-import useGetWaterTotalReport from '../queries/useGetWaterTotalReport';
-import type { WaterReportParams } from '../types/waterReportPublished.types';
+import useGetWaterTotalReport from '../../queries/useGetWaterTotalReport';
+import type { WaterReportParams } from '../../types/waterReportPublished.types';
 
 type Props = { params: WaterReportParams };
 

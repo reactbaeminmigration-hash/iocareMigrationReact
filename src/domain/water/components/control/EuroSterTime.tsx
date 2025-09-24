@@ -1,13 +1,16 @@
 import { t } from 'i18next';
-import { type Props } from '../constants/controlDefinitions';
+import { type Props } from '../../constants/controlDefinitions';
 import { useTooltip } from '@/shared/hooks/useTooltip';
-import { useControl } from '../hooks/useControl';
-import { HourTimePicker } from './HourTimePicker';
-import { useHourTimePicker } from '../hooks/useHourTimePicker';
+import { useControl } from '../../hooks/useControl';
+import { HourTimePicker } from '../../../../shared/components/Layout/HourTimePicker';
+import { useHourTimePicker } from '../../hooks/useHourTimePicker';
 
-export const EuroSterTimeComponent: React.FC<Props> = ({
+type Extra = { rowClass?: 'row' | 'sub_row d-flex' };
+
+export const EuroSterTimeComponent: React.FC<Props & Extra> = ({
   protocol,
   status,
+  rowClass = 'row',
 }) => {
   const toolTip = useTooltip<HTMLDivElement>();
   const { value, update, isPending } = useControl({
@@ -33,7 +36,7 @@ export const EuroSterTimeComponent: React.FC<Props> = ({
 
   return (
     <>
-      <div className="row">
+      <div className={rowClass}>
         <div
           className={`title cw_help_tooltipWrap ${toolTip.isOpen ? 'cw_open' : ''}`}
           ref={toolTip.containerRef}

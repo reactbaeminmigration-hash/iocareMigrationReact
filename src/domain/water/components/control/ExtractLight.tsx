@@ -1,9 +1,9 @@
 import { t } from 'i18next';
-import { type Props } from '../constants/controlDefinitions';
+import { type Props } from '../../constants/controlDefinitions';
 import { useTooltip } from '@/shared/hooks/useTooltip';
-import { useControl } from '../hooks/useControl';
+import { useControl } from '../../hooks/useControl';
 
-export const SuperHotWaterComponent: React.FC<Props> = ({
+export const ExtractLightComponent: React.FC<Props> = ({
   protocol,
   status,
 }) => {
@@ -20,9 +20,9 @@ export const SuperHotWaterComponent: React.FC<Props> = ({
         ref={toolTip.containerRef}
       >
         <button type="button" className="cw_btn_help" onClick={toolTip.toggle}>
-          <span>{t('ICON_20.SUPER_HOT_WATER')}</span>
+          <span>{t('ICON_20.EXTRACT_LIGHT')}</span>
           <span className="cw_tooltip_box">
-            {t('ICON_20.SUPER_HOT_WATER_INFO')}
+            {t('ICON_20.EXTRACT_LIGHT_INFO')}
           </span>
         </button>
       </div>
@@ -31,7 +31,7 @@ export const SuperHotWaterComponent: React.FC<Props> = ({
           <label>
             <input
               type="checkbox"
-              className="003B"
+              className="0049"
               checked={checked}
               disabled={isPending}
               onChange={(e) => update(e.target.checked ? '1' : '0')}

@@ -1,26 +1,20 @@
 import { t } from 'i18next';
-import {
-  SOUND_CATEGORY,
-  WATER_PROTOCOL,
-  type Props,
-} from '../constants/controlDefinitions';
+import { WAIT_CATEGORY, type Props } from '../../constants/controlDefinitions';
 import { useTooltip } from '@/shared/hooks/useTooltip';
+import { useControl } from '../../hooks/useControl';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useControl } from '../hooks/useControl';
-import { useMobileSelect } from '../hooks/useMobileSelect';
-import { SoundVolumeComponent } from './SoundVolume';
+import { useMobileSelect } from '../../hooks/useMobileSelect';
 
-export const SoundModeComponent: React.FC<Props> = ({ protocol, status }) => {
+export const WaitModeComponent: React.FC<Props> = ({ protocol, status }) => {
   const toolTip = useTooltip<HTMLDivElement>();
   const { value, update, isPending } = useControl({ protocol, status });
-  const subProtocol = WATER_PROTOCOL.soundVolume;
   const [sound, setSound] = useState(value);
   useEffect(() => {
     setSound(value);
   }, [value]);
 
   const selected = useMemo(
-    () => SOUND_CATEGORY.find((it) => it.rValue === sound),
+    () => WAIT_CATEGORY.find((it) => it.rValue === sound),
     [sound],
   );
 
@@ -36,8 +30,8 @@ export const SoundModeComponent: React.FC<Props> = ({ protocol, status }) => {
 
   const { openWheel } = useMobileSelect({
     triggerRef,
-    items: SOUND_CATEGORY,
-    title: t('HIDDEN.CONTROL.SOUND_MODE'),
+    items: WAIT_CATEGORY,
+    title: t('HIDDEN.CONTROL.WAIT_MODE'),
     currentRValue: sound,
     onPickRValue: handleConfirm,
   });
@@ -49,22 +43,19 @@ export const SoundModeComponent: React.FC<Props> = ({ protocol, status }) => {
         ref={toolTip.containerRef}
       >
         <button type="button" className="cw_btn_help" onClick={toolTip.toggle}>
-          <span>{t('HIDDEN.CONTROL.SOUND_MODE')}</span>
+          <span>{t('HIDDEN.CONTROL.WAIT_MODE')}</span>
           <span className="cw_tooltip_box">
-            {t('HIDDEN.CONTROL.TOOL_TIP.SOUND_MODE')}
+            {t('HIDDEN.CONTROL.TOOL_TIP.WAIT_MODE')}
           </span>
         </button>
       </div>
-
       <div className="option">
-        <div className="dropdownWrap" id="soundMode">
+        <div className="dropdownWrap" id="waitMode">
           <div className="selected" ref={triggerRef}>
-            <span className="txt">
-              <span>{selected?.value}</span>
-            </span>
+            <span>{selected?.value}</span>
             <button
               type="button"
-              name="0031"
+              name="004B"
               className="btn_dropdown"
               onClick={(e) => {
                 e.stopPropagation();
@@ -76,21 +67,6 @@ export const SoundModeComponent: React.FC<Props> = ({ protocol, status }) => {
             </button>
           </div>
         </div>
-      </div>
-
-      <div className="sub_row">
-        {sound === '1' ? (
-          <div className="cw_txt_alert04 d-flex">
-            <span className="bul">※</span>
-            <span>{t('HIDDEN.CONTROL.SOUND_MODE_INFO')}</span>
-          </div>
-        ) : (
-          <SoundVolumeComponent
-            key={subProtocol}
-            protocol={subProtocol}
-            status={status}
-          />
-        )}
       </div>
     </div>
   );

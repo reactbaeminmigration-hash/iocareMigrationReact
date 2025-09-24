@@ -1,6 +1,6 @@
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { t } from 'i18next';
-import useGetWaterSter from '../queries/useGetWaterSter';
+import useGetWaterSter from '../../queries/useGetWaterSter';
 
 export default function WaterSterCard() {
   const waterHomeInfos = useDeviceStore((s) => s.lastSelectedDeviceInfos);

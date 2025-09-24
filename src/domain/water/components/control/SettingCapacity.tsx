@@ -1,8 +1,11 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { t } from 'i18next';
-import { useControl } from '../hooks/useControl';
-import { CAPACITY_CATEGORY, type Props } from '../constants/controlDefinitions';
-import { useMobileSelect } from '../hooks/useMobileSelect';
+import { useControl } from '../../hooks/useControl';
+import {
+  CAPACITY_CATEGORY,
+  type Props,
+} from '../../constants/controlDefinitions';
+import { useMobileSelect } from '../../hooks/useMobileSelect';
 
 export const SettingCapacityComponent: React.FC<Props> = ({
   protocol,

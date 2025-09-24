@@ -1,6 +1,6 @@
 import { t } from 'i18next';
-import { type Props } from '../constants/controlDefinitions';
-import { useControl } from '../hooks/useControl';
+import { type Props } from '../../constants/controlDefinitions';
+import { useControl } from '../../hooks/useControl';
 
 export const HotLockSettingComponent: React.FC<Props> = ({
   protocol,

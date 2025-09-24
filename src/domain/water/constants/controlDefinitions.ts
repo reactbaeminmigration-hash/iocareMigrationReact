@@ -1,20 +1,28 @@
 import { t } from 'i18next';
-import { AllLockSettingComponent } from '../components/AllLockSetting';
-import { AutoMoveComponent } from '../components/AutoMove';
-import { ColdWaterComponent } from '../components/ColdWater';
-import { CupSensingComponent } from '../components/CupSensing';
-import { ExtractLightComponent } from '../components/ExtractLight';
-import { HotLockSettingComponent } from '../components/HotLockSetting';
-import { MyCapacityComponent } from '../components/MyCapacity';
-import { SettingCapacityComponent } from '../components/SettingCapacity';
-import { SleepModeComponent } from '../components/SleepMode';
-import { SoundComponent } from '../components/Sound';
-import { SoundModeComponent } from '../components/SoundMode';
-import { SoundVolumeComponent } from '../components/SoundVolume';
-import { SuperHotWaterComponent } from '../components/SuperHotWater';
-import { WaitModeComponent } from '../components/WaitMode';
-import { PowerSaveComponent } from '../components/PowerSave';
-import { EuroSterTimeComponent } from '../components/EuroSterTime';
+import { AllLockSettingComponent } from '../components/control/AllLockSetting';
+import { AutoMoveComponent } from '../components/control/AutoMove';
+import { ColdWaterComponent } from '../components/control/ColdWater';
+import { CupSensingComponent } from '../components/control/CupSensing';
+import { ExtractLightComponent } from '../components/control/ExtractLight';
+import { HotLockSettingComponent } from '../components/control/HotLockSetting';
+import { MyCapacityComponent } from '../components/control/MyCapacity';
+import { SettingCapacityComponent } from '../components/control/SettingCapacity';
+import { SleepModeComponent } from '../components/control/SleepMode';
+import { SoundComponent } from '../components/control/Sound';
+import { SoundModeComponent } from '../components/control/SoundMode';
+import { SoundVolumeComponent } from '../components/control/SoundVolume';
+import { SuperHotWaterComponent } from '../components/control/SuperHotWater';
+import { WaitModeComponent } from '../components/control/WaitMode';
+import { PowerSaveComponent } from '../components/control/PowerSave';
+import { EuroSterTimeComponent } from '../components/control/EuroSterTime';
+import { EuroSterComponent } from '../components/control/EuroSter';
+import { WelcomeLightComponent } from '../components/control/WelcomeLight';
+import { HotWaterComponent } from '../components/control/HotWater';
+import { IceModeComponent } from '../components/control/IceMode';
+import { FastDefrostComponent } from '../components/control/fastDefrost';
+import { IceLockSettingComponent } from '../components/control/IceLockSetting';
+import { IceSizeComponent } from '../components/control/IceSize';
+import { ColdTemperatureComponent } from '../components/control/ColdTemperature';
 
 export type ProdList = keyof typeof WATER_CONTROL_UI;
 export type Protocol = keyof typeof WATER_PROTOCOL;
@@ -23,7 +31,14 @@ export type Props = { protocol: string; status: Record<string, string> };
 // 제품별 기능 노출 목록 (모델명 기준)
 export const WATER_CONTROL_UI = {
   ICON_20: [
-    ['euroSterTime'],
+    [
+      'hotWater',
+      'iceMode',
+      'fastDefrost',
+      'iceLockSetting',
+      'iceSize',
+      'coldTemperature',
+    ],
     ['myCapacity'],
     ['sleepMode', 'extractLight'],
     ['soundMode'],
@@ -60,13 +75,19 @@ export const WATER_PROTOCOL = {
   extractLight: '0049',
   welcomeLight: '004A',
   euroSter: '0007',
-  euroSterTime: '0013',
+  euroSterTime: '0013', // '0007'의 sub protocol
   sound: '0006',
   soundMode: '0031',
   soundVolume: '0033', // '0031'의 sub protocol
   coldWater: '0002',
+  coldTemperature: '003C',
+  hotWater: '0039',
   superHotWater: '003B',
+  iceMode: '0059',
+  iceSize: '0058',
+  fastDefrost: '0008',
   hotLockSetting: '0003',
+  iceLockSetting: '0032',
   allLockSetting: '0005',
 };
 
@@ -83,22 +104,28 @@ export const WATER_CONTROL_COMPONENT: Record<
   extractCapacityHalf: MyCapacityComponent, // 임시
   extractCapacityCup: MyCapacityComponent, // 임시
   extractCapacityTwoCup: MyCapacityComponent, // 임시
-  powerSave: PowerSaveComponent, // 임시
+  powerSave: PowerSaveComponent,
   sleepingMode: MyCapacityComponent, // 임시
   sleepingMode1: MyCapacityComponent, // 임시
   sleepingMode2: MyCapacityComponent, // 임시
   sleepingMode3: MyCapacityComponent, // 임시
   sleepMode: SleepModeComponent,
   extractLight: ExtractLightComponent,
-  welcomeLight: MyCapacityComponent, // 임시
-  euroSter: MyCapacityComponent, // 임시
+  welcomeLight: WelcomeLightComponent,
+  euroSter: EuroSterComponent,
   euroSterTime: EuroSterTimeComponent,
   sound: SoundComponent,
   soundMode: SoundModeComponent,
   soundVolume: SoundVolumeComponent,
   coldWater: ColdWaterComponent,
+  coldTemperature: ColdTemperatureComponent,
+  hotWater: HotWaterComponent,
   superHotWater: SuperHotWaterComponent,
+  iceMode: IceModeComponent,
+  iceSize: IceSizeComponent,
+  fastDefrost: FastDefrostComponent,
   hotLockSetting: HotLockSettingComponent,
+  iceLockSetting: IceLockSettingComponent,
   allLockSetting: AllLockSettingComponent,
 };
 
@@ -220,4 +247,14 @@ export const AUTO_MOVE_CATEGORY = [
   { id: '2', value: `10${t('CON.MINUTE')}`, rValue: '10' },
   { id: '3', value: `30${t('CON.MINUTE')}`, rValue: '30' },
   { id: '4', value: `1${t('CON.TIME')}`, rValue: '60' },
+];
+
+export const ICE_SIZE_CATEGORY = [
+  { id: '0', value: `${t('CON.LARGE')}`, rValue: '0' },
+  { id: '1', value: `${t('CON.SMALL')}`, rValue: '2' },
+];
+
+export const COLD_TEMPERATURE_CATEGORY = [
+  { id: '0', value: `${t('HIDDEN.CONTROL.HIGH')}`, rValue: '0' },
+  { id: '1', value: `${t('HIDDEN.CONTROL.LOW')}`, rValue: '1' },
 ];

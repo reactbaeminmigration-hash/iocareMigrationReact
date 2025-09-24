@@ -1,6 +1,6 @@
-import WaterSterCard from '../components/WaterSterCard';
-import WaterUsageCard from '../components/WaterUsageCard';
-import WaterFilterCard from '../components/WaterFilterCard';
+import WaterSterCard from '../components/home/WaterSterCard';
+import WaterUsageCard from '../components/home/WaterUsageCard';
+import WaterFilterCard from '../components/home/WaterFilterCard';
 import { useCheckProductState } from '@/domain/device/hooks/useCheckProductState';
 import { LoadingLocalSpinner } from '@/shared/components/LoadingSpinner/LoadingLocalSpinner';
 import { OtaBeforeNoticeComponent } from '@/domain/device/components/OtaBeforeNoticeComponent';

@@ -4,10 +4,10 @@ import useHasWaterReport from '../queries/useHasWaterReport';
 import { useState } from 'react';
 import { nowToString, timeStampToString } from '@/shared/utils/common.utils';
 import { t } from 'i18next';
-import WaterTotalReportCard from '../components/WaterTotalReportCard';
+import WaterTotalReportCard from '../components/report/WaterTotalReportCard';
 import type { WaterReportParams } from '../types/waterReportPublished.types';
-import WaterDailyReportCard from '../components/WaterDailyReportCard';
-import WaterMonthReportCard from '../components/WaterMonthReportCard';
+import WaterDailyReportCard from '../components/report/WaterDailyReportCard';
+import WaterMonthReportCard from '../components/report/WaterMonthReportCard';
 import { LoadingLocalSpinner } from '@/shared/components/LoadingSpinner/LoadingLocalSpinner';
 
 export const WaterReportPage = () => {

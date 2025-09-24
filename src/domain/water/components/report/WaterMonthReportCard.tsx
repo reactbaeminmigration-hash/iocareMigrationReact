@@ -1,9 +1,9 @@
 import { t } from 'i18next';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts, { type AxisLabelsFormatterContextObject } from 'highcharts';
-import type { WaterReportParams } from '../types/waterReportPublished.types';
+import type { WaterReportParams } from '../../types/waterReportPublished.types';
 import { Button } from '@/shared/components/Button';
-import useGetWaterMonthReport from '../queries/useGetWaterMonthReport';
+import useGetWaterMonthReport from '../../queries/useGetWaterMonthReport';
 
 type Props = { params: WaterReportParams };
 

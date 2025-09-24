@@ -3,11 +3,11 @@ import {
   AUTO_MOVE_CATEGORY,
   WAIT_CATEGORY,
   type Props,
-} from '../constants/controlDefinitions';
+} from '../../constants/controlDefinitions';
 import { useTooltip } from '@/shared/hooks/useTooltip';
-import { useControl } from '../hooks/useControl';
+import { useControl } from '../../hooks/useControl';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useMobileSelect } from '../hooks/useMobileSelect';
+import { useMobileSelect } from '../../hooks/useMobileSelect';
 
 export const AutoMoveComponent: React.FC<Props> = ({ protocol, status }) => {
   const toolTip = useTooltip<HTMLDivElement>();

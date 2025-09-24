@@ -1,6 +1,6 @@
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
 import { t } from 'i18next';
-import useGetWaterFilter from '../queries/useGetWaterFilter';
+import useGetWaterFilter from '../../queries/useGetWaterFilter';
 import { useNavigate } from 'react-router-dom';
 
 export default function WaterFilterCard() {

@@ -1,6 +1,6 @@
-import { type Props } from '../constants/controlDefinitions';
+import { type Props } from '../../constants/controlDefinitions';
 import { useEffect, useRef } from 'react';
-import { useControl } from '../hooks/useControl';
+import { useControl } from '../../hooks/useControl';
 
 export const SoundVolumeComponent: React.FC<Props> = ({ protocol, status }) => {
   const { value, update, isPending } = useControl({
