@@ -4,194 +4,84 @@ import { useTooltip } from '@/shared/hooks/useTooltip';
 import cx from 'classnames';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { useMemo } from 'react';
 import { Trans } from 'react-i18next';
+import {
+  getIaqPm25ConvertList,
+  getOaqPm25ConvertList,
+} from '../../helpers/iaqValueConverter.helper';
+import useGetAirDeviceHome from '../../hooks/queries/useGetAirDeviceHome';
 import useGetAirIaqDetail from '../../hooks/queries/useGetAirIaqDetail';
+import { useAirChartOptions } from '../../hooks/useAirChartOptions';
 import { useIaqGraphData } from '../../hooks/useIaqGraphHook';
 
-const AIR_IAQ_GRAPG_DETAIL_LOADING = ['airIaqGrapgDetailLoading'];
+const AIR_IAQ_GRAPH_DETAIL_LOADING = ['airGetAirDeviceHomeLoading'];
 
 export const AirHomeIaqGraph = () => {
-  const pm25GraghTooltip = useTooltip<HTMLDivElement>();
   const { deviceState } = useDeviceContext();
-  let LocalLoadingKey = AIR_IAQ_GRAPG_DETAIL_LOADING;
-  const { data: iaqDetailData, isLoading: isIaqDetailLoading } =
-    useGetAirIaqDetail(deviceState, 3, LocalLoadingKey);
 
-  const { xAxisTime, inGraphData, outGraphData, inMaxGraphData } =
+  // pm25
+  const pm25GraghTooltip = useTooltip<HTMLDivElement>();
+  const { data: iaqDetailData } = useGetAirIaqDetail(
+    deviceState,
+    3,
+    AIR_IAQ_GRAPH_DETAIL_LOADING,
+  );
+  const { xAxisTime, inGraphData, outGraphData, inMaxGraphData, dateRange } =
     useIaqGraphData(
-      iaqDetailData && {
-        list: iaqDetailData.list,
-        rangeValue: 6,
-        timeFlag: 'hour',
-      },
+      iaqDetailData
+        ? {
+            list: iaqDetailData.list,
+            rangeValue: 6,
+            timeFlag: 'hour',
+          }
+        : undefined,
     );
-
-  if (isIaqDetailLoading || !iaqDetailData) {
-    return null; // Or a loading skeleton
-  }
-
-  console.log(xAxisTime);
-  console.log(inGraphData);
-  console.log(outGraphData);
-  console.log(inMaxGraphData);
-
-  const data = [
-    {
-      name: 'maximum',
-      type: 'scatter',
-      color: '#ffa0a0',
-      marker: {
-        radius: 1,
-        symbol: 'circle',
-      },
-      data: [],
-    },
-    {
-      name: '실외',
-      type: 'spline',
-      color: '#c8c8c8',
-      dashStyle: 'ShortDot',
-      yAxis: 1,
-      data: [
-        6,
-        6,
-        6,
-        6,
-        6,
-        6,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        5,
-        5,
-        5,
-        5,
-        5,
-        5,
-        6,
-        6,
-        6,
-        6,
-        6,
-        6,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        0,
-      ],
-      _symbolIndex: 0,
-    },
-    {
-      name: '실내',
-      type: 'spline',
-      color: '#2baaf2',
-      data: [],
-      _symbolIndex: 1,
-    },
-  ];
-
-  const options = {
-    chart: {
-      renderTo: 'all_air_time',
-      type: 'spline',
-      height: 133,
-      margin: [0, 10, 20, 0],
-    },
-    title: {
-      text: '',
-    },
-    xAxis: {
-      tickInterval: 6,
-      categories: xAxisTime,
-      lineColor: '#616161',
-      lineWidth: 2,
-      tickWidth: 0,
-      showFirstLabel: true,
-      labels: {
-        y: 16,
-        style: {
-          color: '#616161',
-          fontFamily: 'NanumSquareBold',
-          fontSize: 12,
-        },
-      },
-    },
-    yAxis: [
+  const seriesData = useMemo(() => {
+    return [
       {
-        title: {
-          enabled: false,
-        },
-        labels: {
-          enabled: false,
-        },
-        gridLineColor: '#eeeeee',
-        tickPositions: [0, 25, 50, 75, 100],
-        tickInterval: 25,
-        max: 100,
-        showFirstLabel: false,
-      },
-      {
-        title: {
-          enabled: false,
-        },
-        tickPositions: [0, 25, 50, 75, 100],
-        tickInterval: 25,
-        max: 100,
-        opposite: true,
-      },
-    ],
-    plotOptions: {
-      spline: {
-        lineWidth: 2,
-        label: {
-          enabled: true,
-          connectorAllowed: false,
-        },
+        name: 'maximum',
+        type: 'scatter',
+        color: '#ffa0a0',
         marker: {
-          enabled: false,
+          radius: 1,
+          symbol: 'circle',
         },
-        color: 'red',
-        enableMouseTracking: false,
+        data: getIaqPm25ConvertList(inMaxGraphData),
       },
-      scatter: {
-        enableMouseTracking: false,
+      {
+        name: '실외',
+        type: 'spline',
+        color: '#c8c8c8',
+        dashStyle: 'ShortDot',
+        yAxis: 1,
+        data: getOaqPm25ConvertList(outGraphData),
+        _symbolIndex: 0,
       },
-    },
-    tooltip: {
-      enabled: false,
-    },
-    credits: {
-      enabled: false,
-    },
-    series: data,
-    legend: {
-      enabled: false,
-      align: 'right',
-      y: 20,
-    },
-    exporting: {
-      enabled: false,
-    },
-  };
+      {
+        name: '실내',
+        type: 'spline',
+        color: '#2baaf2',
+        data: getIaqPm25ConvertList(inGraphData),
+        _symbolIndex: 1,
+      },
+    ];
+  }, [inMaxGraphData, outGraphData, inGraphData]);
+  const chartOptions = useAirChartOptions({ series: seriesData, xAxisTime });
+
+  // dustpm10
+  const { data: getDeviceData } = useGetAirDeviceHome(
+    deviceState,
+    AIR_IAQ_GRAPH_DETAIL_LOADING,
+  );
+  const dustpm10 = getDeviceData?.IAQ?.dustpm10?.substring(0, 4);
 
   return (
-    <div className="cw_accWrap02">
+    <div className="cw_accWrap02 type02">
       <ul>
         <li>
           <LoadingLocalSpinner
-            localLoadingKey={AIR_IAQ_GRAPG_DETAIL_LOADING}
+            localLoadingKey={AIR_IAQ_GRAPH_DETAIL_LOADING}
             className="cw_graph02"
           >
             <div className="cw_txt06">
@@ -302,7 +192,7 @@ export const AirHomeIaqGraph = () => {
                   <div id="all_air_time" style={{ minHeight: '133px' }}>
                     <HighchartsReact
                       highcharts={Highcharts}
-                      options={options}
+                      options={chartOptions}
                     />
                   </div>
                   <div className="cw_x_axis">
@@ -317,12 +207,39 @@ export const AirHomeIaqGraph = () => {
           <p className="cw_txt06">
             <span>
               <Trans i18nKey={'AIR.AGGREGATION_TIME'} />
+              <br />
+              {dateRange}
             </span>
           </p>
           <div className="cw_acc_cont">
             <div className="cw_graphtype_view"></div>
           </div>
-          {/* 여기부 부터 시작 */}
+        </li>
+        <li>
+          <div
+            // (click)="getAirqualityTime(2, 'fineDust');
+            // helpPopUpControl('OFF', 'pm10')"
+            className="cw_acc_tit"
+          >
+            <dl className="cw_dlist01">
+              <div>
+                <dt>
+                  <Trans i18nKey={'AIR.AIR_FINE_DUST'} />
+                  <sub>PM 10</sub>
+                </dt>
+              </div>
+              <dd className="cw_txt_good">
+                <strong>좋음{/* {{ dustpm10Status }} */}</strong>
+                <span className="cw_numvalue">
+                  {dustpm10}
+                  μg/m³
+                </span>
+              </dd>
+            </dl>
+            <button type="button" className="cw_btn_acc">
+              <span>detail contents show/hide</span>
+            </button>
+          </div>
         </li>
       </ul>
     </div>

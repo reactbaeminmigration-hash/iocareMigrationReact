@@ -1,5 +1,5 @@
+import { useAppQuery } from '@/shared/hooks/useAppQuery';
 import type { UseQueryCustomOptions } from '@/shared/types/common';
-import { useQuery } from '@tanstack/react-query';
 import { getDeviceConn } from '../../api';
 import { queryKeys } from '../../constants/queryKey';
 import type {
@@ -17,16 +17,9 @@ function useGetDeviceStatus(
 ) {
   const { localLoadingKey = [], ...apiParams } = params;
 
-  return useQuery({
-    queryKey: [
-      ...localLoadingKey,
-      queryKeys.DEVICE,
-      queryKeys.GET_DEVICE_CONN,
-      apiParams,
-    ],
-    meta: {
-      showGlobalSpinner: localLoadingKey.length === 0, // scopeKey가 없을 때만 글로벌 스피너 표시
-    },
+  return useAppQuery({
+    localLoadingKey,
+    queryKey: [queryKeys.DEVICE, queryKeys.GET_DEVICE_CONN, apiParams],
     queryFn: () => getDeviceConn(apiParams),
 
     // 1. 데이터를 영원히 fresh 상태로 설정하여 자동 재요청 방지

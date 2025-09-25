@@ -33,3 +33,22 @@ export function getOrdinal(n: number): string {
   const v = n % 100;
   return s[(v - 20) % 10] || s[v] || s[0];
 }
+
+// --- airIaqGraph.helper.ts에서 이동 ---
+
+export interface DateRangeTranslations {
+  conYear: string;
+  conMonth: string;
+  conDay: string;
+  conAM: string;
+  conPM: string;
+}
+
+export const parseDateString = (dateStr: string) => {
+  const year = Number(dateStr.substring(0, 4));
+  const month = Number(dateStr.substring(4, 6)) - 1; // Month is 0-indexed
+  const day = Number(dateStr.substring(6, 8));
+  const hours = Number(dateStr.substring(8, 10));
+  const minutes = Number(dateStr.substring(10, 12));
+  return new Date(year, month, day, hours, minutes);
+};

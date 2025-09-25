@@ -2,14 +2,20 @@ import { useDeviceContext } from '@/app/contexts/DeviceProvider';
 import { getIaqStatus } from '@/domain/air/helpers/airQuality.helpers';
 import useGetAirDeviceHome from '@/domain/air/hooks/queries/useGetAirDeviceHome';
 import type { AirFeatures } from '@/domain/air/types/features.types';
+import { LoadingLocalSpinner } from '@/shared/components/LoadingSpinner/LoadingLocalSpinner';
 import { useTooltip } from '@/shared/hooks/useTooltip';
 import cx from 'classnames';
 import { Trans } from 'react-i18next';
 
+const AIR_QUALITY_LOADING = ['airGetAirDeviceHomeLoading'];
+
 export const AirHomeIaqQualityStatus = () => {
   const { deviceState, deviceUISpec } = useDeviceContext();
   const features = deviceUISpec.model.features as AirFeatures;
-  const { data, isLoading } = useGetAirDeviceHome(deviceState);
+  const { data, isLoading } = useGetAirDeviceHome(
+    deviceState,
+    AIR_QUALITY_LOADING,
+  );
   const airStateTooltip = useTooltip<HTMLDListElement>();
   console.log(features);
 
@@ -26,7 +32,11 @@ export const AirHomeIaqQualityStatus = () => {
 
   return (
     <>
-      <dl className="cw_todaystatus cw_air ultradust">
+      <LoadingLocalSpinner
+        localLoadingKey={AIR_QUALITY_LOADING}
+        as={'dl'}
+        className="cw_todaystatus cw_air ultradust"
+      >
         <dt>
           <Trans i18nKey={'AIR.ULTRAFINEDUST'} />
           <sub>
@@ -86,7 +96,7 @@ export const AirHomeIaqQualityStatus = () => {
             </dl>
           </div>
         </dd>
-      </dl>
+      </LoadingLocalSpinner>
     </>
   );
 };
