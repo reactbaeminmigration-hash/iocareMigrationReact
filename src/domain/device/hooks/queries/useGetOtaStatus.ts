@@ -1,5 +1,5 @@
+import { useAppQuery } from '@/shared/hooks/useAppQuery';
 import type { UseQueryCustomOptions } from '@/shared/types/common';
-import { useQuery } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { getOtaStatus } from '../../api';
 import { queryKeys } from '../../constants/queryKey';
@@ -22,16 +22,9 @@ function useGetOtaStatus(
 ) {
   const pollCountRef = useRef(0);
   const { localLoadingKey = [], ...apiParams } = params;
-  return useQuery({
-    meta: {
-      showGlobalSpinner: !localLoadingKey,
-    },
-    queryKey: [
-      ...localLoadingKey,
-      queryKeys.DEVICE,
-      queryKeys.GET_OTA_STATUS,
-      apiParams,
-    ],
+  return useAppQuery({
+    localLoadingKey,
+    queryKey: [queryKeys.DEVICE, queryKeys.GET_OTA_STATUS, apiParams],
     queryFn: () => getOtaStatus(params),
     staleTime: 2000,
     refetchInterval: (query) => {

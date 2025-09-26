@@ -1,6 +1,6 @@
 import { t } from 'i18next';
-import { AirHomeIaqGraph } from './AirHomeIaqGraph';
-import { AirHomeIaqQualityStatus } from './AirHomeQualityStatus';
+import { AirHomeIaqGraphSection } from './AirHomeIaqGraphSection';
+import { AirHomeMainQualityStatus } from './AirHomeMainQualityStatus';
 import { AirHomeSectionHeader } from './AirHomeSectionHeader';
 
 export const AirHomeComponent = () => {
@@ -12,8 +12,8 @@ export const AirHomeComponent = () => {
         onButtonClick={() => {}}
       />
       <div className="cw_cont">
-        <AirHomeIaqQualityStatus />
-        <AirHomeIaqGraph />
+        <AirHomeMainQualityStatus />
+        <AirHomeIaqGraphSection />
       </div>
     </div>
   );

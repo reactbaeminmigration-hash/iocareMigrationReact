@@ -1,100 +1,69 @@
 import { useDeviceContext } from '@/app/contexts/DeviceProvider';
 import { LoadingLocalSpinner } from '@/shared/components/LoadingSpinner/LoadingLocalSpinner';
-import { useTooltip } from '@/shared/hooks/useTooltip';
-import cx from 'classnames';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import { useMemo } from 'react';
+import { useState } from 'react';
 import { Trans } from 'react-i18next';
-import {
-  getIaqPm25ConvertList,
-  getOaqPm25ConvertList,
-} from '../../helpers/iaqValueConverter.helper';
 import useGetAirDeviceHome from '../../hooks/queries/useGetAirDeviceHome';
-import useGetAirIaqDetail from '../../hooks/queries/useGetAirIaqDetail';
-import { useAirChartOptions } from '../../hooks/useAirChartOptions';
-import { useIaqGraphData } from '../../hooks/useIaqGraphHook';
+import { getDustPm10Info } from '../../utils/getDustPm10Data';
 
 const AIR_IAQ_GRAPH_DETAIL_LOADING = ['airGetAirDeviceHomeLoading'];
 
-export const AirHomeIaqGraph = () => {
+export const AirHomeSubIaqPm10Gragh = () => {
   const { deviceState } = useDeviceContext();
-
-  // pm25
-  const pm25GraghTooltip = useTooltip<HTMLDivElement>();
-  const { data: iaqDetailData } = useGetAirIaqDetail(
-    deviceState,
-    3,
-    AIR_IAQ_GRAPH_DETAIL_LOADING,
-  );
-  const { xAxisTime, inGraphData, outGraphData, inMaxGraphData, dateRange } =
-    useIaqGraphData(
-      iaqDetailData
-        ? {
-            list: iaqDetailData.list,
-            rangeValue: 6,
-            timeFlag: 'hour',
-          }
-        : undefined,
-    );
-  const seriesData = useMemo(() => {
-    return [
-      {
-        name: 'maximum',
-        type: 'scatter',
-        color: '#ffa0a0',
-        marker: {
-          radius: 1,
-          symbol: 'circle',
-        },
-        data: getIaqPm25ConvertList(inMaxGraphData),
-      },
-      {
-        name: '실외',
-        type: 'spline',
-        color: '#c8c8c8',
-        dashStyle: 'ShortDot',
-        yAxis: 1,
-        data: getOaqPm25ConvertList(outGraphData),
-        _symbolIndex: 0,
-      },
-      {
-        name: '실내',
-        type: 'spline',
-        color: '#2baaf2',
-        data: getIaqPm25ConvertList(inGraphData),
-        _symbolIndex: 1,
-      },
-    ];
-  }, [inMaxGraphData, outGraphData, inGraphData]);
-  const chartOptions = useAirChartOptions({ series: seriesData, xAxisTime });
 
   // dustpm10
   const { data: getDeviceData } = useGetAirDeviceHome(
     deviceState,
     AIR_IAQ_GRAPH_DETAIL_LOADING,
   );
-  const dustpm10 = getDeviceData?.IAQ?.dustpm10?.substring(0, 4);
+  const { dustpm10, dustpm10Status, dustpm10StatusClass } = getDustPm10Info({
+    IAQData: getDeviceData?.IAQ,
+  });
 
+  const [isOpen, setIsOpen] = useState(false);
+  const handleOpenToggleClick = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
   return (
-    <div className="cw_accWrap02 type02">
-      <ul>
-        <li>
+    <li className={isOpen ? 'cw_open' : ''}>
+      <div
+        // (click)="getAirqualityTime(2, 'fineDust');
+        // helpPopUpControl('OFF', 'pm10')"
+        className="cw_acc_tit"
+      >
+        <dl className="cw_dlist01">
+          <div>
+            <dt>
+              <Trans i18nKey={'AIR.AIR_FINE_DUST'} />
+              <sub>PM 10</sub>
+            </dt>
+          </div>
+          <dd className={dustpm10StatusClass}>
+            <strong>{dustpm10Status}</strong>
+            <span className="cw_numvalue">
+              {dustpm10}
+              μg/m³
+            </span>
+          </dd>
+        </dl>
+        <button
+          type="button"
+          className="cw_btn_acc"
+          onClick={handleOpenToggleClick}
+        >
+          <span>detail contents show/hide</span>
+        </button>
+      </div>
+      <div className="cw_acc_cont">
+        <div className="cw_graphtype_view">
           <LoadingLocalSpinner
             localLoadingKey={AIR_IAQ_GRAPH_DETAIL_LOADING}
-            className="cw_graph02"
+            className="cw_graph02 fineDust"
           >
             <div className="cw_txt06">
               <span></span>
             </div>
             <div className="cw_graph_area">
-              <div
-                ref={pm25GraghTooltip.containerRef}
-                className={cx(
-                  'cw_legend cw_air01 cw_help_ui',
-                  pm25GraghTooltip.isOpen ? 'cw_help_open' : '',
-                )}
-              >
+              <div className="cw_legend cw_air01 cw_help_ui">
                 <div>
                   <strong className="cw_max">
                     <span>
@@ -111,10 +80,7 @@ export const AirHomeIaqGraph = () => {
                       <Trans i18nKey={'AIR.OUTDOOR_AVG'} />
                     </span>
                   </strong>
-                  <button
-                    className="cw_btn_help02"
-                    onClick={pm25GraghTooltip.toggle}
-                  >
+                  <button className="cw_btn_help02">
                     <span>Help</span>
                   </button>
                   <div className="cw_helpWrap cw_open">
@@ -124,11 +90,7 @@ export const AirHomeIaqGraph = () => {
                           <Trans i18nKey={'AIR.AIR_SHOW_TREND'} />
                         </span>
                       </h5>
-                      <button
-                        type="button"
-                        className="cw_btn_popclose cw_st02"
-                        onClick={pm25GraghTooltip.toggle}
-                      >
+                      <button type="button" className="cw_btn_popclose cw_st02">
                         <span>close</span>
                       </button>
                     </div>
@@ -189,12 +151,7 @@ export const AirHomeIaqGraph = () => {
                   </div>
                 </div>
                 <div className="cw_graph_data">
-                  <div id="all_air_time" style={{ minHeight: '133px' }}>
-                    <HighchartsReact
-                      highcharts={Highcharts}
-                      options={chartOptions}
-                    />
-                  </div>
+                  <div id="fine_dust_time" style={{ minHeight: '133px' }}></div>
                   <div className="cw_x_axis">
                     <span className="cw_unit">
                       <Trans i18nKey={'AIR_REPORT.HOUR_DETAIL'} />
@@ -208,40 +165,11 @@ export const AirHomeIaqGraph = () => {
             <span>
               <Trans i18nKey={'AIR.AGGREGATION_TIME'} />
               <br />
-              {dateRange}
+              {/* {{ pm10Range }} */}
             </span>
           </p>
-          <div className="cw_acc_cont">
-            <div className="cw_graphtype_view"></div>
-          </div>
-        </li>
-        <li>
-          <div
-            // (click)="getAirqualityTime(2, 'fineDust');
-            // helpPopUpControl('OFF', 'pm10')"
-            className="cw_acc_tit"
-          >
-            <dl className="cw_dlist01">
-              <div>
-                <dt>
-                  <Trans i18nKey={'AIR.AIR_FINE_DUST'} />
-                  <sub>PM 10</sub>
-                </dt>
-              </div>
-              <dd className="cw_txt_good">
-                <strong>좋음{/* {{ dustpm10Status }} */}</strong>
-                <span className="cw_numvalue">
-                  {dustpm10}
-                  μg/m³
-                </span>
-              </dd>
-            </dl>
-            <button type="button" className="cw_btn_acc">
-              <span>detail contents show/hide</span>
-            </button>
-          </div>
-        </li>
-      </ul>
-    </div>
+        </div>
+      </div>
+    </li>
   );
 };

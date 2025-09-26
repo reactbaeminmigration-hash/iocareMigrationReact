@@ -9,7 +9,7 @@ import { Trans } from 'react-i18next';
 
 const AIR_QUALITY_LOADING = ['airGetAirDeviceHomeLoading'];
 
-export const AirHomeIaqQualityStatus = () => {
+export const AirHomeMainQualityStatus = () => {
   const { deviceState, deviceUISpec } = useDeviceContext();
   const features = deviceUISpec.model.features as AirFeatures;
   const { data, isLoading } = useGetAirDeviceHome(
