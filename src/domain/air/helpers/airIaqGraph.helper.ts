@@ -46,8 +46,8 @@ export const calculateInGraphData = ({
     .map((item) => {
       const graphValue = item.graphValue;
 
-      // 값이 null이거나 0이면 null로 처리 (기존 로직 유지)
-      if (graphValue === null || graphValue === '0') {
+      // 값이 null이거나 0이면 null로 처리 (유연한 비교로 수정)
+      if (graphValue === null || graphValue == '0') {
         return null;
       }
 
@@ -64,7 +64,7 @@ export const calculateInGraphData = ({
  */
 export const calculateInMaxGraphData = ({
   list,
-}: IaqGraphProps): (number | null)[] => {
+}: IaqGraphProps): (number | string | null)[] => {
   if (!list || list.length === 0) {
     return [];
   }
@@ -72,7 +72,8 @@ export const calculateInMaxGraphData = ({
     .filter((item) => item.place !== 'out')
     .map((item) => {
       const highValue = item.graphHighValue;
-      if (highValue === null || highValue === 0) {
+      // highValue가 숫자 0 또는 문자열 '0'일 경우를 모두 처리하도록 유연한 비교(==)로 수정
+      if (highValue === null || highValue === '0') {
         return null;
       }
       return highValue;
@@ -158,14 +159,20 @@ export const calculateDateRange = (
       if (h12 === 0) h12 = 12; // 0시는 12시로 표시
       const minutes = date.getMinutes().toString().padStart(2, '0');
 
-      return `${date.getMonth() + 1}${translations.conMonth} ${date.getDate()}${translations.conDay} ${ampm} ${h12}:${minutes}`;
+      return `${date.getMonth() + 1}${translations.conMonth} ${date.getDate()}${
+        translations.conDay
+      } ${ampm} ${h12}:${minutes}`;
     };
     return `${formatHour(firstDateObj)} ~ ${formatHour(lastDateObj)}`;
   }
   // 일/주/월 단위 그래프
   else {
     const formatDate = (date: Date) => {
-      return `${date.getFullYear()}${translations.conYear} ${date.getMonth() + 1}${translations.conMonth} ${date.getDate()}${translations.conDay}`;
+      return `${date.getFullYear()}${
+        translations.conYear
+      } ${date.getMonth() + 1}${translations.conMonth} ${date.getDate()}${
+        translations.conDay
+      }`;
     };
     return `${formatDate(firstDateObj)} ~ ${formatDate(lastDateObj)}`;
   }

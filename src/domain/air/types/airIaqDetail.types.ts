@@ -2,7 +2,7 @@
 export interface IaqGraphRawItem {
   msrDt: string; // 측정 시각
   place: 'in' | 'out' | string; // 측정 장소 (실내/실외)
-  graphHighValue: number | null; // 최대값
+  graphHighValue: number | string | null; // 최대값
   graphValue: number | string | null; // 측정값
 }
 

@@ -71,7 +71,7 @@ const convertSingleValue = (
  * @param rawList 실내 PM2.5 원본 데이터 배열
  */
 export const getIaqPm25ConvertList = (
-  rawList: (number | null)[],
+  rawList: (number | string | null)[],
 ): (number | null)[] => {
   return getIaqConvertedList(rawList, PM25_TABLES);
 };
@@ -81,7 +81,7 @@ export const getIaqPm25ConvertList = (
  * @param rawList 실내 PM10 원복 데이터 배열
  */
 export const getIaqPm10ConvertList = (
-  rawList: (number | null)[],
+  rawList: (number | string | null)[],
 ): (number | null)[] => {
   return getIaqConvertedList(rawList, PM10_TABLES);
 };
@@ -91,14 +91,21 @@ export const getIaqPm10ConvertList = (
  * @param rawList 실내 원복 데이터 배열
  */
 const getIaqConvertedList = (
-  rawList: (number | null)[],
+  rawList: (number | string | null)[],
   baseTable: any,
 ): (number | null)[] => {
   const indoorBaseTable = baseTable;
 
-  const convertedList = rawList.map((rawValue) =>
-    convertSingleValue(rawValue, indoorBaseTable),
-  );
+  const convertedList = rawList.map((rawValue) => {
+    if (rawValue === null) {
+      return null;
+    }
+    const numericValue = Number(rawValue);
+    if (isNaN(numericValue)) {
+      return null;
+    }
+    return convertSingleValue(numericValue, indoorBaseTable);
+  });
   return applyGraphValuePlus(convertedList);
 };
 
@@ -107,7 +114,7 @@ const getIaqConvertedList = (
  * @param rawList 실외 PM2.5 원본 데이터 배열
  */
 export const getOaqPm25ConvertList = (
-  rawList: (number | null)[],
+  rawList: (number | string | null)[],
 ): (number | null)[] => {
   const convertedList = getOaqConvertedList(rawList, OPM25_TABLES);
   return applyGraphValuePlus(convertedList);
@@ -118,7 +125,7 @@ export const getOaqPm25ConvertList = (
  * @param rawList 실외 PM10 원본 데이터 배열
  */
 export const getOaqPm10ConvertList = (
-  rawList: (number | null)[],
+  rawList: (number | string | null)[],
 ): (number | null)[] => {
   const convertedList = getOaqConvertedList(rawList, OPM10_TABLES);
   return applyGraphValuePlus(convertedList);
@@ -129,10 +136,17 @@ export const getOaqPm10ConvertList = (
  * @param rawList 실외 원본 데이터 배열
  */
 const getOaqConvertedList = (
-  rawList: (number | null)[],
+  rawList: (number | string | null)[],
   outdoorBaseTable: any,
 ): (number | null)[] => {
-  return rawList.map((rawValue) =>
-    convertSingleValue(rawValue, outdoorBaseTable),
-  );
+  return rawList.map((rawValue) => {
+    if (rawValue === null) {
+      return null;
+    }
+    const numericValue = Number(rawValue);
+    if (isNaN(numericValue)) {
+      return null;
+    }
+    return convertSingleValue(numericValue, outdoorBaseTable);
+  });
 };

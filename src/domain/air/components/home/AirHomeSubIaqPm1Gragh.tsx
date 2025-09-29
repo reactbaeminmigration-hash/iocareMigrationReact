@@ -78,8 +78,6 @@ export const AirHomeSubIaqPm1Gragh = () => {
       },
     ];
   }, [inMaxGraphData, outGraphData, inGraphData]);
-  console.log('mhlee132');
-  console.log(seriesData);
   const chartOptions = useAirChartOptions({
     series: seriesData,
     xAxisTime,
@@ -101,7 +99,7 @@ export const AirHomeSubIaqPm1Gragh = () => {
           <div>
             <dt>
               <Trans i18nKey={'AIR.SUPERFINEDUST'} />
-              <sub>PM 10</sub>
+              <sub>PM 1.0</sub>
             </dt>
           </div>
           <dd className={dustpm1StatusClass}>
