@@ -1,9 +1,7 @@
 import {
   COMMON_TABLES,
-  MIGHTY_PRODUCT_CODES,
   OPM10_TABLES,
   OPM25_TABLES,
-  PM10_MIGHTY_TABLES,
   PM10_TABLES,
   PM25_TABLES,
 } from '../constants/pm10Tables';
@@ -68,44 +66,6 @@ const convertSingleValue = (
   return COMMON_TABLES[grade][0] + (rawValue - baseTable[grade][0]) * rate;
 };
 
-// #endregion
-
-// #region 외부에 공개될 헬퍼 함수
-
-/**
- * 실내(IAQ) PM10 데이터를 변환합니다.
- * @param rawList 실내 PM10 원본 데이터 배열
- * @param productCode 제품 코드
- */
-export const getIaqPm10ConvertList = (
-  rawList: (number | null)[],
-  productCode: string,
-): (number | null)[] => {
-  const indoorBaseTable = MIGHTY_PRODUCT_CODES.includes(productCode)
-    ? PM10_MIGHTY_TABLES
-    : PM10_TABLES;
-
-  const convertedList = rawList.map((rawValue) =>
-    convertSingleValue(rawValue, indoorBaseTable),
-  );
-
-  return applyGraphValuePlus(convertedList);
-};
-
-/**
- * 실외(OAQ) PM10 데이터를 변환합니다.
- * @param rawList 실외 PM10 원본 데이터 배열
- */
-export const getOaqPm10ConvertList = (
-  rawList: (number | null)[],
-): (number | null)[] => {
-  const outdoorBaseTable = OPM10_TABLES;
-
-  return rawList.map((rawValue) =>
-    convertSingleValue(rawValue, outdoorBaseTable),
-  );
-};
-
 /**
  * 실내(IAQ) PM2.5 데이터를 변환합니다.
  * @param rawList 실내 PM2.5 원본 데이터 배열
@@ -113,7 +73,28 @@ export const getOaqPm10ConvertList = (
 export const getIaqPm25ConvertList = (
   rawList: (number | null)[],
 ): (number | null)[] => {
-  const indoorBaseTable = PM25_TABLES;
+  return getIaqConvertedList(rawList, PM25_TABLES);
+};
+
+/**
+ * 실내(IAQ) PM10 데이터를 변환합니다.
+ * @param rawList 실내 PM10 원복 데이터 배열
+ */
+export const getIaqPm10ConvertList = (
+  rawList: (number | null)[],
+): (number | null)[] => {
+  return getIaqConvertedList(rawList, PM10_TABLES);
+};
+
+/**
+ * 실내(IAQ) 데이터를 변환합니다.
+ * @param rawList 실내 원복 데이터 배열
+ */
+const getIaqConvertedList = (
+  rawList: (number | null)[],
+  baseTable: any,
+): (number | null)[] => {
+  const indoorBaseTable = baseTable;
 
   const convertedList = rawList.map((rawValue) =>
     convertSingleValue(rawValue, indoorBaseTable),
@@ -128,11 +109,30 @@ export const getIaqPm25ConvertList = (
 export const getOaqPm25ConvertList = (
   rawList: (number | null)[],
 ): (number | null)[] => {
-  const outdoorBaseTable = OPM25_TABLES;
+  const convertedList = getOaqConvertedList(rawList, OPM25_TABLES);
+  return applyGraphValuePlus(convertedList);
+};
 
+/**
+ * 실외(OAQ) PM10 데이터를 변환합니다.
+ * @param rawList 실외 PM10 원본 데이터 배열
+ */
+export const getOaqPm10ConvertList = (
+  rawList: (number | null)[],
+): (number | null)[] => {
+  const convertedList = getOaqConvertedList(rawList, OPM10_TABLES);
+  return applyGraphValuePlus(convertedList);
+};
+
+/**
+ * 실외(OAQ) 데이터를 변환합니다.
+ * @param rawList 실외 원본 데이터 배열
+ */
+const getOaqConvertedList = (
+  rawList: (number | null)[],
+  outdoorBaseTable: any,
+): (number | null)[] => {
   return rawList.map((rawValue) =>
     convertSingleValue(rawValue, outdoorBaseTable),
   );
 };
-
-// #endregion

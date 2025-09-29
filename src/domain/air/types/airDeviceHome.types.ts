@@ -84,10 +84,10 @@ export interface Schedule {
 
 /** PM10 그래프 데이터 */
 export interface GraphData {
-  msrDt: string;
-  place: string; // "in" | "out"
-  graphHighValue: string;
-  graphValue: string;
+  msrDt: string; // 측정 시각
+  place: 'in' | 'out' | string; // 측정 장소 (실내/실외)
+  graphHighValue: number | null; // 최대값
+  graphValue: number | string | null; // 측정값
 }
 
 /** 제품 상태 */

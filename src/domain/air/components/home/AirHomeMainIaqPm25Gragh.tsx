@@ -68,6 +68,7 @@ export const AirHomeMainIaqPm25Gragh = () => {
   const chartOptions = useAirChartOptions({
     series: seriesData,
     xAxisTime,
+    renderTo: 'all_air_time',
   });
 
   return (

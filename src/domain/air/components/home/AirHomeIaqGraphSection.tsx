@@ -1,5 +1,6 @@
 import { AirHomeMainIaqPm25Gragh } from './AirHomeMainIaqPm25Gragh';
 import { AirHomeSubIaqPm10Gragh } from './AirHomeSubIaqPm10Gragh';
+import { AirHomeSubIaqPm1Gragh } from './AirHomeSubIaqPm1Gragh';
 
 export const AirHomeIaqGraphSection = () => {
   return (
@@ -7,6 +8,7 @@ export const AirHomeIaqGraphSection = () => {
       <ul>
         <AirHomeMainIaqPm25Gragh />
         <AirHomeSubIaqPm10Gragh />
+        <AirHomeSubIaqPm1Gragh />
       </ul>
     </div>
   );

@@ -15,16 +15,18 @@ interface airChartOptionsProps {
     yAxis?: number;
     _symolIndex?: number;
   }[];
+  renderTo: string;
 }
 
 export const useAirChartOptions = ({
   xAxisTime,
   series,
+  renderTo,
 }: airChartOptionsProps): Record<string, any> => {
   const options = useMemo(() => {
     return {
       chart: {
-        renderTo: 'all_air_time',
+        renderTo: renderTo,
         type: 'spline' as const,
         height: 133,
         margin: [0, 10, 20, 0],
