@@ -9,12 +9,12 @@ import { Trans } from 'react-i18next';
 import {
   getIaqPm25ConvertList,
   getOaqPm25ConvertList,
-} from '../../helpers/iaqValueConverter.helper';
-import useGetAirDeviceHome from '../../hooks/queries/useGetAirDeviceHome';
-import useGetAirIaqDetail from '../../hooks/queries/useGetAirIaqDetail';
-import { useAirChartOptions } from '../../hooks/useAirChartOptions';
-import { useIaqGraphData } from '../../hooks/useIaqGraphHook';
-import { getDustPm1State } from '../../utils/getAirQualityStatus';
+} from '../../../helpers/iaqValueConverter.helper';
+import useGetAirDeviceHome from '../../../hooks/queries/useGetAirDeviceHome';
+import useGetAirIaqDetail from '../../../hooks/queries/useGetAirIaqDetail';
+import { useAirChartOptions } from '../../../hooks/useAirChartOptions';
+import { useIaqGraphData } from '../../../hooks/useIaqGraphHook';
+import { getDustPm1State } from '../../../utils/getAirQualityStatus';
 
 const AIR_IAQ_GRAPH_DETAIL_LOADING = ['airGetAirDeviceHomeLoading'];
 
@@ -33,7 +33,7 @@ export const AirHomeSubIaqPm1Gragh = () => {
   });
   const { data: iaqDetailData } = useGetAirIaqDetail(
     deviceState,
-    6,
+    6, // pm1
     AIR_IAQ_GRAPH_DETAIL_LOADING,
   );
 
@@ -78,11 +78,14 @@ export const AirHomeSubIaqPm1Gragh = () => {
       },
     ];
   }, [inMaxGraphData, outGraphData, inGraphData]);
-  const chartOptions = useAirChartOptions({
-    series: seriesData,
-    xAxisTime,
-    renderTo: 'fine_dust_time',
-  });
+  const chartOptions = {
+    ...useAirChartOptions({
+      series: seriesData,
+      xAxisTime,
+      renderTo: 'fine_dust_time',
+    }),
+    accessibility: { enabled: false },
+  };
 
   const [isOpen, setIsOpen] = useState(false);
   const handleOpenToggleClick = () => {

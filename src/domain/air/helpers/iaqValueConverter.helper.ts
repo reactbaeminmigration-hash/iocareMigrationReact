@@ -1,5 +1,6 @@
 import {
   COMMON_TABLES,
+  LGAS_TABLES,
   OPM10_TABLES,
   OPM25_TABLES,
   PM10_TABLES,
@@ -149,4 +150,10 @@ const getOaqConvertedList = (
     }
     return convertSingleValue(numericValue, outdoorBaseTable);
   });
+};
+
+export const getLgasConvertList = (
+  rawList: (number | string | null)[],
+): (number | null)[] => {
+  return getIaqConvertedList(rawList, LGAS_TABLES);
 };

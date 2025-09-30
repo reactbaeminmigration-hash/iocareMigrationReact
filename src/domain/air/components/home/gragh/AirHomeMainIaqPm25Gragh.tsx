@@ -9,10 +9,10 @@ import { Trans } from 'react-i18next';
 import {
   getIaqPm25ConvertList,
   getOaqPm25ConvertList,
-} from '../../helpers/iaqValueConverter.helper';
-import useGetAirIaqDetail from '../../hooks/queries/useGetAirIaqDetail';
-import { useAirChartOptions } from '../../hooks/useAirChartOptions';
-import { useIaqGraphData } from '../../hooks/useIaqGraphHook';
+} from '../../../helpers/iaqValueConverter.helper';
+import useGetAirIaqDetail from '../../../hooks/queries/useGetAirIaqDetail';
+import { useAirChartOptions } from '../../../hooks/useAirChartOptions';
+import { useIaqGraphData } from '../../../hooks/useIaqGraphHook';
 
 const AIR_IAQ_GRAPH_DETAIL_LOADING = ['airGetAirDeviceHomeLoading'];
 
@@ -22,7 +22,7 @@ export const AirHomeMainIaqPm25Gragh = () => {
   const pm25GraghTooltip = useTooltip<HTMLDivElement>();
   const { data: iaqDetailData } = useGetAirIaqDetail(
     deviceState,
-    3,
+    3, // pm25
     AIR_IAQ_GRAPH_DETAIL_LOADING,
   );
   const { xAxisTime, inGraphData, outGraphData, inMaxGraphData, dateRange } =
@@ -65,11 +65,14 @@ export const AirHomeMainIaqPm25Gragh = () => {
       },
     ];
   }, [inMaxGraphData, outGraphData, inGraphData]);
-  const chartOptions = useAirChartOptions({
-    series: seriesData,
-    xAxisTime,
-    renderTo: 'all_air_time',
-  });
+  const chartOptions = {
+    ...useAirChartOptions({
+      series: seriesData,
+      xAxisTime,
+      renderTo: 'all_air_time',
+    }),
+    accessibility: { enabled: false }, // 🔹 여기 추가
+  };
 
   return (
     <li>

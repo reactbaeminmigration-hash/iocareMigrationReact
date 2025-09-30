@@ -27,8 +27,8 @@ export function findProductUISpecByCode<T_Features extends IndexedObject>(
       );
       return {
         family: deviceUISpec.family,
-        tabs: deviceUISpec.tabs,
         region: deviceUISpec.region,
+        tabs: deviceUISpec.tabs, // 다시 추가
         features: resolvedFeatures, // Added this line
         model: {
           ...foundModel,

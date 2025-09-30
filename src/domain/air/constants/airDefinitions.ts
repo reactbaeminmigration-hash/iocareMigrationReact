@@ -1,20 +1,13 @@
+import { defaultTabsInfo } from '@/domain/air/definitions/common/defaultTabsInfo'; // 다시 추가
 import type { ProductUISpec } from '@/domain/device/types/productUISpec.types';
-import type { AirFeatures } from '../types/features.types';
 import {
   IAQ_DATA_SOURCE,
   MAIN_INDICATOR,
   SENSOR_TYPE,
   THRESHOLD_PROFILE,
   VOCS_DISPLAY_RULE,
+  type AirFeatures,
 } from '../types/features.types';
-
-export const defaultTabsInfo = [
-  { path: '/home', label: 'BTN.HOME' },
-  { path: '/report', label: 'BTN.REPORT' },
-  { path: '/control', label: 'BTN.CONTROL' },
-  { path: '/notice', label: 'BTN.NOTICE' },
-  { path: '/settings', label: 'BTN.SETTING' },
-];
 
 // defaultFeaturesInfo 객체에 AirFeatures 타입을 명시적으로 지정합니다.
 export const defaultFeaturesInfo: AirFeatures = {
@@ -40,7 +33,7 @@ export const AIR_PRODUCT_DEFINITIONS: ProductUISpec<AirFeatures>[] = [
   {
     family: 'MARVEL',
     region: 'KR',
-    tabs: defaultTabsInfo,
+    tabs: defaultTabsInfo, // 다시 추가
     features: defaultFeaturesInfo,
     models: [
       {
@@ -66,7 +59,7 @@ export const AIR_PRODUCT_DEFINITIONS: ProductUISpec<AirFeatures>[] = [
   {
     family: 'AIRMEGA',
     region: 'US',
-    tabs: defaultTabsInfo,
+    tabs: defaultTabsInfo, // 다시 추가
     features: defaultFeaturesInfo,
     models: [
       {

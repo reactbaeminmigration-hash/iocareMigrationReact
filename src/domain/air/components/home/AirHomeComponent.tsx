@@ -1,7 +1,7 @@
 import { t } from 'i18next';
-import { AirHomeIaqGraphSection } from './AirHomeIaqGraphSection';
 import { AirHomeMainQualityStatus } from './AirHomeMainQualityStatus';
 import { AirHomeSectionHeader } from './AirHomeSectionHeader';
+import { AirHomeIaqGraphSection } from './gragh/AirHomeIaqGraphSection';
 
 export const AirHomeComponent = () => {
   return (

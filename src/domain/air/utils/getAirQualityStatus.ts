@@ -47,11 +47,23 @@ const DUST_PM25_LEVELS = [
   },
 ] as const;
 
+const VOC_LEVELS = [
+  { threshold: 55, statusKey: 'WEATHER.GOOD', className: 'cw_txt_good' },
+  { threshold: 78, statusKey: 'WEATHER.NORMAL', className: 'cw_txt_normal' },
+  { threshold: 87, statusKey: 'WEATHER.BAD', className: 'cw_txt_bad' },
+  {
+    threshold: Infinity,
+    statusKey: 'WEATHER.VERY_BAD',
+    className: 'cw_txt_bad',
+  },
+] as const;
+
 type DustLevels =
   | typeof DUST_PM10_LEVELS
   | typeof DUST_PM1_LEVELS
+  | typeof DUST_OPM25_LEVELS
   | typeof DUST_PM25_LEVELS
-  | typeof DUST_PM25_LEVELS;
+  | typeof VOC_LEVELS;
 
 const getDustValueAndLevel = (
   rawValue: string | undefined,
@@ -92,5 +104,16 @@ export const getDustPm1State = ({ IAQData }: DustStateProps) => {
     dustpm1: value,
     dustpm1Status: level ? t(level.statusKey) + ' ' : undefined,
     dustpm1StatusClass: level ? level.className : undefined,
+  };
+};
+
+export const getVocsState = ({ IAQData }: DustStateProps) => {
+  const rawValue = IAQData?.dustpm1;
+  const { value, level } = getDustValueAndLevel(rawValue, VOC_LEVELS);
+
+  return {
+    vocs: value,
+    vocsStatus: level ? t(level.statusKey) + ' ' : undefined,
+    vocsStatusClass: level ? level.className : undefined,
   };
 };

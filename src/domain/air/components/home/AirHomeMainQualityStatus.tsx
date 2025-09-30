@@ -11,13 +11,18 @@ const AIR_QUALITY_LOADING = ['airGetAirDeviceHomeLoading'];
 
 export const AirHomeMainQualityStatus = () => {
   const { deviceState, deviceUISpec } = useDeviceContext();
-  const features = deviceUISpec.model.features as AirFeatures;
+
+  // deviceUISpec이 undefined인 경우를 처리하는 가드 절 추가
+  if (!deviceUISpec) {
+    return; // 또는 null, 로딩 스켈레톤 등
+  }
+
+  const features = deviceUISpec.features as AirFeatures;
   const { data, isLoading } = useGetAirDeviceHome(
     deviceState,
     AIR_QUALITY_LOADING,
   );
   const airStateTooltip = useTooltip<HTMLDListElement>();
-  console.log(features);
 
   if (isLoading || !data) {
     return null; // Or a loading skeleton
@@ -27,7 +32,6 @@ export const AirHomeMainQualityStatus = () => {
     iaq: data.IAQ,
     prodStatus: data.prodStatus,
   });
-
   console.log(iaqStatus);
 
   return (

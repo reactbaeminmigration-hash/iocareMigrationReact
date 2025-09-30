@@ -1,22 +1,28 @@
-import { defaultTabsInfo } from '@/domain/air/constants/airDefinitions';
+import type { AirUIConfigSpec } from '@/domain/air/definitions/types'; // 추가
+import { defaultTabsInfo } from '@/domain/dehumid/constants/dehumidDefinitions';
 import type {
   CategoryItem,
   ProdStandDeviceInfo,
 } from '@/domain/device/types/common.types';
 import type { DeviceInfo } from '@/domain/device/types/device.types';
-import type { FoundProductUISpec } from '@/domain/device/types/productUISpec.types';
+// import type { FoundProductUISpec } from '@/domain/device/types/productUISpec.types'; // 제거
 import type { ITab } from '@/shared/components/Layout/LayoutTab';
 import type { TranslationKey } from '@/shared/types/common';
+import type { IndexedObject } from '@/shared/utils/deepMerge'; // 추가
 
-export interface DeviceContextType<T_Features> {
+export interface DeviceContextType<
+  T_Features extends IndexedObject = IndexedObject,
+> {
+  // T_Features 제네릭도 IndexedObject로 제한
   tabs: readonly ITab[];
   deviceState: DeviceInfo;
-  deviceUISpec: FoundProductUISpec<T_Features>;
+  deviceUISpec: AirUIConfigSpec<any, T_Features> | undefined; // 타입 변경
   deviceStandInfo: ProdStandDeviceInfo;
   deviceCategory: CategoryItem;
 }
 
-export const defaultContextValue: DeviceContextType<object> = {
+export const defaultContextValue: DeviceContextType<IndexedObject> = {
+  // 타입 변경
   tabs: defaultTabsInfo.map((tab) => ({
     path: tab.path,
     label: tab.label as TranslationKey,
@@ -75,18 +81,7 @@ export const defaultContextValue: DeviceContextType<object> = {
     registAllCount: 0,
     mbrSeq: '',
   },
-  deviceUISpec: {
-    family: '',
-    region: '',
-    tabs: [],
-    features: {},
-    model: {
-      modelName: '',
-      productCodes: [],
-      manuals: {},
-      features: {},
-    },
-  },
+  deviceUISpec: undefined, // 값 변경
   deviceStandInfo: {
     familyId: '',
     familyName: '',

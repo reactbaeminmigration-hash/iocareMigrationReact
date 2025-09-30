@@ -6,11 +6,11 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useMemo, useState } from 'react';
 import { Trans } from 'react-i18next';
-import { getIaqPm10ConvertList } from '../../helpers/iaqValueConverter.helper';
-import useGetAirDeviceHome from '../../hooks/queries/useGetAirDeviceHome';
-import { useAirChartOptions } from '../../hooks/useAirChartOptions';
-import { useIaqGraphData } from '../../hooks/useIaqGraphHook';
-import { getDustPm10State } from '../../utils/getAirQualityStatus';
+import { getIaqPm10ConvertList } from '../../../helpers/iaqValueConverter.helper';
+import useGetAirDeviceHome from '../../../hooks/queries/useGetAirDeviceHome';
+import { useAirChartOptions } from '../../../hooks/useAirChartOptions';
+import { useIaqGraphData } from '../../../hooks/useIaqGraphHook';
+import { getDustPm10State } from '../../../utils/getAirQualityStatus';
 
 const AIR_IAQ_GRAPH_DETAIL_LOADING = ['airGetAirDeviceHomeLoading'];
 
@@ -22,7 +22,6 @@ export const AirHomeSubIaqPm10Gragh = () => {
   const { data: getDeviceData } = useGetAirDeviceHome(
     deviceState,
     AIR_IAQ_GRAPH_DETAIL_LOADING,
-    { enabled: true },
   );
   const { dustpm10, dustpm10Status, dustpm10StatusClass } = getDustPm10State({
     IAQData: getDeviceData?.IAQ,
@@ -70,11 +69,14 @@ export const AirHomeSubIaqPm10Gragh = () => {
   }, [inMaxGraphData, outGraphData, inGraphData]);
   console.log(seriesData);
 
-  const chartOptions = useAirChartOptions({
-    series: seriesData,
-    xAxisTime,
-    renderTo: 'fine_dust_time',
-  });
+  const chartOptions = {
+    ...useAirChartOptions({
+      series: seriesData,
+      xAxisTime,
+      renderTo: 'fine_dust_time',
+    }),
+    accessibility: { enabled: false },
+  };
 
   const [isOpen, setIsOpen] = useState(false);
   const handleOpenToggleClick = () => {
