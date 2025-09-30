@@ -67,7 +67,6 @@ export const AirHomeSubIaqPm10Gragh = () => {
       },
     ];
   }, [inMaxGraphData, outGraphData, inGraphData]);
-  console.log(seriesData);
 
   const chartOptions = {
     ...useAirChartOptions({

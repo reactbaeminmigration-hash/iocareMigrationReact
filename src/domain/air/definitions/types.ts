@@ -16,6 +16,18 @@ export interface ControlComponentSpec extends BaseComponentSpec {
 
 export type AirComponentSpec = GraphComponentSpec | ControlComponentSpec;
 
+// 렌더링될 컴포넌트의 설정
+export interface ComponentConfig {
+  name: string; // componentMap의 키
+  props: Record<string, unknown>;
+}
+
+// 페이지 내 컨텐츠 섹션의 구조
+export interface ContentSection {
+  section: string; // 섹션의 이름 (예: 'iaq', 'filter')
+  components: ComponentConfig[];
+}
+
 /**
  * @description 공기청정기 도메인의 전체 UI 설정 스펙을 정의하는 최상위 타입 (제네릭 버전)
  * @template T_CompKeys components 객체의 키 타입
@@ -26,10 +38,11 @@ export interface AirUIConfigSpec<
   T_Features extends Record<string, unknown> = {},
 > {
   model: string;
-  components: Record<T_CompKeys, AirComponentSpec>;
+  components?: Record<T_CompKeys, AirComponentSpec>;
   pages: {
     home: {
-      components: T_CompKeys[];
+      header: ComponentConfig[];
+      content: ContentSection[];
     };
     // ...
   };

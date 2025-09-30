@@ -1,30 +1,16 @@
 import { defaultTabsInfo } from '@/domain/air/definitions/common/defaultTabsInfo'; // 다시 추가
+import { iaqGraphFeature } from '@/domain/air/definitions/features/iaqGraph'; // 추가
 import type { ProductUISpec } from '@/domain/device/types/productUISpec.types';
 import {
   IAQ_DATA_SOURCE,
   MAIN_INDICATOR,
-  SENSOR_TYPE,
   THRESHOLD_PROFILE,
-  VOCS_DISPLAY_RULE,
   type AirFeatures,
 } from '../types/features.types';
 
-// defaultFeaturesInfo 객체에 AirFeatures 타입을 명시적으로 지정합니다.
 export const defaultFeaturesInfo: AirFeatures = {
   home: {
-    iaqGraph: {
-      iaqDataSource: IAQ_DATA_SOURCE.RAW_PM25, // 실내공기질 데이터
-      mainIndicator: MAIN_INDICATOR.PM2_5, // 실내공기질 표기
-      thresholdProfile: THRESHOLD_PROFILE.MARVEL_PM25, // 실내공기질 단계
-      vocsDisplayRule: VOCS_DISPLAY_RULE.GRADE_BASED,
-      availableSensors: [
-        SENSOR_TYPE.PM1_0,
-        SENSOR_TYPE.PM2_5,
-        SENSOR_TYPE.PM10,
-        SENSOR_TYPE.CO2,
-        SENSOR_TYPE.VOCS,
-      ],
-    },
+    iaqGraph: iaqGraphFeature, // iaqGraphFeature 참조
   },
 };
 
@@ -33,7 +19,7 @@ export const AIR_PRODUCT_DEFINITIONS: ProductUISpec<AirFeatures>[] = [
   {
     family: 'MARVEL',
     region: 'KR',
-    tabs: defaultTabsInfo, // 다시 추가
+    tabs: defaultTabsInfo,
     features: defaultFeaturesInfo,
     models: [
       {

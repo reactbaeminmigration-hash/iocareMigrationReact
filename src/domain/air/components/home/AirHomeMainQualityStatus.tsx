@@ -32,7 +32,6 @@ export const AirHomeMainQualityStatus = () => {
     iaq: data.IAQ,
     prodStatus: data.prodStatus,
   });
-  console.log(iaqStatus);
 
   return (
     <>
