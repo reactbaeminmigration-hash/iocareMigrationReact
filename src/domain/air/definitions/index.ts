@@ -1,18 +1,19 @@
 // src/domain/air/definitions/index.ts
-import type { AirUIConfigSpec } from './types';
 
-// 각기 다른 제네릭 타입을 가진 AirUIConfigSpec을 모두 담을 수 있는 공용 타입
-type AnyAirUIConfigSpec = AirUIConfigSpec<string, Record<string, unknown>>;
+// ProductUISpec으로 타입 이름 통일 (또는 AirUIConfigSpec이 ProductUISpec을 대체)
+import type { ProductUISpec } from '@/domain/device/types/productUISpec.types';
 
 // products/ 폴더의 각 제품별 스펙을 import 하여 배열에 추가합니다.
+import type { AirFeatures } from '../types/features.types';
 import { marvelSpec } from './products/marvel';
-// import { airmegaSpec } from './products/airmega';
+import { airmegaSpec } from './products/airmega';
 
 /**
- * @description 공기청정기 제품군 전체 UI 설정 목록
- * 앱에서는 이 목록을 사용하여 현재 디바이스 모델에 맞는 UI 설정을 찾습니다.
+ * @description 공기청정기 제품군 전체 UI 및 동작 정의 목록
+ * 앱에서는 이 목록을 사용하여 현재 디바이스 모델에 맞는 설정을 찾습니다.
  */
-export const AIR_UI_CONFIGURATIONS: AnyAirUIConfigSpec[] = [
+// 변수명과 타입을 우리가 논의한 내용으로 수정
+export const AIR_PRODUCT_DEFINITIONS: ProductUISpec<AirFeatures>[] = [
   marvelSpec,
-  // airmegaSpec,
+  airmegaSpec,
 ];

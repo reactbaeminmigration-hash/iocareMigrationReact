@@ -1,11 +1,9 @@
 import { type DeviceContextType } from '@/app/contexts/DeviceContext.types';
 import { useUnifiedDeviceData } from '@/domain/device/hooks/useUnifiedDeviceData';
 import { useDeviceStore } from '@/domain/device/stores/useDeviceStore';
-import type { IndexedObject } from '@/shared/utils/deepMerge'; // 추가
 import { createContext, useContext, type ReactNode } from 'react';
 
-export const DeviceContext =
-  createContext<DeviceContextType<IndexedObject> | null>(null); // 타입 변경
+export const DeviceContext = createContext<DeviceContextType | null>(null);
 
 export const DeviceProvider = ({ children }: { children: ReactNode }) => {
   const { lastSelectedDeviceInfos: deviceState } = useDeviceStore();

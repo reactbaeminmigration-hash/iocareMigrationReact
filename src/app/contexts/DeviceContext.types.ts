@@ -1,33 +1,33 @@
-import type { AirUIConfigSpec } from '@/domain/air/definitions/types'; // 추가
 import { defaultTabsInfo } from '@/domain/dehumid/constants/dehumidDefinitions';
 import type {
   CategoryItem,
   ProdStandDeviceInfo,
 } from '@/domain/device/types/common.types';
 import type { DeviceInfo } from '@/domain/device/types/device.types';
-// import type { FoundProductUISpec } from '@/domain/device/types/productUISpec.types'; // 제거
 import type { ITab } from '@/shared/components/Layout/LayoutTab';
 import type { TranslationKey } from '@/shared/types/common';
-import type { IndexedObject } from '@/shared/utils/deepMerge'; // 추가
 
-export interface DeviceContextType<
-  T_Features extends IndexedObject = IndexedObject,
-> {
-  // T_Features 제네릭도 IndexedObject로 제한
+// 👇 우리가 만든 새 타입을 import 합니다.
+import type { UnifiedProductSpec } from '@/domain/device/hooks/useDeviceUISpec';
+
+// 👇 더 이상 제네릭이 필요 없으므로 제거합니다.
+export interface DeviceContextType {
   tabs: readonly ITab[];
   deviceState: DeviceInfo;
-  deviceUISpec: AirUIConfigSpec<any, T_Features> | undefined; // 타입 변경
+  // 👇 타입을 새로운 UnifiedProductSpec으로 교체합니다.
+  deviceUISpec: UnifiedProductSpec | undefined;
   deviceStandInfo: ProdStandDeviceInfo;
   deviceCategory: CategoryItem;
 }
 
-export const defaultContextValue: DeviceContextType<IndexedObject> = {
-  // 타입 변경
-  tabs: defaultTabsInfo.map((tab) => ({
+// 👇 제네릭 제거
+export const defaultContextValue: DeviceContextType = {
+  tabs: defaultTabsInfo.map(tab => ({
     path: tab.path,
     label: tab.label as TranslationKey,
   })),
   deviceState: {
+    /* ... 기존과 동일 ... */
     admdongCd: '',
     barcode: '',
     buyerMbrSeq: '',
@@ -81,7 +81,7 @@ export const defaultContextValue: DeviceContextType<IndexedObject> = {
     registAllCount: 0,
     mbrSeq: '',
   },
-  deviceUISpec: undefined, // 값 변경
+  deviceUISpec: undefined,
   deviceStandInfo: {
     familyId: '',
     familyName: '',

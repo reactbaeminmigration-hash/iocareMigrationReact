@@ -1,66 +1,53 @@
 import { useDeviceContext } from '@/app/contexts/DeviceProvider';
-import type {
-  ComponentConfig,
-  ContentSection,
-} from '@/domain/air/definitions/types';
-import { t } from 'i18next';
+import type { ComponentSpec } from '@/domain/device/types/productUISpec.types';
+import { renderFromSpec } from '@/shared/utils/renderFromSpec';
+import React, { useCallback } from 'react';
 import { componentMap } from '../componentMap';
-
-// 설정에 따라 컴포넌트 배열을 렌더링하는 헬퍼 함수
-const renderComponents = (components: ComponentConfig[]) => {
-  if (!components) return null;
-
-  return components.map((compInfo, index) => {
-    const Component = componentMap[compInfo.name];
-
-    if (!Component) {
-      console.error(
-        `[Render] Component "${compInfo.name}" not found in componentMap.`,
-      );
-      return null;
-    }
-
-    const finalProps: Record<string, unknown> = { ...compInfo.props };
-
-    // i18next 키 번역 처리
-    if (finalProps.title) {
-      finalProps.title = t(finalProps.title as any);
-    }
-    if (finalProps.buttonText) {
-      finalProps.buttonText = t(finalProps.buttonText as any);
-    }
-
-    return <Component key={`${compInfo.name}-${index}`} {...finalProps} />;
-  });
-};
 
 export const AirHomeComponent = () => {
   const { deviceUISpec } = useDeviceContext();
-  const uiSpec = deviceUISpec;
 
-  // 설정이 로드되지 않았거나, 페이지 설정이 없으면 로딩 상태 표시
-  if (!uiSpec?.pages?.home) {
-    // TODO: 적절한 로딩 스피너 컴포넌트로 교체
+  if (!deviceUISpec?.pages?.home) {
     return <div>Loading UI...</div>;
   }
 
-  const { header, content } = uiSpec.pages.home;
+  const { header, content } = deviceUISpec.pages.home;
+  const homeHeaderSection = header?.find(
+    (section) => section.section === 'home-header',
+  );
+  const handleHeaderButtonClick = useCallback(() => {
+    console.log('AirHomeSectionHeader의 동적 클릭 핸들러 실행됨!');
+  }, []);
+
+  const headerDynamicPropsMap: Record<
+    string,
+    (spec: ComponentSpec<any>) => Record<string, any>
+  > = {
+    AirHomeSectionHeader: (_spec) => ({
+      onButtonClick: handleHeaderButtonClick,
+    }),
+  };
 
   return (
     <div className="cw_contbox02">
-      {/* 페이지 헤더 렌더링 */}
-      {header && renderComponents(header)}
+      {homeHeaderSection && (
+        <React.Fragment key={homeHeaderSection.section}>
+          {renderFromSpec(
+            homeHeaderSection.components,
+            componentMap,
+            headerDynamicPropsMap, // dynamicPropsMap 전달
+          )}
+        </React.Fragment>
+      )}
 
       <div className="cw_cont">
-        {/* 페이지 컨텐츠 섹션들을 순서대로 렌더링 */}
-        {content?.map((sectionData: ContentSection, index: number) => (
-          <div
-            key={index}
-            className={`home-section home-section--${sectionData.section}`}
-          >
-            {renderComponents(sectionData.components)}
-          </div>
-        ))}
+        {content?.map((section) => {
+          return (
+            <React.Fragment key={section.section}>
+              {renderFromSpec(section.components, componentMap)}
+            </React.Fragment>
+          );
+        })}
       </div>
     </div>
   );

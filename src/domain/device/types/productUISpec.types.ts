@@ -1,3 +1,33 @@
+// =================================================================
+// UI 컴포넌트 및 페이지 레이아웃을 위한 타입
+// =================================================================
+
+// 동적으로 렌더링될 컴포넌트의 명세
+export interface ComponentSpec<T_Props = Record<string, any>> {
+  name: string;
+  props: T_Props | {};
+}
+
+// 페이지의 content 영역을 구성하는 섹션
+export interface ContentSection<T_Props = Record<string, any>> {
+  section: string;
+  components: ComponentSpec<T_Props>[];
+}
+
+// 페이지의 전체 레이아웃
+export interface PageLayout<T_Props = Record<string, any>> {
+  header: ContentSection<T_Props>[];
+  content: ContentSection<T_Props>[];
+}
+
+// 제품별 페이지 레이아웃의 집합
+export type PagesSpec<T_Props = Record<string, any>> = Record<string, PageLayout<T_Props>>;
+
+
+// =================================================================
+// 기존 제품 정보 관련 타입
+// =================================================================
+
 // 제품 탭 정보
 export interface ProductTab {
   path: string;
@@ -25,10 +55,11 @@ export interface ProductModel<T_Features> {
 }
 
 // 최상위 제품 정의 구조
-export interface ProductUISpec<T_Features> {
+export interface ProductUISpec<T_Features, T_Props = Record<string, any>> {
   family: string; // 제품군 이름 (예: 'CAPTAIN')
   region: string; // 판매 지역 (예: 'KR', 'US')
   tabs: ProductTab[]; // 제품별로 보여줄 탭 목록 (다시 추가)
+  pages: PagesSpec<T_Props>; // 👈 추가된 페이지 레이아웃 정의
   features: T_Features;
   models: ProductModel<T_Features>[]; // 해당 제품군에 속하는 모델 목록
 }

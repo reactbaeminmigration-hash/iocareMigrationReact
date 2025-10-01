@@ -1,4 +1,4 @@
-import { AIR_PRODUCT_DEFINITIONS } from '@/domain/air/constants/airDefinitions';
+import { AIR_PRODUCT_DEFINITIONS } from '@/domain/air/definitions';
 import { DEHUMID_PRODUCT_DEFINITIONS } from '@/domain/dehumid/constants/dehumidDefinitions';
 import type {
   FoundProductUISpec,
