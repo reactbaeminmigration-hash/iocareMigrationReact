@@ -1,17 +1,23 @@
 import { useDeviceContext } from '@/app/contexts/DeviceProvider';
+import { useDeviceUISpecByFamily } from '@/domain/device/hooks/useDeviceUISpecByFamily';
 import type { ComponentSpec } from '@/domain/device/types/productUISpec.types';
 import { renderFromSpec } from '@/shared/utils/renderFromSpec';
 import React, { useCallback } from 'react';
+import type { AirFeatures } from '../../types/features.types';
 import { componentMap } from '../componentMap';
 
 export const AirHomeComponent = () => {
-  const { deviceUISpec } = useDeviceContext();
+  const { deviceState } = useDeviceContext();
+  const airUISpec = useDeviceUISpecByFamily<AirFeatures>(
+    deviceState?.prodCd,
+    deviceState?.dvcTypeCd,
+  );
 
-  if (!deviceUISpec?.pages?.home) {
+  if (!airUISpec?.pages?.home) {
     return <div>Loading UI...</div>;
   }
 
-  const { header, content } = deviceUISpec.pages.home;
+  const { content, header } = airUISpec.pages.home;
   const homeHeaderSection = header?.find(
     (section) => section.section === 'home-header',
   );

@@ -1,23 +1,28 @@
 import { useDeviceContext } from '@/app/contexts/DeviceProvider';
 import { getIaqStatus } from '@/domain/air/helpers/airQuality.helpers';
 import useGetAirDeviceHome from '@/domain/air/hooks/queries/useGetAirDeviceHome';
-import type { AirFeatures } from '@/domain/air/types/features.types';
+import { useDeviceUISpecByFamily } from '@/domain/device/hooks/useDeviceUISpecByFamily';
 import { LoadingLocalSpinner } from '@/shared/components/LoadingSpinner/LoadingLocalSpinner';
 import { useTooltip } from '@/shared/hooks/useTooltip';
 import cx from 'classnames';
 import { Trans } from 'react-i18next';
+import type { AirFeatures } from '../../types/features.types';
 
 const AIR_QUALITY_LOADING = ['airGetAirDeviceHomeLoading'];
 
 export const AirHomeMainQualityStatus = () => {
-  const { deviceState, deviceUISpec } = useDeviceContext();
+  const { deviceState } = useDeviceContext();
+  const airUISpec = useDeviceUISpecByFamily<AirFeatures>(
+    deviceState?.prodCd,
+    deviceState?.dvcTypeCd,
+  );
 
   // deviceUISpec이 undefined인 경우를 처리하는 가드 절 추가
-  if (!deviceUISpec) {
+  if (!airUISpec) {
     return; // 또는 null, 로딩 스켈레톤 등
   }
 
-  const features = deviceUISpec.features as AirFeatures;
+  const features = airUISpec.features;
   const { data, isLoading } = useGetAirDeviceHome(
     deviceState,
     AIR_QUALITY_LOADING,

@@ -13,7 +13,10 @@ const dvcComCode = [
 ];
 
 export function useGetDeviceType() {
-  const getDvcTypeRoute = (dvcRoute: string) => {
+  const getDvcTypeRoute = (dvcRoute: string | undefined) => {
+    if (!dvcRoute) {
+      return undefined;
+    }
     return dvcCode.find((value) => value.code === dvcRoute)?.route;
   };
 
