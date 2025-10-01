@@ -1,11 +1,11 @@
-import { useMemo } from 'react';
-import type { DeviceInfo } from '@/domain/device/types/device.types';
-import type { ITab } from '@/shared/components/Layout/LayoutTab';
-import type { TranslationKey } from '@/shared/types/common';
 import {
   defaultContextValue,
   type DeviceContextType,
 } from '@/app/contexts/DeviceContext.types';
+import type { DeviceInfo } from '@/domain/device/types/device.types';
+import type { ITab } from '@/shared/components/Layout/LayoutTab';
+import type { TranslationKey } from '@/shared/types/common';
+import { useMemo } from 'react';
 import { useDeviceCategory } from './useDeviceCategory';
 import { useDeviceStandInfo } from './useDeviceStandInfo';
 import { useDeviceUISpec } from './useDeviceUISpec';
@@ -30,7 +30,7 @@ export const useUnifiedDeviceData = (
     }
 
     // 탭 정보를 스펙 객체에서 직접 가져옵니다.
-    const tabs: readonly ITab[] = deviceUISpec.tabs.map(tab => ({
+    const tabs: readonly ITab[] = deviceUISpec.tabs.map((tab) => ({
       path: tab.path,
       label: tab.label as TranslationKey,
     }));

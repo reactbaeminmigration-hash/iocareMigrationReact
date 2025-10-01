@@ -32,5 +32,23 @@ export const airmegaSpec: ProductUISpec<AirFeatures> = {
         },
       },
     },
+    {
+      modelName: 'HIDDEN_B',
+      productCodes: ['HIDDEN_B_CODE_1', 'HIDDEN_B_CODE_2'],
+      manuals: { type: 'filePath', value: 'HIDDEN_B_MANUAL' },
+      features: {},
+    },
+    {
+      modelName: 'ICON_20',
+      productCodes: ['ICON_20_CODE_1', 'ICON_20_CODE_2'],
+      manuals: { type: 'filePath', value: 'ICON_20_MANUAL' },
+      features: {},
+    },
+    {
+      modelName: 'ELITE',
+      productCodes: ['ELITE_CODE_1', 'ELITE_CODE_2'],
+      manuals: { type: 'filePath', value: 'ELITE_MANUAL' },
+      features: {},
+    },
   ],
 };

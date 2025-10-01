@@ -1,10 +1,10 @@
 import { AIR_PRODUCT_DEFINITIONS } from '@/domain/air/definitions';
-import { DEHUMID_PRODUCT_DEFINITIONS } from '@/domain/dehumid/constants/dehumidDefinitions';
+import { DEHUMID_PRODUCT_DEFINITIONS } from '@/domain/dehumid/definitions';
 import type {
   FoundProductUISpec,
   ProductUISpec,
 } from '@/domain/device/types/productUISpec.types';
-import { WATER_PRODUCT_DEFINITIONS } from '@/domain/water/constants/waterDefinitions';
+import { WATER_PRODUCT_DEFINITIONS } from '@/domain/water/definitions';
 import { deepMerge, type IndexedObject } from '@/shared/utils/deepMerge';
 
 const allDeviceUISpecs = [

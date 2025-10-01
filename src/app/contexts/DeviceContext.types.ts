@@ -1,4 +1,3 @@
-import { defaultTabsInfo } from '@/domain/dehumid/constants/dehumidDefinitions';
 import type {
   CategoryItem,
   ProdStandDeviceInfo,
@@ -9,6 +8,7 @@ import type { TranslationKey } from '@/shared/types/common';
 
 // 👇 우리가 만든 새 타입을 import 합니다.
 import type { UnifiedProductSpec } from '@/domain/device/hooks/useDeviceUISpec';
+import { defaultTabsInfo } from '@/domain/water/definitions/common';
 
 // 👇 더 이상 제네릭이 필요 없으므로 제거합니다.
 export interface DeviceContextType {
@@ -22,7 +22,7 @@ export interface DeviceContextType {
 
 // 👇 제네릭 제거
 export const defaultContextValue: DeviceContextType = {
-  tabs: defaultTabsInfo.map(tab => ({
+  tabs: defaultTabsInfo.map((tab) => ({
     path: tab.path,
     label: tab.label as TranslationKey,
   })),
