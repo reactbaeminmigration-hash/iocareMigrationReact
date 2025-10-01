@@ -47,14 +47,15 @@ export const marvelSpec: ProductUISpec<AirFeatures, AirHomeSectionHeaderProps> =
     },
     features: {
       ...defaultFeaturesInfo,
-      // showAutoModeGuide: true, // Marvel 특화 기능
     },
     models: [
       {
         modelName: 'MARVEL_15',
         productCodes: ['113182', '113218'],
         manuals: { type: 'filePath', value: '117' },
-        features: {},
+        features: {
+          showAutoModeGuide2: true, // Marvel 특화 기능
+        },
       },
       {
         modelName: 'MARVEL_20',

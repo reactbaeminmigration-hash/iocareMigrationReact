@@ -38,8 +38,8 @@ type VocsDisplayRule =
 type SensorType = (typeof SENSOR_TYPE)[keyof typeof SENSOR_TYPE];
 
 export interface AirFeatures {
-  home: {
-    iaqGraph: {
+  home?: {
+    iaqGraph?: {
       iaqDataSource: IaqDataSource; // 실내공기질 데이터
       mainIndicator: MainIndicator; // 실내공기질 표기
       thresholdProfile: ThresholdProfile; // 실내공기질 단계

@@ -13,6 +13,8 @@ export const AirHomeComponent = () => {
     deviceState?.dvcTypeCd,
   );
 
+  console.log(airUISpec);
+
   if (!airUISpec?.pages?.home) {
     return <div>Loading UI...</div>;
   }

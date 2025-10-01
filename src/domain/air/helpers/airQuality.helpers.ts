@@ -49,11 +49,22 @@ export const getIaqStatus = (
   features: AirFeatures,
   apiData: { iaq?: IAQData; prodStatus?: ProdStatus },
 ): IaqDisplayInfo => {
+  let primaryValue = -1;
+  if (!features.home?.iaqGraph) {
+    // Handle the case where iaqGraph is not defined.
+    // This could be returning a default IaqDisplayInfo, throwing an error,
+    // or returning a specific "not available" status.
+    // For now, let's return a default/placeholder.
+    return {
+      className: 'unknown',
+      i18nKey: 'COMMON.UNKNOWN' as any,
+      value: '--',
+      unit: '',
+    };
+  }
+
   const { iaqDataSource, thresholdProfile, mainIndicator } =
     features.home.iaqGraph;
-  let primaryValue = -1;
-
-  // 1. features.iaqDataSource를 보고 어떤 값을 사용할지 결정
   switch (iaqDataSource) {
     case 'POLLUTION_GRADE':
       primaryValue = mapGradeToValue(apiData.prodStatus?.dustPollution);
