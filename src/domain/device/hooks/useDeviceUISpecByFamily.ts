@@ -3,22 +3,18 @@ import type { ProductUISpec } from '@/domain/device/types/productUISpec.types';
 import { useMemo } from 'react';
 import type { UnifiedProductSpec } from './useDeviceUISpec';
 import { useDeviceUISpec } from './useDeviceUISpec';
-import { useGetDeviceType } from './useGetDeviceType';
 
 export const useDeviceUISpecByFamily = <T_Features extends Record<string, any>>(
   prodCd: string | null | undefined,
-  dvcTypeCd: string | undefined,
+  familyId: string | undefined,
 ): UnifiedProductSpec<T_Features> | undefined => {
-  const { getDvcTypeRoute } = useGetDeviceType();
-  const deviceFamily = getDvcTypeRoute(dvcTypeCd);
-
   const { definitions } = useMemo(() => {
-    // Ensure the map returns a config with the correct T_Features type for definitions
+    // familyId = "01": "청정기", "02": "정수기","03": "비데","04": "제습기","05": "가습기","06": "매트리스"
     const config =
-      deviceFamilyDefinitionsMap.get(deviceFamily || 'default') ||
+      deviceFamilyDefinitionsMap.get(familyId || 'default') ||
       deviceFamilyDefinitionsMap.get('default')!;
     return { definitions: config.definitions as ProductUISpec<T_Features>[] };
-  }, [deviceFamily]);
+  }, [familyId]);
 
   const deviceUISpec = useDeviceUISpec<T_Features>(prodCd, definitions);
 

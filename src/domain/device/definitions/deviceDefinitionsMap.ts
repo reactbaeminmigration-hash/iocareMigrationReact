@@ -20,17 +20,20 @@ export const deviceFamilyDefinitionsMap = new Map<
   DeviceFamilyConfig<any>
 >();
 
-deviceFamilyDefinitionsMap.set('air', {
+// 청정기
+deviceFamilyDefinitionsMap.set('01', {
   definitions: AIR_PRODUCT_DEFINITIONS as ProductUISpec<AirFeatures>[],
   featuresPlaceholder: {} as AirFeatures,
 });
 
-deviceFamilyDefinitionsMap.set('water', {
+// 정수기
+deviceFamilyDefinitionsMap.set('02', {
   definitions: WATER_PRODUCT_DEFINITIONS as ProductUISpec<WaterFeatures>[],
   featuresPlaceholder: {} as WaterFeatures,
 });
 
-deviceFamilyDefinitionsMap.set('dehumid', {
+// 제습기
+deviceFamilyDefinitionsMap.set('04', {
   definitions: DEHUMID_PRODUCT_DEFINITIONS as ProductUISpec<DehumidFeatures>[],
   featuresPlaceholder: {} as DehumidFeatures,
 });

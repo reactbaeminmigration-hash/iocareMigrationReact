@@ -8,13 +8,10 @@ import { Layout } from './Layout';
 import type { ITab } from './LayoutTab';
 
 export const DomainLayoutWrapper = () => {
-  const { deviceState } = useDeviceContext();
-  const prodCd = deviceState?.prodCd;
-  const dvcTypeCd = deviceState?.dvcTypeCd;
-
+  const { deviceState, deviceStandInfo } = useDeviceContext();
   const deviceUISpec = useDeviceUISpecByFamily<Record<string, any>>(
-    prodCd,
-    dvcTypeCd,
+    deviceState?.prodCd,
+    deviceStandInfo.familyId,
   );
 
   const tabs: readonly ITab[] = useMemo(() => {
