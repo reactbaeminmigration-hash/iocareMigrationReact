@@ -40,6 +40,15 @@ export const marvelSpec: ProductUISpec<AirFeatures, AirHomeSectionHeaderProps> =
               { name: 'AirHomeIaqGraphSection', props: {} },
             ],
           },
+          {
+            section: 'iaqGragh',
+            components: [
+              { name: 'AirHomeMainIaqPm25Gragh', props: {} },
+              { name: 'AirHomeSubIaqPm10Gragh', props: {} },
+              { name: 'AirHomeSubIaqPm1Gragh', props: {} },
+              { name: 'AirHomeSubIaqVocsGragh', props: {} },
+            ],
+          },
           { section: 'filter', components: [] },
           { section: 'control', components: [] },
         ],

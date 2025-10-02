@@ -11,10 +11,10 @@ import type { AirFeatures } from '../../types/features.types';
 const AIR_QUALITY_LOADING = ['airGetAirDeviceHomeLoading'];
 
 export const AirHomeMainQualityStatus = () => {
-  const { deviceState } = useDeviceContext();
+  const { deviceState, deviceCategory } = useDeviceContext();
   const airUISpec = useDeviceUISpecByFamily<AirFeatures>(
     deviceState?.prodCd,
-    deviceState?.dvcTypeCd,
+    deviceCategory?.familyId,
   );
 
   // deviceUISpec이 undefined인 경우를 처리하는 가드 절 추가

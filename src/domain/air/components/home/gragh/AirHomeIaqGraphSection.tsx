@@ -1,17 +1,23 @@
-import { AirHomeMainIaqPm25Gragh } from './AirHomeMainIaqPm25Gragh';
-import { AirHomeSubIaqPm10Gragh } from './AirHomeSubIaqPm10Gragh';
-import { AirHomeSubIaqPm1Gragh } from './AirHomeSubIaqPm1Gragh';
-import { AirHomeSubIaqVocsGragh } from './AirHomeSubIaqVocsGragh';
+import { useDeviceContext } from '@/app/contexts/DeviceProvider';
+import type { AirFeatures } from '@/domain/air/types/features.types';
+import { useDeviceUISpecByFamily } from '@/domain/device/hooks/useDeviceUISpecByFamily';
+import { renderSections } from '@/shared/utils/renderSections';
+import { componentMap } from '../../componentMap';
 
 export const AirHomeIaqGraphSection = () => {
+  const { deviceState, deviceCategory } = useDeviceContext();
+
+  const airUISpec = useDeviceUISpecByFamily<AirFeatures>(
+    deviceState?.prodCd,
+    deviceCategory?.familyId,
+  );
+  if (!airUISpec?.pages?.home) {
+    return <div>Loading UI...</div>;
+  }
+  const { content } = airUISpec?.pages?.home;
   return (
     <div className="cw_accWrap02 type02">
-      <ul>
-        <AirHomeMainIaqPm25Gragh />
-        <AirHomeSubIaqPm10Gragh />
-        <AirHomeSubIaqPm1Gragh />
-        <AirHomeSubIaqVocsGragh />
-      </ul>
+      <ul>{renderSections(content, componentMap, {}, ['iaqGragh'])}</ul>
     </div>
   );
 };

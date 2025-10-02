@@ -9,9 +9,10 @@ export const useAirHomeComponentHook = () => {
   const dynamicPropsMap = useMemo(
     () => ({
       AirHomeSectionHeader: (_spec: ComponentSpec<any>) => ({
+        title: 'AIR.AIR_QUALITY',
+        buttonText: 'AIR.AIR_MORE_SEE',
         onButtonClick: handleHeaderButtonClick,
       }),
-      // ... 다른 컴포넌트에 대한 동적 props가 있다면 여기에 추가 ...
     }),
     [handleHeaderButtonClick],
   );
