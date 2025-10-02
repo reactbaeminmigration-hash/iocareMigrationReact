@@ -6,12 +6,13 @@ import type { AirFeatures } from '../../types/features.types';
 import { componentMap } from '../componentMap';
 
 export const AirHomeComponent = () => {
-  const { deviceState } = useDeviceContext();
+  const { deviceState, deviceCategory } = useDeviceContext();
 
   const airUISpec = useDeviceUISpecByFamily<AirFeatures>(
     deviceState?.prodCd,
-    deviceState?.dvcTypeCd,
+    deviceCategory?.familyId,
   );
+
   const { dynamicPropsMap } = useAirHomeComponentHook();
   if (!airUISpec?.pages?.home) {
     return <div>Loading UI...</div>;
