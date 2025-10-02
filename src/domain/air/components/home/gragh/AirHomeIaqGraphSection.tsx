@@ -17,7 +17,7 @@ export const AirHomeIaqGraphSection = () => {
   const { content } = airUISpec?.pages?.home;
   return (
     <div className="cw_accWrap02 type02">
-      <ul>{renderSections(content, componentMap, {}, ['iaqGragh'])}</ul>
+      <ul>{renderSections(content, componentMap, {}, ['iaqGraphSection'])}</ul>
     </div>
   );
 };

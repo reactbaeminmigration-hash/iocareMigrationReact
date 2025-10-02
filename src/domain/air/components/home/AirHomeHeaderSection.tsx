@@ -1,17 +1,17 @@
 import type { TranslationKey } from '@/shared/types/common';
 import { useTranslation } from 'react-i18next';
 
-interface AirHomeSectionHeaderProps {
+interface AirHomeHeaderProps {
   title: TranslationKey; // 👈 string 대신 TranslationKey 타입을 사용합니다.
   buttonText: TranslationKey; // 👈 string 대신 TranslationKey 타입을 사용합니다.
   onButtonClick?: () => void;
 }
 
-export const AirHomeSectionHeader = ({
+export const AirHomeHeader = ({
   title,
   buttonText,
   onButtonClick,
-}: AirHomeSectionHeaderProps) => {
+}: AirHomeHeaderProps) => {
   const { t } = useTranslation();
 
   return (

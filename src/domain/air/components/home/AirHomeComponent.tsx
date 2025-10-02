@@ -20,9 +20,9 @@ export const AirHomeComponent = () => {
   const { content, header } = airUISpec.pages.home;
   return (
     <div className="cw_contbox02">
-      {renderSections(header, componentMap, dynamicPropsMap, ['home-header'])}
+      {renderSections(header, componentMap, dynamicPropsMap, ['AirHomeHeader'])}
       <div className="cw_cont">
-        {renderSections(content, componentMap, dynamicPropsMap, ['iaq'])}
+        {renderSections(content, componentMap, dynamicPropsMap, ['iaqSection'])}
       </div>
     </div>
   );
