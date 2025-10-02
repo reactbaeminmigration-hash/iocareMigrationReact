@@ -21,8 +21,10 @@ export interface PageLayout<T_Props = Record<string, any>> {
 }
 
 // 제품별 페이지 레이아웃의 집합
-export type PagesSpec<T_Props = Record<string, any>> = Record<string, PageLayout<T_Props>>;
-
+export type PagesSpec<T_Props = Record<string, any>> = Record<
+  string,
+  PageLayout<T_Props>
+>;
 
 // =================================================================
 // 기존 제품 정보 관련 타입
